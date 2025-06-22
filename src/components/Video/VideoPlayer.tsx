@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, Volume2, VolumeX, Maximize, SkipBack, SkipForward } from "lucide-react";
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
+  SkipBack,
+  SkipForward,
+} from "lucide-react";
 
 interface VideoPlayerProps {
   src: string;
@@ -9,7 +17,11 @@ interface VideoPlayerProps {
   initialTime?: number;
 }
 
-const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) => {
+const VideoPlayer = ({
+  src,
+  onTimeUpdate,
+  initialTime = 0,
+}: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -38,12 +50,12 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
       onTimeUpdate?.(video.currentTime, video.duration);
     };
 
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("timeupdate", handleTimeUpdate);
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [initialTime, onTimeUpdate, hasSetInitialTime]);
 
@@ -100,7 +112,10 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
     const video = videoRef.current;
     if (!video) return;
 
-    video.currentTime = Math.max(0, Math.min(video.currentTime + seconds, duration));
+    video.currentTime = Math.max(
+      0,
+      Math.min(video.currentTime + seconds, duration)
+    );
   };
 
   const toggleFullscreen = () => {
@@ -120,13 +135,15 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
     const seconds = Math.floor(time % 60);
 
     if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
     }
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   return (
-    <div 
+    <div
       className="relative bg-black rounded-lg overflow-hidden group"
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}
@@ -139,7 +156,11 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
       />
 
       {/* Controls Overlay */}
-      <div className={`absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
+      <div
+        className={`absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent transition-opacity duration-300 ${
+          showControls ? "opacity-100" : "opacity-0"
+        }`}
+      >
         {/* Progress Bar */}
         <div className="px-4 mb-2">
           <Slider
@@ -169,7 +190,11 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
               onClick={togglePlay}
               className="text-white hover:bg-white/20"
             >
-              {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
+              {isPlaying ? (
+                <Pause className="h-6 w-6" />
+              ) : (
+                <Play className="h-6 w-6" />
+              )}
             </Button>
 
             <Button
@@ -188,7 +213,11 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
                 onClick={toggleMute}
                 className="text-white hover:bg-white/20"
               >
-                {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                {isMuted ? (
+                  <VolumeX className="h-5 w-5" />
+                ) : (
+                  <Volume2 className="h-5 w-5" />
+                )}
               </Button>
 
               <div className="w-20">

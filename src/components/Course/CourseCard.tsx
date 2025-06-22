@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -37,39 +36,52 @@ const CourseCard = ({ course }: CourseCardProps) => {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
           <div className="absolute top-3 left-3">
-            <Badge variant="secondary" className="bg-background/80 text-foreground">
+            <Badge
+              variant="secondary"
+              className="bg-background/80 text-foreground"
+            >
               {course.level}
             </Badge>
           </div>
         </div>
       </Link>
-      
+
       <CardContent className="p-4">
         <Link to={`/course/${course.id}`}>
           <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
             {course.title}
           </h3>
         </Link>
-        
+
         <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
           {course.description}
         </p>
 
         <div className="flex items-center space-x-2 mb-3">
           <Avatar className="h-6 w-6">
-            <AvatarImage src={course.instructor.avatar} alt={course.instructor.name} />
+            <AvatarImage
+              src={course.instructor.avatar}
+              alt={course.instructor.name}
+            />
             <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-              {course.instructor.name.split(' ').map(n => n[0]).join('')}
+              {course.instructor.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
             </AvatarFallback>
           </Avatar>
-          <span className="text-sm text-muted-foreground">{course.instructor.name}</span>
+          <span className="text-sm text-muted-foreground">
+            {course.instructor.name}
+          </span>
         </div>
 
         <div className="flex items-center space-x-4 mb-3">
           <div className="flex items-center space-x-1">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             <span className="text-sm font-medium">{course.rating}</span>
-            <span className="text-sm text-muted-foreground">({course.reviews})</span>
+            <span className="text-sm text-muted-foreground">
+              ({course.reviews})
+            </span>
           </div>
           <div className="flex items-center space-x-1 text-muted-foreground">
             <Users className="h-4 w-4" />

@@ -39,21 +39,29 @@ const SignIn = () => {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center space-x-2">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">L</span>
+              <span className="text-primary-foreground font-bold text-xl">
+                L
+              </span>
             </div>
             <span className="font-bold text-2xl text-foreground">LearnHub</span>
           </Link>
-          <p className="text-muted-foreground mt-2">Welcome back to your learning journey</p>
+          <p className="text-muted-foreground mt-2">
+            Welcome back to your learning journey
+          </p>
         </div>
 
         <Card className="border-border bg-card">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center text-foreground">Sign In</CardTitle>
+            <CardTitle className="text-2xl text-center text-foreground">
+              Sign In
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-foreground">Email</Label>
+                <Label htmlFor="email" className="text-foreground">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -64,9 +72,11 @@ const SignIn = () => {
                   className="bg-background border-border"
                 />
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground">Password</Label>
+                <Label htmlFor="password" className="text-foreground">
+                  Password
+                </Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -98,7 +108,9 @@ const SignIn = () => {
                   checked={rememberMe}
                   onCheckedChange={(checked) => setRememberMe(checked === true)}
                 />
-                <Label htmlFor="remember" className="text-foreground">Remember me</Label>
+                <Label htmlFor="remember" className="text-foreground">
+                  Remember me
+                </Label>
               </div>
 
               <Link
@@ -119,12 +131,17 @@ const SignIn = () => {
                   <span className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-card px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3 mt-6">
-                <Button variant="outline" className="border-border bg-background">
+                <Button
+                  variant="outline"
+                  className="border-border bg-background"
+                >
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -145,8 +162,15 @@ const SignIn = () => {
                   </svg>
                   Google
                 </Button>
-                <Button variant="outline" className="border-border bg-background">
-                  <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <Button
+                  variant="outline"
+                  className="border-border bg-background"
+                >
+                  <svg
+                    className="mr-2 h-4 w-4"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                   </svg>
                   Facebook

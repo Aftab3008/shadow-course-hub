@@ -1,11 +1,20 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -15,7 +24,10 @@ interface CourseSettingsDialogProps {
   onSave: (updatedCourse: any) => void;
 }
 
-const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => {
+const CourseSettingsDialog = ({
+  course,
+  onSave,
+}: CourseSettingsDialogProps) => {
   const [settings, setSettings] = useState({
     title: course.title,
     description: course.description,
@@ -23,12 +35,12 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
     category: course.category,
     level: course.level,
     thumbnail: course.thumbnail,
-    isPublished: course.status === 'published',
+    isPublished: course.status === "published",
     enableDiscounts: false,
     allowReviews: true,
     enableCertificate: true,
     maxStudents: 0,
-    language: 'english'
+    language: "english",
   });
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const { toast } = useToast();
@@ -37,10 +49,12 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
     const updatedCourse = {
       ...course,
       ...settings,
-      status: settings.isPublished ? 'published' : 'draft',
-      thumbnail: thumbnailFile ? URL.createObjectURL(thumbnailFile) : settings.thumbnail
+      status: settings.isPublished ? "published" : "draft",
+      thumbnail: thumbnailFile
+        ? URL.createObjectURL(thumbnailFile)
+        : settings.thumbnail,
     };
-    
+
     onSave(updatedCourse);
     toast({
       title: "Settings Saved",
@@ -53,49 +67,73 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
       <DialogHeader>
         <DialogTitle className="text-foreground">Course Settings</DialogTitle>
       </DialogHeader>
-      
+
       <div className="space-y-6">
         {/* Basic Information */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-foreground">Basic Information</h3>
-          
+          <h3 className="text-lg font-semibold text-foreground">
+            Basic Information
+          </h3>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="courseTitle" className="text-foreground">Course Title</Label>
+              <Label htmlFor="courseTitle" className="text-foreground">
+                Course Title
+              </Label>
               <Input
                 id="courseTitle"
                 value={settings.title}
-                onChange={(e) => setSettings({ ...settings, title: e.target.value })}
+                onChange={(e) =>
+                  setSettings({ ...settings, title: e.target.value })
+                }
                 className="bg-background border-border"
               />
             </div>
-            
+
             <div>
-              <Label htmlFor="coursePrice" className="text-foreground">Price ($)</Label>
+              <Label htmlFor="coursePrice" className="text-foreground">
+                Price ($)
+              </Label>
               <Input
                 id="coursePrice"
                 type="number"
                 value={settings.price}
-                onChange={(e) => setSettings({ ...settings, price: parseFloat(e.target.value) })}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    price: parseFloat(e.target.value),
+                  })
+                }
                 className="bg-background border-border"
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="courseDescription" className="text-foreground">Description</Label>
+            <Label htmlFor="courseDescription" className="text-foreground">
+              Description
+            </Label>
             <Textarea
               id="courseDescription"
               value={settings.description}
-              onChange={(e) => setSettings({ ...settings, description: e.target.value })}
+              onChange={(e) =>
+                setSettings({ ...settings, description: e.target.value })
+              }
               className="bg-background border-border min-h-[100px]"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="courseCategory" className="text-foreground">Category</Label>
-              <Select value={settings.category} onValueChange={(value) => setSettings({ ...settings, category: value })}>
+              <Label htmlFor="courseCategory" className="text-foreground">
+                Category
+              </Label>
+              <Select
+                value={settings.category}
+                onValueChange={(value) =>
+                  setSettings({ ...settings, category: value })
+                }
+              >
                 <SelectTrigger className="bg-background border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -109,10 +147,17 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div>
-              <Label htmlFor="courseLevel" className="text-foreground">Level</Label>
-              <Select value={settings.level} onValueChange={(value) => setSettings({ ...settings, level: value })}>
+              <Label htmlFor="courseLevel" className="text-foreground">
+                Level
+              </Label>
+              <Select
+                value={settings.level}
+                onValueChange={(value) =>
+                  setSettings({ ...settings, level: value })
+                }
+              >
                 <SelectTrigger className="bg-background border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -126,8 +171,15 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
             </div>
 
             <div>
-              <Label htmlFor="language" className="text-foreground">Language</Label>
-              <Select value={settings.language} onValueChange={(value) => setSettings({ ...settings, language: value })}>
+              <Label htmlFor="language" className="text-foreground">
+                Language
+              </Label>
+              <Select
+                value={settings.language}
+                onValueChange={(value) =>
+                  setSettings({ ...settings, language: value })
+                }
+              >
                 <SelectTrigger className="bg-background border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -145,12 +197,18 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
 
         {/* Course Thumbnail */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-foreground">Course Thumbnail</h3>
-          
+          <h3 className="text-lg font-semibold text-foreground">
+            Course Thumbnail
+          </h3>
+
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <img 
-                src={thumbnailFile ? URL.createObjectURL(thumbnailFile) : settings.thumbnail}
+              <img
+                src={
+                  thumbnailFile
+                    ? URL.createObjectURL(thumbnailFile)
+                    : settings.thumbnail
+                }
                 alt="Course thumbnail"
                 className="w-32 h-20 object-cover rounded border"
               />
@@ -158,7 +216,7 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
                 <Image className="h-6 w-6 text-white" />
               </div>
             </div>
-            
+
             <div className="flex-1">
               <Input
                 type="file"
@@ -175,61 +233,88 @@ const CourseSettingsDialog = ({ course, onSave }: CourseSettingsDialogProps) => 
 
         {/* Publishing Options */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-foreground">Publishing Options</h3>
-          
+          <h3 className="text-lg font-semibold text-foreground">
+            Publishing Options
+          </h3>
+
           <div className="space-y-3">
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={settings.isPublished}
-                onCheckedChange={(checked) => setSettings({ ...settings, isPublished: checked as boolean })}
+                onCheckedChange={(checked) =>
+                  setSettings({ ...settings, isPublished: checked as boolean })
+                }
               />
-              <Label className="text-foreground">Publish course (make it visible to students)</Label>
+              <Label className="text-foreground">
+                Publish course (make it visible to students)
+              </Label>
             </div>
 
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={settings.enableDiscounts}
-                onCheckedChange={(checked) => setSettings({ ...settings, enableDiscounts: checked as boolean })}
+                onCheckedChange={(checked) =>
+                  setSettings({
+                    ...settings,
+                    enableDiscounts: checked as boolean,
+                  })
+                }
               />
-              <Label className="text-foreground">Enable promotional discounts</Label>
+              <Label className="text-foreground">
+                Enable promotional discounts
+              </Label>
             </div>
 
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={settings.allowReviews}
-                onCheckedChange={(checked) => setSettings({ ...settings, allowReviews: checked as boolean })}
+                onCheckedChange={(checked) =>
+                  setSettings({ ...settings, allowReviews: checked as boolean })
+                }
               />
-              <Label className="text-foreground">Allow student reviews and ratings</Label>
+              <Label className="text-foreground">
+                Allow student reviews and ratings
+              </Label>
             </div>
 
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={settings.enableCertificate}
-                onCheckedChange={(checked) => setSettings({ ...settings, enableCertificate: checked as boolean })}
+                onCheckedChange={(checked) =>
+                  setSettings({
+                    ...settings,
+                    enableCertificate: checked as boolean,
+                  })
+                }
               />
-              <Label className="text-foreground">Provide completion certificate</Label>
+              <Label className="text-foreground">
+                Provide completion certificate
+              </Label>
             </div>
           </div>
 
           <div>
-            <Label htmlFor="maxStudents" className="text-foreground">Maximum Students (0 = unlimited)</Label>
+            <Label htmlFor="maxStudents" className="text-foreground">
+              Maximum Students (0 = unlimited)
+            </Label>
             <Input
               id="maxStudents"
               type="number"
               value={settings.maxStudents}
-              onChange={(e) => setSettings({ ...settings, maxStudents: parseInt(e.target.value) || 0 })}
+              onChange={(e) =>
+                setSettings({
+                  ...settings,
+                  maxStudents: parseInt(e.target.value) || 0,
+                })
+              }
               className="bg-background border-border"
             />
           </div>
         </div>
 
         <div className="flex justify-end space-x-2 pt-4 border-t border-border">
-          <Button variant="outline">
-            Cancel
-          </Button>
-          <Button onClick={handleSave}>
-            Save Settings
-          </Button>
+          <Button variant="outline">Cancel</Button>
+          <Button onClick={handleSave}>Save Settings</Button>
         </div>
       </div>
     </DialogContent>

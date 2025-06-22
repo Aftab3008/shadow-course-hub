@@ -1,17 +1,21 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Search, Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  
+
   // Mock authentication state
   const isAuthenticated = true;
   const user = { name: "John Doe", email: "john@example.com" };
@@ -30,13 +34,18 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">L</span>
+              <span className="text-primary-foreground font-bold text-lg">
+                L
+              </span>
             </div>
             <span className="font-bold text-xl text-foreground">LearnHub</span>
           </Link>
 
           {/* Search Bar - Desktop */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center flex-1 max-w-md mx-8">
+          <form
+            onSubmit={handleSearch}
+            className="hidden md:flex items-center flex-1 max-w-md mx-8"
+          >
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
@@ -51,13 +60,22 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/courses" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/courses"
+              className="text-foreground hover:text-primary transition-colors"
+            >
               Courses
             </Link>
-            <Link to="/my-learning" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/my-learning"
+              className="text-foreground hover:text-primary transition-colors"
+            >
               My Learning
             </Link>
-            <Link to="/instructor" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/instructor"
+              className="text-foreground hover:text-primary transition-colors"
+            >
               Instructor
             </Link>
           </nav>
@@ -67,21 +85,35 @@ const Header = () => {
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src="/placeholder.svg" alt={user.name} />
                       <AvatarFallback className="bg-primary text-primary-foreground">
-                        {user.name.split(' ').map(n => n[0]).join('')}
+                        {user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-popover border-border" align="end" forceMount>
+                <DropdownMenuContent
+                  className="w-56 bg-popover border-border"
+                  align="end"
+                  forceMount
+                >
                   <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    <Link to="/my-learning" className="w-full">My Learning</Link>
+                    <Link to="/my-learning" className="w-full">
+                      My Learning
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    <Link to="/instructor" className="w-full">Instructor Dashboard</Link>
+                    <Link to="/instructor" className="w-full">
+                      Instructor Dashboard
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer hover:bg-accent">
                     Profile Settings
@@ -110,7 +142,11 @@ const Header = () => {
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </Button>
         </div>
 
@@ -130,13 +166,22 @@ const Header = () => {
               </div>
             </form>
             <nav className="flex flex-col space-y-4">
-              <Link to="/courses" className="text-foreground hover:text-primary transition-colors">
+              <Link
+                to="/courses"
+                className="text-foreground hover:text-primary transition-colors"
+              >
                 Courses
               </Link>
-              <Link to="/my-learning" className="text-foreground hover:text-primary transition-colors">
+              <Link
+                to="/my-learning"
+                className="text-foreground hover:text-primary transition-colors"
+              >
                 My Learning
               </Link>
-              <Link to="/instructor" className="text-foreground hover:text-primary transition-colors">
+              <Link
+                to="/instructor"
+                className="text-foreground hover:text-primary transition-colors"
+              >
                 Instructor
               </Link>
               {!isAuthenticated && (

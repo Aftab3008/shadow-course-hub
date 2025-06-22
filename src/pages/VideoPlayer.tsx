@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import VideoPlayerComponent from "@/components/Video/VideoPlayer";
@@ -7,7 +6,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { ArrowLeft, Play, CheckCircle, Lock, Menu, X } from "lucide-react";
 import { progressService } from "@/services/progressService";
 
@@ -32,74 +36,82 @@ const VideoPlayer = () => {
         title: "Introduction to React",
         duration: "2h 30m",
         lectures: [
-          { 
-            id: 1, 
-            title: "What is React?", 
-            duration: "15:30", 
+          {
+            id: 1,
+            title: "What is React?",
+            duration: "15:30",
             type: "video",
-            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            completed: true
+            videoUrl:
+              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            completed: true,
           },
-          { 
-            id: 2, 
-            title: "Setting up Development Environment", 
-            duration: "20:45", 
+          {
+            id: 2,
+            title: "Setting up Development Environment",
+            duration: "20:45",
             type: "video",
-            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-            completed: true
+            videoUrl:
+              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            completed: true,
           },
-          { 
-            id: 3, 
-            title: "Your First React Component", 
-            duration: "18:20", 
+          {
+            id: 3,
+            title: "Your First React Component",
+            duration: "18:20",
             type: "video",
-            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            videoUrl:
+              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
             completed: false,
-            current: parseInt(lectureId) === 3
+            current: parseInt(lectureId) === 3,
           },
-          { 
-            id: 4, 
-            title: "Understanding JSX", 
-            duration: "22:15", 
+          {
+            id: 4,
+            title: "Understanding JSX",
+            duration: "22:15",
             type: "video",
-            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-            completed: false
-          }
-        ]
+            videoUrl:
+              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            completed: false,
+          },
+        ],
       },
       {
         id: 2,
         title: "React Components and Props",
         duration: "3h 15m",
         lectures: [
-          { 
-            id: 5, 
-            title: "Functional vs Class Components", 
-            duration: "25:30", 
+          {
+            id: 5,
+            title: "Functional vs Class Components",
+            duration: "25:30",
             type: "video",
-            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-            completed: false
+            videoUrl:
+              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            completed: false,
           },
-          { 
-            id: 6, 
-            title: "Props and PropTypes", 
-            duration: "28:45", 
+          {
+            id: 6,
+            title: "Props and PropTypes",
+            duration: "28:45",
             type: "video",
-            videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-            completed: false
-          }
-        ]
-      }
-    ]
+            videoUrl:
+              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            completed: false,
+          },
+        ],
+      },
+    ],
   };
 
   // Find current lecture
   const currentLecture = course.curriculum
-    .flatMap(section => section.lectures)
-    .find(lecture => lecture.id === parseInt(lectureId || '1'));
+    .flatMap((section) => section.lectures)
+    .find((lecture) => lecture.id === parseInt(lectureId || "1"));
 
-  const allLectures = course.curriculum.flatMap(section => section.lectures);
-  const currentIndex = allLectures.findIndex(lecture => lecture.id === parseInt(lectureId || '1'));
+  const allLectures = course.curriculum.flatMap((section) => section.lectures);
+  const currentIndex = allLectures.findIndex(
+    (lecture) => lecture.id === parseInt(lectureId || "1")
+  );
   const nextLecture = allLectures[currentIndex + 1];
   const prevLecture = allLectures[currentIndex - 1];
 
@@ -107,7 +119,10 @@ const VideoPlayer = () => {
   useEffect(() => {
     const loadProgress = async () => {
       if (courseId && lectureId) {
-        const savedTime = await progressService.getProgress(courseId, lectureId);
+        const savedTime = await progressService.getProgress(
+          courseId,
+          lectureId
+        );
         setInitialTime(savedTime);
       }
     };
@@ -122,14 +137,22 @@ const VideoPlayer = () => {
 
   const saveProgressAndNavigate = async (path: string) => {
     if (courseId && lectureId && currentTimeRef.current > 0) {
-      await progressService.saveProgress(courseId, lectureId, currentTimeRef.current);
+      await progressService.saveProgress(
+        courseId,
+        lectureId,
+        currentTimeRef.current
+      );
     }
     navigate(path);
   };
 
   const navigateToLecture = async (newLectureId: number) => {
     if (courseId && lectureId && currentTimeRef.current > 0) {
-      await progressService.saveProgress(courseId, lectureId, currentTimeRef.current);
+      await progressService.saveProgress(
+        courseId,
+        lectureId,
+        currentTimeRef.current
+      );
     }
     navigate(`/learn/${courseId}/${newLectureId}`);
   };
@@ -164,7 +187,9 @@ const VideoPlayer = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="font-semibold text-foreground truncate max-w-md">{course.title}</h1>
+              <h1 className="font-semibold text-foreground truncate max-w-md">
+                {course.title}
+              </h1>
               <p className="text-sm text-muted-foreground">
                 Lecture {currentIndex + 1} of {allLectures.length}
               </p>
@@ -173,7 +198,9 @@ const VideoPlayer = () => {
 
           <div className="flex items-center space-x-2">
             <div className="hidden md:flex items-center space-x-4">
-              <span className="text-sm text-muted-foreground">Progress: {course.progress}%</span>
+              <span className="text-sm text-muted-foreground">
+                Progress: {course.progress}%
+              </span>
               <Progress value={course.progress} className="w-32" />
             </div>
             <Button
@@ -182,7 +209,11 @@ const VideoPlayer = () => {
               onClick={() => setShowSidebar(!showSidebar)}
               className="md:hidden"
             >
-              {showSidebar ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {showSidebar ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
@@ -222,11 +253,8 @@ const VideoPlayer = () => {
                 >
                   Previous
                 </Button>
-                <Button
-                  onClick={handleNext}
-                  disabled={!nextLecture}
-                >
-                  {nextLecture ? 'Next Lecture' : 'Course Complete'}
+                <Button onClick={handleNext} disabled={!nextLecture}>
+                  {nextLecture ? "Next Lecture" : "Course Complete"}
                 </Button>
               </div>
             </div>
@@ -234,47 +262,75 @@ const VideoPlayer = () => {
         </div>
 
         {/* Course Content Sidebar */}
-        <div className={`${showSidebar ? 'w-full md:w-96' : 'w-0'} ${showSidebar ? 'block' : 'hidden'} md:block border-l border-border bg-muted transition-all duration-300 overflow-hidden`}>
+        <div
+          className={`${showSidebar ? "w-full md:w-96" : "w-0"} ${
+            showSidebar ? "block" : "hidden"
+          } md:block border-l border-border bg-muted transition-all duration-300 overflow-hidden`}
+        >
           <div className="p-4 border-b border-border">
-            <h3 className="font-semibold text-foreground mb-2">Course Content</h3>
+            <h3 className="font-semibold text-foreground mb-2">
+              Course Content
+            </h3>
             <div className="text-sm text-muted-foreground">
-              {allLectures.filter(l => l.completed).length} of {allLectures.length} lectures completed
+              {allLectures.filter((l) => l.completed).length} of{" "}
+              {allLectures.length} lectures completed
             </div>
-            <Progress 
-              value={(allLectures.filter(l => l.completed).length / allLectures.length) * 100} 
-              className="mt-2" 
+            <Progress
+              value={
+                (allLectures.filter((l) => l.completed).length /
+                  allLectures.length) *
+                100
+              }
+              className="mt-2"
             />
           </div>
 
           <ScrollArea className="flex-1 h-[calc(100vh-12rem)]">
             <div className="p-4">
-              <Accordion type="multiple" defaultValue={["section-1", "section-2"]} className="w-full">
+              <Accordion
+                type="multiple"
+                defaultValue={["section-1", "section-2"]}
+                className="w-full"
+              >
                 {course.curriculum.map((section) => (
-                  <AccordionItem key={section.id} value={`section-${section.id}`} className="border-border">
+                  <AccordionItem
+                    key={section.id}
+                    value={`section-${section.id}`}
+                    className="border-border"
+                  >
                     <AccordionTrigger className="hover:no-underline">
                       <div className="flex justify-between items-center w-full mr-4">
-                        <span className="font-medium text-foreground text-left">{section.title}</span>
+                        <span className="font-medium text-foreground text-left">
+                          {section.title}
+                        </span>
                         <span className="text-sm text-muted-foreground">
-                          {section.lectures.filter(l => l.completed).length}/{section.lectures.length}
+                          {section.lectures.filter((l) => l.completed).length}/
+                          {section.lectures.length}
                         </span>
                       </div>
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="space-y-1 pt-2">
                         {section.lectures.map((lecture) => {
-                          const isCurrent = lecture.id === parseInt(lectureId || '1');
-                          const isAccessible = lecture.completed || isCurrent || 
-                            (currentIndex >= allLectures.findIndex(l => l.id === lecture.id));
+                          const isCurrent =
+                            lecture.id === parseInt(lectureId || "1");
+                          const isAccessible =
+                            lecture.completed ||
+                            isCurrent ||
+                            currentIndex >=
+                              allLectures.findIndex((l) => l.id === lecture.id);
 
                           return (
-                            <Card 
-                              key={lecture.id} 
+                            <Card
+                              key={lecture.id}
                               className={`cursor-pointer transition-all duration-200 ${
-                                isCurrent 
-                                  ? 'border-primary bg-primary/10' 
-                                  : 'border-border hover:bg-accent'
-                              } ${!isAccessible ? 'opacity-50' : ''}`}
-                              onClick={() => isAccessible && navigateToLecture(lecture.id)}
+                                isCurrent
+                                  ? "border-primary bg-primary/10"
+                                  : "border-border hover:bg-accent"
+                              } ${!isAccessible ? "opacity-50" : ""}`}
+                              onClick={() =>
+                                isAccessible && navigateToLecture(lecture.id)
+                              }
                             >
                               <CardContent className="p-3">
                                 <div className="flex items-center space-x-3">
@@ -289,19 +345,26 @@ const VideoPlayer = () => {
                                       <div className="h-5 w-5 rounded-full border-2 border-muted-foreground" />
                                     )}
                                   </div>
-                                  
+
                                   <div className="flex-1 min-w-0">
-                                    <p className={`text-sm font-medium truncate ${
-                                      isCurrent ? 'text-primary' : 'text-foreground'
-                                    }`}>
+                                    <p
+                                      className={`text-sm font-medium truncate ${
+                                        isCurrent
+                                          ? "text-primary"
+                                          : "text-foreground"
+                                      }`}
+                                    >
                                       {lecture.title}
                                     </p>
                                     <div className="flex items-center justify-between mt-1">
                                       <span className="text-xs text-muted-foreground">
                                         {lecture.duration}
                                       </span>
-                                      {lecture.type === 'video' && (
-                                        <Badge variant="outline" className="text-xs">
+                                      {lecture.type === "video" && (
+                                        <Badge
+                                          variant="outline"
+                                          className="text-xs"
+                                        >
                                           Video
                                         </Badge>
                                       )}

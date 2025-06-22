@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Layout/Header";
@@ -8,20 +7,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { 
-  ArrowLeft, 
-  Plus, 
-  Edit, 
-  Trash2, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  ArrowLeft,
+  Plus,
+  Edit,
+  Trash2,
   Upload,
   Video,
   GripVertical,
   Save,
   Eye,
-  Settings
+  Settings,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ChapterManager from "@/components/Course/ChapterManager";
@@ -41,8 +52,10 @@ const EditCourse = () => {
     const mockCourse = {
       id: id,
       title: "Complete React Development Bootcamp 2024",
-      description: "Learn React from basics to advanced concepts with hands-on projects",
-      thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
+      description:
+        "Learn React from basics to advanced concepts with hands-on projects",
+      thumbnail:
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
       category: "programming",
       level: "beginner",
       price: 99.99,
@@ -59,17 +72,18 @@ const EditCourse = () => {
               description: "Understanding React and its benefits",
               duration: "15:30",
               videoUrl: "",
-              order: 1
+              order: 1,
             },
             {
-              id: "1-2", 
+              id: "1-2",
               title: "Setting up the development environment",
-              description: "Installing Node.js, VS Code, and creating your first app",
+              description:
+                "Installing Node.js, VS Code, and creating your first app",
               duration: "20:45",
               videoUrl: "",
-              order: 2
-            }
-          ]
+              order: 2,
+            },
+          ],
         },
         {
           id: "2",
@@ -83,11 +97,11 @@ const EditCourse = () => {
               description: "Building functional components",
               duration: "18:20",
               videoUrl: "",
-              order: 1
-            }
-          ]
-        }
-      ]
+              order: 1,
+            },
+          ],
+        },
+      ],
     };
     setCourse(mockCourse);
   }, [id]);
@@ -100,7 +114,7 @@ const EditCourse = () => {
   };
 
   const handlePreviewCourse = () => {
-    window.open(`/course/${id}`, '_blank');
+    window.open(`/course/${id}`, "_blank");
   };
 
   if (!course) {
@@ -129,17 +143,21 @@ const EditCourse = () => {
               </Link>
             </Button>
             <div>
-              <h1 className="text-3xl font-bold text-foreground">{course.title}</h1>
-              <p className="text-muted-foreground">Edit your course content and settings</p>
+              <h1 className="text-3xl font-bold text-foreground">
+                {course.title}
+              </h1>
+              <p className="text-muted-foreground">
+                Edit your course content and settings
+              </p>
             </div>
           </div>
-          
+
           <div className="flex space-x-2">
             <Button variant="outline" onClick={handlePreviewCourse}>
               <Eye className="h-4 w-4 mr-2" />
               Preview
             </Button>
-            
+
             <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline">
@@ -147,15 +165,15 @@ const EditCourse = () => {
                   Settings
                 </Button>
               </DialogTrigger>
-              <CourseSettingsDialog 
-                course={course} 
+              <CourseSettingsDialog
+                course={course}
                 onSave={(updatedCourse) => {
                   setCourse(updatedCourse);
                   setIsSettingsOpen(false);
-                }} 
+                }}
               />
             </Dialog>
-            
+
             <Button onClick={handleSaveCourse}>
               <Save className="h-4 w-4 mr-2" />
               Save Changes
@@ -174,28 +192,34 @@ const EditCourse = () => {
           <TabsContent value="curriculum">
             <div className="space-y-6">
               <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-semibold text-foreground">Course Curriculum</h2>
-                <Dialog open={isVideoUploadOpen} onOpenChange={setIsVideoUploadOpen}>
+                <h2 className="text-2xl font-semibold text-foreground">
+                  Course Curriculum
+                </h2>
+                <Dialog
+                  open={isVideoUploadOpen}
+                  onOpenChange={setIsVideoUploadOpen}
+                >
                   <DialogTrigger asChild>
                     <Button>
                       <Plus className="h-4 w-4 mr-2" />
                       Add Chapter
                     </Button>
                   </DialogTrigger>
-                  <VideoUploadDialog 
+                  <VideoUploadDialog
                     onSave={(chapterData) => {
                       // Handle new chapter creation
                       setIsVideoUploadOpen(false);
                       toast({
                         title: "Chapter Added!",
-                        description: "New chapter has been created successfully.",
+                        description:
+                          "New chapter has been created successfully.",
                       });
                     }}
                   />
                 </Dialog>
               </div>
 
-              <ChapterManager 
+              <ChapterManager
                 chapters={course.chapters}
                 onChaptersUpdate={(updatedChapters) => {
                   setCourse({ ...course, chapters: updatedChapters });
@@ -207,45 +231,72 @@ const EditCourse = () => {
           <TabsContent value="details">
             <Card className="border-border bg-card">
               <CardHeader>
-                <CardTitle className="text-foreground">Course Details</CardTitle>
+                <CardTitle className="text-foreground">
+                  Course Details
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="courseTitle" className="text-foreground">Course Title</Label>
-                    <Input 
-                      id="courseTitle" 
+                    <Label htmlFor="courseTitle" className="text-foreground">
+                      Course Title
+                    </Label>
+                    <Input
+                      id="courseTitle"
                       value={course.title}
-                      onChange={(e) => setCourse({ ...course, title: e.target.value })}
+                      onChange={(e) =>
+                        setCourse({ ...course, title: e.target.value })
+                      }
                       className="bg-background border-border"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="coursePrice" className="text-foreground">Price ($)</Label>
-                    <Input 
-                      id="coursePrice" 
+                    <Label htmlFor="coursePrice" className="text-foreground">
+                      Price ($)
+                    </Label>
+                    <Input
+                      id="coursePrice"
                       type="number"
                       value={course.price}
-                      onChange={(e) => setCourse({ ...course, price: parseFloat(e.target.value) })}
+                      onChange={(e) =>
+                        setCourse({
+                          ...course,
+                          price: parseFloat(e.target.value),
+                        })
+                      }
                       className="bg-background border-border"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="courseDescription" className="text-foreground">Description</Label>
-                  <Textarea 
-                    id="courseDescription" 
+                  <Label
+                    htmlFor="courseDescription"
+                    className="text-foreground"
+                  >
+                    Description
+                  </Label>
+                  <Textarea
+                    id="courseDescription"
                     value={course.description}
-                    onChange={(e) => setCourse({ ...course, description: e.target.value })}
+                    onChange={(e) =>
+                      setCourse({ ...course, description: e.target.value })
+                    }
                     className="bg-background border-border min-h-[120px]"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="courseCategory" className="text-foreground">Category</Label>
-                    <Select value={course.category} onValueChange={(value) => setCourse({ ...course, category: value })}>
+                    <Label htmlFor="courseCategory" className="text-foreground">
+                      Category
+                    </Label>
+                    <Select
+                      value={course.category}
+                      onValueChange={(value) =>
+                        setCourse({ ...course, category: value })
+                      }
+                    >
                       <SelectTrigger className="bg-background border-border">
                         <SelectValue />
                       </SelectTrigger>
@@ -258,14 +309,23 @@ const EditCourse = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="courseLevel" className="text-foreground">Level</Label>
-                    <Select value={course.level} onValueChange={(value) => setCourse({ ...course, level: value })}>
+                    <Label htmlFor="courseLevel" className="text-foreground">
+                      Level
+                    </Label>
+                    <Select
+                      value={course.level}
+                      onValueChange={(value) =>
+                        setCourse({ ...course, level: value })
+                      }
+                    >
                       <SelectTrigger className="bg-background border-border">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-popover border-border">
                         <SelectItem value="beginner">Beginner</SelectItem>
-                        <SelectItem value="intermediate">Intermediate</SelectItem>
+                        <SelectItem value="intermediate">
+                          Intermediate
+                        </SelectItem>
                         <SelectItem value="advanced">Advanced</SelectItem>
                       </SelectContent>
                     </Select>
@@ -278,14 +338,16 @@ const EditCourse = () => {
           <TabsContent value="settings">
             <Card className="border-border bg-card">
               <CardHeader>
-                <CardTitle className="text-foreground">Advanced Settings</CardTitle>
+                <CardTitle className="text-foreground">
+                  Advanced Settings
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
                   <Label className="text-foreground">Course Thumbnail</Label>
                   <div className="mt-2 flex items-center space-x-4">
-                    <img 
-                      src={course.thumbnail} 
+                    <img
+                      src={course.thumbnail}
                       alt="Course thumbnail"
                       className="w-32 h-20 object-cover rounded border"
                     />
@@ -297,7 +359,9 @@ const EditCourse = () => {
                 </div>
 
                 <div>
-                  <Label className="text-foreground">Default Video Quality</Label>
+                  <Label className="text-foreground">
+                    Default Video Quality
+                  </Label>
                   <Select defaultValue="1080p">
                     <SelectTrigger className="bg-background border-border mt-2">
                       <SelectValue />
@@ -311,7 +375,8 @@ const EditCourse = () => {
                     </SelectContent>
                   </Select>
                   <p className="text-sm text-muted-foreground mt-1">
-                    This setting applies to new video uploads. Existing videos keep their current quality.
+                    This setting applies to new video uploads. Existing videos
+                    keep their current quality.
                   </p>
                 </div>
               </CardContent>
