@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -18,6 +17,7 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [hasSetInitialTime, setHasSetInitialTime] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -25,8 +25,11 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
 
     const handleLoadedMetadata = () => {
       setDuration(video.duration);
-      if (initialTime > 0) {
+      if (initialTime > 0 && !hasSetInitialTime) {
         video.currentTime = initialTime;
+        setCurrentTime(initialTime);
+        setHasSetInitialTime(true);
+        console.log(`Video started at: ${initialTime}s`);
       }
     };
 
@@ -42,7 +45,12 @@ const VideoPlayer = ({ src, onTimeUpdate, initialTime = 0 }: VideoPlayerProps) =
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('timeupdate', handleTimeUpdate);
     };
-  }, [initialTime, onTimeUpdate]);
+  }, [initialTime, onTimeUpdate, hasSetInitialTime]);
+
+  // Reset hasSetInitialTime when src changes (new video)
+  useEffect(() => {
+    setHasSetInitialTime(false);
+  }, [src]);
 
   const togglePlay = () => {
     const video = videoRef.current;

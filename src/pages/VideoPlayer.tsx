@@ -1,6 +1,6 @@
 
-import { useState, useEffect } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import VideoPlayerComponent from "@/components/Video/VideoPlayer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,16 +9,15 @@ import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowLeft, Play, CheckCircle, Lock, Menu, X } from "lucide-react";
+import { progressService } from "@/services/progressService";
 
 const VideoPlayer = () => {
   const { courseId, lectureId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(0);
   const [showSidebar, setShowSidebar] = useState(true);
-
-  // Get initial time from URL params
-  const initialTime = parseInt(searchParams.get('t') || '0');
+  const [initialTime, setInitialTime] = useState(0);
+  const currentTimeRef = useRef(0);
 
   // Mock course data
   const course = {
@@ -104,14 +103,34 @@ const VideoPlayer = () => {
   const nextLecture = allLectures[currentIndex + 1];
   const prevLecture = allLectures[currentIndex - 1];
 
+  // Load saved progress when component mounts or lecture changes
+  useEffect(() => {
+    const loadProgress = async () => {
+      if (courseId && lectureId) {
+        const savedTime = await progressService.getProgress(courseId, lectureId);
+        setInitialTime(savedTime);
+      }
+    };
+    loadProgress();
+  }, [courseId, lectureId]);
+
   const handleTimeUpdate = (time: number, duration: number) => {
     setCurrentTime(time);
-    // Update URL with current time (like YouTube)
-    const timeInSeconds = Math.floor(time);
-    setSearchParams({ t: timeInSeconds.toString() });
+    currentTimeRef.current = time;
+    // Removed URL query string update
   };
 
-  const navigateToLecture = (newLectureId: number) => {
+  const saveProgressAndNavigate = async (path: string) => {
+    if (courseId && lectureId && currentTimeRef.current > 0) {
+      await progressService.saveProgress(courseId, lectureId, currentTimeRef.current);
+    }
+    navigate(path);
+  };
+
+  const navigateToLecture = async (newLectureId: number) => {
+    if (courseId && lectureId && currentTimeRef.current > 0) {
+      await progressService.saveProgress(courseId, lectureId, currentTimeRef.current);
+    }
     navigate(`/learn/${courseId}/${newLectureId}`);
   };
 
@@ -127,6 +146,10 @@ const VideoPlayer = () => {
     }
   };
 
+  const handleBackButton = () => {
+    saveProgressAndNavigate(`/course/${courseId}`);
+  };
+
   if (!currentLecture) {
     return <div>Lecture not found</div>;
   }
@@ -137,7 +160,7 @@ const VideoPlayer = () => {
       <header className="border-b border-border bg-background/95 backdrop-blur p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate(`/course/${courseId}`)}>
+            <Button variant="ghost" size="icon" onClick={handleBackButton}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
