@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Layout/Header";
@@ -282,8 +281,10 @@ const Instructor = () => {
                             Updated {course.lastUpdated}
                           </span>
                           <div className="flex space-x-1">
-                            <Button size="sm" variant="outline">
-                              <Edit className="h-4 w-4" />
+                            <Button size="sm" variant="outline" asChild>
+                              <Link to={`/instructor/edit-course/${course.id}`}>
+                                <Edit className="h-4 w-4" />
+                              </Link>
                             </Button>
                             {course.status === 'published' && (
                               <Button size="sm" variant="outline" asChild>

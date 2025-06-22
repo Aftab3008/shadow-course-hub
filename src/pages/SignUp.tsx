@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -176,14 +175,12 @@ const SignUp = () => {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-2">
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id="terms"
                   checked={agreeToTerms}
-                  onCheckedChange={setAgreeToTerms}
-                  className="mt-1"
+                  onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
                 />
-                <Label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer leading-normal">
+                <Label htmlFor="terms" className="text-sm text-foreground">
                   I agree to the{" "}
                   <Link to="/terms" className="text-primary hover:underline">
                     Terms of Service
