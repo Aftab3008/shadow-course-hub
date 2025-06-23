@@ -1,88 +1,49 @@
+
 import { Link } from "react-router-dom";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
-import CourseCard from "@/components/Course/CourseCard";
+import CoursesGrid from "@/components/course/CoursesGrid";
+import CategoriesGrid from "@/components/category/CategoriesGrid";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Search, Play, Users, BookOpen, Award } from "lucide-react";
+import { useCourses, useCategories } from "@/hooks/useCourses";
+import { useToast } from "@/hooks/use-toast";
 
 const Home = () => {
-  const featuredCourses = [
-    {
-      id: "1",
-      title: "Complete React Development Bootcamp 2024",
-      description:
-        "Master React, Redux, Hooks, Context API, and modern development practices",
-      thumbnail:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
-      instructor: {
-        name: "Sarah Johnson",
-        avatar:
-          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-      },
-      rating: 4.8,
-      reviews: 12450,
-      students: 45230,
-      duration: "42h 30m",
-      price: 89.99,
-      originalPrice: 199.99,
-      category: "Programming",
-      level: "Intermediate",
-    },
-    {
-      id: "2",
-      title: "UI/UX Design Masterclass - Figma to Production",
-      description:
-        "Learn design principles, user research, prototyping, and development handoff",
-      thumbnail:
-        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop",
-      instructor: {
-        name: "Mike Chen",
-        avatar:
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-      },
-      rating: 4.9,
-      reviews: 8920,
-      students: 23470,
-      duration: "35h 15m",
-      price: 79.99,
-      originalPrice: 159.99,
-      category: "Design",
-      level: "Beginner",
-    },
-    {
-      id: "3",
-      title: "Machine Learning with Python - Complete Course",
-      description:
-        "From basics to advanced ML algorithms, neural networks, and real-world projects",
-      thumbnail:
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=450&fit=crop",
-      instructor: {
-        name: "Dr. Emily Rodriguez",
-        avatar:
-          "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
-      },
-      rating: 4.7,
-      reviews: 15680,
-      students: 38940,
-      duration: "58h 45m",
-      price: 119.99,
-      originalPrice: 249.99,
-      category: "Data Science",
-      level: "Advanced",
-    },
-  ];
+  const { toast } = useToast();
+  const { 
+    data: courses, 
+    isLoading: coursesLoading, 
+    error: coursesError 
+  } = useCourses();
+  
+  const { 
+    data: categories, 
+    isLoading: categoriesLoading, 
+    error: categoriesError 
+  } = useCategories();
 
-  const categories = [
-    { name: "Programming", icon: "💻", courses: "2,450+" },
-    { name: "Design", icon: "🎨", courses: "1,230+" },
-    { name: "Business", icon: "📊", courses: "890+" },
-    { name: "Marketing", icon: "📢", courses: "670+" },
-    { name: "Photography", icon: "📸", courses: "520+" },
-    { name: "Music", icon: "🎵", courses: "340+" },
-  ];
+  // Show error toasts
+  if (coursesError) {
+    toast({
+      title: "Error",
+      description: "Failed to load courses",
+      variant: "destructive",
+    });
+  }
+
+  if (categoriesError) {
+    toast({
+      title: "Error", 
+      description: "Failed to load categories",
+      variant: "destructive",
+    });
+  }
+
+  const featuredCourses = courses?.slice(0, 3) || [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -142,11 +103,13 @@ const Home = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
-          </div>
+          {coursesLoading ? (
+            <div className="flex justify-center py-12">
+              <LoadingSpinner size="lg" />
+            </div>
+          ) : (
+            <CoursesGrid courses={featuredCourses} />
+          )}
         </div>
       </section>
 
@@ -157,28 +120,13 @@ const Home = () => {
             Explore by Category
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.map((category) => (
-              <Link
-                key={category.name}
-                to={`/courses?category=${category.name.toLowerCase()}`}
-              >
-                <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group border-border bg-card">
-                  <CardContent className="p-6 text-center">
-                    <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                      {category.icon}
-                    </div>
-                    <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
-                      {category.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {category.courses}
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+          {categoriesLoading ? (
+            <div className="flex justify-center py-12">
+              <LoadingSpinner size="lg" />
+            </div>
+          ) : categories ? (
+            <CategoriesGrid categories={categories} />
+          ) : null}
         </div>
       </section>
 
@@ -225,7 +173,7 @@ const Home = () => {
                   <Award className="h-8 w-8 text-primary-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">
-                  Certificates
+                  Certificates 
                 </h3>
                 <p className="text-muted-foreground">
                   Earn certificates upon completion to showcase your
