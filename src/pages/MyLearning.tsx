@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
-import CourseCard from "@/components/Course/CourseCard";
+import CourseCard from "@/components/course/CourseCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -24,7 +24,9 @@ const MyLearning = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-1",
         name: "Sarah Johnson",
+        email: "sarah@example.com",
         avatar:
           "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
       },
@@ -34,8 +36,8 @@ const MyLearning = () => {
       duration: "42h 30m",
       price: 89.99,
       originalPrice: 199.99,
-      category: "Programming",
-      level: "Intermediate",
+      category: "programming",
+      level: "intermediate",
       progress: 45,
       lastWatched: "2 hours ago",
       nextLesson: "React Hooks - useEffect",
@@ -48,7 +50,9 @@ const MyLearning = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-2",
         name: "Mike Chen",
+        email: "mike@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
@@ -58,8 +62,8 @@ const MyLearning = () => {
       duration: "35h 15m",
       price: 79.99,
       originalPrice: 159.99,
-      category: "Design",
-      level: "Beginner",
+      category: "design",
+      level: "beginner",
       progress: 78,
       lastWatched: "5 days ago",
       nextLesson: "Advanced Prototyping Techniques",
@@ -72,7 +76,9 @@ const MyLearning = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-3",
         name: "Dr. Emily Rodriguez",
+        email: "emily@example.com",
         avatar:
           "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
       },
@@ -82,8 +88,8 @@ const MyLearning = () => {
       duration: "58h 45m",
       price: 119.99,
       originalPrice: 249.99,
-      category: "Data Science",
-      level: "Advanced",
+      category: "programming",
+      level: "advanced",
       progress: 23,
       lastWatched: "1 week ago",
       nextLesson: "Introduction to Neural Networks",
@@ -100,7 +106,9 @@ const MyLearning = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-4",
         name: "Alex Thompson",
+        email: "alex@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
@@ -110,8 +118,8 @@ const MyLearning = () => {
       duration: "28h 20m",
       price: 69.99,
       originalPrice: 129.99,
-      category: "Programming",
-      level: "Beginner",
+      category: "programming",
+      level: "beginner",
       completedDate: "2 weeks ago",
       certificateAvailable: true,
     },
@@ -126,7 +134,9 @@ const MyLearning = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-5",
         name: "David Kim",
+        email: "david@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
@@ -136,8 +146,8 @@ const MyLearning = () => {
       duration: "65h 15m",
       price: 139.99,
       originalPrice: 279.99,
-      category: "Programming",
-      level: "Advanced",
+      category: "programming",
+      level: "advanced",
     },
   ];
 

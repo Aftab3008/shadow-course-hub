@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
-import CourseCard from "@/components/Course/CourseCard";
+import CourseCard from "@/components/course/CourseCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -39,7 +39,9 @@ const Courses = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-1",
         name: "Sarah Johnson",
+        email: "sarah@example.com",
         avatar:
           "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
       },
@@ -49,8 +51,8 @@ const Courses = () => {
       duration: "42h 30m",
       price: 89.99,
       originalPrice: 199.99,
-      category: "Programming",
-      level: "Intermediate",
+      category: "programming",
+      level: "intermediate",
     },
     {
       id: "2",
@@ -60,7 +62,9 @@ const Courses = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-2",
         name: "Mike Chen",
+        email: "mike@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
@@ -70,8 +74,8 @@ const Courses = () => {
       duration: "35h 15m",
       price: 79.99,
       originalPrice: 159.99,
-      category: "Design",
-      level: "Beginner",
+      category: "design",
+      level: "beginner",
     },
     {
       id: "3",
@@ -81,7 +85,9 @@ const Courses = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-3",
         name: "Dr. Emily Rodriguez",
+        email: "emily@example.com",
         avatar:
           "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
       },
@@ -91,8 +97,8 @@ const Courses = () => {
       duration: "58h 45m",
       price: 119.99,
       originalPrice: 249.99,
-      category: "Data Science",
-      level: "Advanced",
+      category: "design",
+      level: "advanced",
     },
     {
       id: "4",
@@ -102,7 +108,9 @@ const Courses = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-4",
         name: "Alex Thompson",
+        email: "alex@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
@@ -112,8 +120,8 @@ const Courses = () => {
       duration: "28h 20m",
       price: 69.99,
       originalPrice: 129.99,
-      category: "Marketing",
-      level: "Intermediate",
+      category: "marketing",
+      level: "intermediate",
     },
     {
       id: "5",
@@ -123,7 +131,9 @@ const Courses = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-5",
         name: "David Kim",
+        email: "david@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
@@ -133,8 +143,8 @@ const Courses = () => {
       duration: "65h 15m",
       price: 139.99,
       originalPrice: 279.99,
-      category: "Programming",
-      level: "Advanced",
+      category: "programming",
+      level: "advanced",
     },
     {
       id: "6",
@@ -144,7 +154,9 @@ const Courses = () => {
       thumbnail:
         "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=450&fit=crop",
       instructor: {
+        id: "inst-6",
         name: "Lisa Wang",
+        email: "lisa@example.com",
         avatar:
           "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
       },
@@ -154,8 +166,8 @@ const Courses = () => {
       duration: "32h 45m",
       price: 79.99,
       originalPrice: 149.99,
-      category: "Business",
-      level: "Beginner",
+      category: "business",
+      level: "beginner",
     },
   ];
 
