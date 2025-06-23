@@ -52,7 +52,7 @@ const Courses = () => {
       price: 89.99,
       originalPrice: 199.99,
       category: "programming",
-      level: "intermediate",
+      level: "intermediate" as const,
     },
     {
       id: "2",
@@ -75,7 +75,7 @@ const Courses = () => {
       price: 79.99,
       originalPrice: 159.99,
       category: "design",
-      level: "beginner",
+      level: "beginner" as const,
     },
     {
       id: "3",
@@ -98,7 +98,7 @@ const Courses = () => {
       price: 119.99,
       originalPrice: 249.99,
       category: "design",
-      level: "advanced",
+      level: "advanced" as const,
     },
     {
       id: "4",
@@ -121,7 +121,7 @@ const Courses = () => {
       price: 69.99,
       originalPrice: 129.99,
       category: "marketing",
-      level: "intermediate",
+      level: "intermediate" as const,
     },
     {
       id: "5",
@@ -144,7 +144,7 @@ const Courses = () => {
       price: 139.99,
       originalPrice: 279.99,
       category: "programming",
-      level: "advanced",
+      level: "advanced" as const,
     },
     {
       id: "6",
@@ -167,7 +167,7 @@ const Courses = () => {
       price: 79.99,
       originalPrice: 149.99,
       category: "business",
-      level: "beginner",
+      level: "beginner" as const,
     },
   ];
 

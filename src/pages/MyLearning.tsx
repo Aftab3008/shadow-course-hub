@@ -37,7 +37,7 @@ const MyLearning = () => {
       price: 89.99,
       originalPrice: 199.99,
       category: "programming",
-      level: "intermediate",
+      level: "intermediate" as const,
       progress: 45,
       lastWatched: "2 hours ago",
       nextLesson: "React Hooks - useEffect",
@@ -63,7 +63,7 @@ const MyLearning = () => {
       price: 79.99,
       originalPrice: 159.99,
       category: "design",
-      level: "beginner",
+      level: "beginner" as const,
       progress: 78,
       lastWatched: "5 days ago",
       nextLesson: "Advanced Prototyping Techniques",
@@ -89,7 +89,7 @@ const MyLearning = () => {
       price: 119.99,
       originalPrice: 249.99,
       category: "programming",
-      level: "advanced",
+      level: "advanced" as const,
       progress: 23,
       lastWatched: "1 week ago",
       nextLesson: "Introduction to Neural Networks",
@@ -119,7 +119,7 @@ const MyLearning = () => {
       price: 69.99,
       originalPrice: 129.99,
       category: "programming",
-      level: "beginner",
+      level: "beginner" as const,
       completedDate: "2 weeks ago",
       certificateAvailable: true,
     },
@@ -147,10 +147,11 @@ const MyLearning = () => {
       price: 139.99,
       originalPrice: 279.99,
       category: "programming",
-      level: "advanced",
+      level: "advanced" as const,
     },
   ];
 
+  // Mock data for enrolled courses
   const filteredEnrolledCourses = enrolledCourses.filter(
     (course) =>
       course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
