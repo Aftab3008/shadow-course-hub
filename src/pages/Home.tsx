@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
@@ -14,16 +13,16 @@ import { useToast } from "@/hooks/use-toast";
 
 const Home = () => {
   const { toast } = useToast();
-  const { 
-    data: courses, 
-    isLoading: coursesLoading, 
-    error: coursesError 
+  const {
+    data: courses,
+    isLoading: coursesLoading,
+    error: coursesError,
   } = useCourses();
-  
-  const { 
-    data: categories, 
-    isLoading: categoriesLoading, 
-    error: categoriesError 
+
+  const {
+    data: categories,
+    isLoading: categoriesLoading,
+    error: categoriesError,
   } = useCategories();
 
   // Show error toasts
@@ -37,7 +36,7 @@ const Home = () => {
 
   if (categoriesError) {
     toast({
-      title: "Error", 
+      title: "Error",
       description: "Failed to load categories",
       variant: "destructive",
     });
@@ -173,7 +172,7 @@ const Home = () => {
                   <Award className="h-8 w-8 text-primary-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">
-                  Certificates 
+                  Certificates
                 </h3>
                 <p className="text-muted-foreground">
                   Earn certificates upon completion to showcase your

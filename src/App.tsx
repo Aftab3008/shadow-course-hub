@@ -1,18 +1,18 @@
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Courses from "./pages/Courses";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CourseDetail from "./pages/CourseDetail";
-import MyLearning from "./pages/MyLearning";
+import Courses from "./pages/Courses";
+import EditCourse from "./pages/EditCourse";
+import Home from "./pages/Home";
 import Instructor from "./pages/Instructor";
+import MyLearning from "./pages/MyLearning";
+import VideoPlayer from "./pages/VideoPlayer";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
-import VideoPlayer from "./pages/VideoPlayer";
 import NotFound from "./pages/not-found/NotFound";
-import EditCourse from "./pages/EditCourse";
 
 const queryClient = new QueryClient();
 
