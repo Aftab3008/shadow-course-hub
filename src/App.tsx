@@ -13,6 +13,9 @@ import VideoPlayer from "./pages/VideoPlayer";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import NotFound from "./pages/not-found/NotFound";
+import AuthLayout from "./components/Layout/AuthLayout";
+import ProtectedLayout from "./components/Layout/ProtectedLayout";
+import MainLayout from "./components/Layout/MainLayout";
 
 const queryClient = new QueryClient();
 
@@ -24,22 +27,28 @@ const App = () => (
       <BrowserRouter>
         <div className="min-h-screen bg-background">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/course/:id" element={<CourseDetail />} />
-            <Route path="/my-learning" element={<MyLearning />} />
-            <Route path="/instructor" element={<Instructor />} />
-            <Route
-              path="/instructor/edit-course/:id"
-              element={<EditCourse />}
-            />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route
-              path="/learn/:courseId/:lectureId"
-              element={<VideoPlayer />}
-            />
-            <Route path="*" element={<NotFound />} />
+            <Route element={<MainLayout />}>
+              <Route element={<AuthLayout />}>
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
+              </Route>
+              <Route element={<ProtectedLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/course/:id" element={<CourseDetail />} />
+                <Route path="/my-learning" element={<MyLearning />} />
+                <Route path="/instructor" element={<Instructor />} />
+                <Route
+                  path="/instructor/edit-course/:id"
+                  element={<EditCourse />}
+                />
+                <Route
+                  path="/learn/:courseId/:lectureId"
+                  element={<VideoPlayer />}
+                />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Route>
           </Routes>
         </div>
       </BrowserRouter>
