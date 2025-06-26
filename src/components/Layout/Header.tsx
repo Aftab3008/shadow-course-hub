@@ -10,15 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Search, Menu, X } from "lucide-react";
+import { userAuthStore } from "@/store/auth.store";
 
 const Header = () => {
+  const { isAuthenticated, user } = userAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
-  // Mock authentication state
-  const isAuthenticated = true;
-  const user = { name: "John Doe", email: "john@example.com" };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

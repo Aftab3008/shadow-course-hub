@@ -81,7 +81,6 @@ export const userAuthStore = create<UserAuthState>((set) => ({
     set({ isCheckingAuth: true, error: null });
     try {
       const response = await api.get(`${BACKEND_URL}/api/auth/me`);
-      console.log("Check Auth response:", response.data);
       set({
         user: response.data.data,
         isAuthenticated: true,

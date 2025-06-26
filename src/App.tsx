@@ -28,12 +28,12 @@ const App = () => (
         <div className="min-h-screen bg-background">
           <Routes>
             <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
               <Route element={<AuthLayout />}>
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
               </Route>
               <Route element={<ProtectedLayout />}>
-                <Route path="/" element={<Home />} />
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/course/:id" element={<CourseDetail />} />
                 <Route path="/my-learning" element={<MyLearning />} />
