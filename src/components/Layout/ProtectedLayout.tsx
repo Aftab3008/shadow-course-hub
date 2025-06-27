@@ -1,21 +1,18 @@
 import { userAuthStore } from "@/store/auth.store";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import LoadingSpinner from "../ui/loading-spinner";
 
 export default function ProtectedLayout() {
   const { isAuthenticated, isCheckingAuth } = userAuthStore();
-
-  if (!isCheckingAuth && !isAuthenticated) {
-    return <Navigate to="/signin" replace state={{ from: location }} />;
-  }
+  const location = useLocation();
 
   if (isCheckingAuth) {
     return <LoadingSpinner />;
   }
 
-  return (
-    <main>
-      <Outlet />
-    </main>
-  );
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace state={{ from: location }} />;
+  }
+
+  return <Outlet />;
 }

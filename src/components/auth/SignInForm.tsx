@@ -18,9 +18,20 @@ import ForgetPassword from "./ForgetPassword";
 import ContinueWith from "./ContinueWith";
 import { userAuthStore } from "@/store/auth.store";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation, useNavigate } from "react-router-dom";
+
+interface LocationState {
+  from?: {
+    pathname: string;
+  };
+}
 
 export default function SignInForm() {
   const { login, error } = userAuthStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as LocationState;
+  const redirectPath = state?.from?.pathname || "/";
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -50,6 +61,7 @@ export default function SignInForm() {
         description: "You have successfully logged in.",
         variant: "success",
       });
+      navigate(redirectPath, { replace: true });
     }
   }
 
