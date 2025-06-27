@@ -12,21 +12,25 @@ import {
 import { Search, Menu, X } from "lucide-react";
 import { userAuthStore } from "@/store/auth.store";
 
-const Header = () => {
-  const { isAuthenticated, user } = userAuthStore();
+export default function Header() {
+  const { isAuthenticated, isCheckingAuth, user } = userAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/courses?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
+    const q = searchQuery.trim();
+    if (q) navigate(`/courses?search=${encodeURIComponent(q)}`);
   };
 
+  // A small circular skeleton placeholder
+  const AvatarSkeleton = () => (
+    <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse" />
+  );
+
   return (
-    <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+    <header className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -39,7 +43,7 @@ const Header = () => {
             <span className="font-bold text-xl text-foreground">LearnHub</span>
           </Link>
 
-          {/* Search Bar - Desktop */}
+          {/* Desktop Search */}
           <form
             onSubmit={handleSearch}
             className="hidden md:flex items-center flex-1 max-w-md mx-8"
@@ -56,31 +60,24 @@ const Header = () => {
             </div>
           </form>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Nav Links */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link
-              to="/courses"
-              className="text-foreground hover:text-primary transition-colors"
-            >
+            <Link to="/courses" className="hover:text-primary transition">
               Courses
             </Link>
-            <Link
-              to="/my-learning"
-              className="text-foreground hover:text-primary transition-colors"
-            >
+            <Link to="/my-learning" className="hover:text-primary transition">
               My Learning
             </Link>
-            <Link
-              to="/instructor"
-              className="text-foreground hover:text-primary transition-colors"
-            >
+            <Link to="/instructor" className="hover:text-primary transition">
               Instructor
             </Link>
           </nav>
 
-          {/* Auth Section */}
+          {/* Auth Controls */}
           <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
+            {isCheckingAuth ? (
+              <AvatarSkeleton />
+            ) : isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -88,35 +85,28 @@ const Header = () => {
                     className="relative h-8 w-8 rounded-full"
                   >
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src="/placeholder.svg" alt={user.name} />
-                      <AvatarFallback className="bg-primary text-primary-foreground">
+                      <AvatarImage
+                        src={user?.profileUrl || "/assets/default.jpg"}
+                        alt={user.name}
+                      />
+                      <AvatarFallback>
                         {user.name
                           .split(" ")
-                          .map((n) => n[0])
+                          .map((n: string) => n[0])
                           .join("")}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-56 bg-popover border-border"
-                  align="end"
-                  forceMount
-                >
-                  <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    <Link to="/my-learning" className="w-full">
-                      My Learning
-                    </Link>
+                <DropdownMenuContent align="end" forceMount className="w-56">
+                  <DropdownMenuItem asChild>
+                    <Link to="/my-learning">My Learning</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    <Link to="/instructor" className="w-full">
-                      Instructor Dashboard
-                    </Link>
+                  <DropdownMenuItem asChild>
+                    <Link to="/instructor">Instructor Dashboard</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    Profile Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-accent text-destructive">
+                  <DropdownMenuItem>Profile Settings</DropdownMenuItem>
+                  <DropdownMenuItem className="text-destructive">
                     Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -133,12 +123,12 @@ const Header = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <Button
             variant="ghost"
             size="icon"
             className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => setIsMenuOpen((o) => !o)}
           >
             {isMenuOpen ? (
               <X className="h-6 w-6" />
@@ -148,9 +138,9 @@ const Header = () => {
           </Button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Drawer */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-border py-4 animate-fade-in">
+          <div className="md:hidden border-t border-border py-4">
             <form onSubmit={handleSearch} className="mb-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -164,25 +154,23 @@ const Header = () => {
               </div>
             </form>
             <nav className="flex flex-col space-y-4">
-              <Link
-                to="/courses"
-                className="text-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/courses" className="hover:text-primary">
                 Courses
               </Link>
-              <Link
-                to="/my-learning"
-                className="text-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/my-learning" className="hover:text-primary">
                 My Learning
               </Link>
-              <Link
-                to="/instructor"
-                className="text-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/instructor" className="hover:text-primary">
                 Instructor
               </Link>
-              {!isAuthenticated && (
+
+              {isCheckingAuth ? (
+                <div className="h-6 w-24 bg-gray-200 animate-pulse rounded" />
+              ) : isAuthenticated ? (
+                <Button variant="ghost" className="w-full text-left">
+                  Sign Out
+                </Button>
+              ) : (
                 <div className="flex flex-col space-y-2 pt-4 border-t border-border">
                   <Button variant="ghost" asChild>
                     <Link to="/signin">Sign In</Link>
@@ -198,6 +186,4 @@ const Header = () => {
       </div>
     </header>
   );
-};
-
-export default Header;
+}

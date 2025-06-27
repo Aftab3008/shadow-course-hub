@@ -10,10 +10,6 @@ export default function MainLayout() {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <main>
       <Outlet />

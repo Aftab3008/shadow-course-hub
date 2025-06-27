@@ -25,7 +25,6 @@ const Home = () => {
     error: categoriesError,
   } = useCategories();
 
-  // Show error toasts
   if (coursesError) {
     toast({
       title: "Error",
