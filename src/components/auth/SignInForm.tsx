@@ -50,6 +50,11 @@ export default function SignInForm() {
         description: "You have successfully logged in.",
         variant: "success",
       });
+    } else {
+      toast({
+        title: "Login Failed",
+        variant: "success",
+      });
     }
   }
 

@@ -56,13 +56,12 @@ export default function SignUpForm() {
       });
       return;
     }
-    const agreeToPrivacyPolicy = agreeToTerms;
     const response = await signup(
       name,
       email,
       password,
       agreeToTerms,
-      agreeToPrivacyPolicy
+      agreeToTerms
     );
     if (response.success) {
       form.reset();

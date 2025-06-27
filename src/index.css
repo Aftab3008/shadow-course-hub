@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,6 +52,65 @@
 
   body {
     @apply bg-background text-foreground font-sans;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:focus:hover,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  textarea:-webkit-autofill:focus:hover,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus,
+  select:-webkit-autofill:focus:hover {
+    /* 1. dark background fill clipped so it respects your rounded corners */
+    -webkit-box-shadow: 0 0 0px 1000px hsl(var(--background)) inset,
+      0 0 0 1px hsl(var(--border)) inset !important;
+    box-shadow: 0 0 0px 1000px hsl(var(--background)) inset,
+      0 0 0 1px hsl(var(--border)) inset !important;
+    background-clip: padding-box !important;
+    border-radius: var(--radius) !important;
+
+    /* 2. force white text & caret */
+    color: hsl(var(--foreground)) !important;
+    -webkit-text-fill-color: hsl(var(--foreground)) !important;
+    caret-color: hsl(var(--foreground)) !important;
+
+    /* 3. keep our styles “locked in” until the user edits */
+    -webkit-transition: background-color 9999s ease-in-out 0s,
+      color 9999s ease-in-out 0s !important;
+    transition: background-color 9999s ease-in-out 0s,
+      color 9999s ease-in-out 0s !important;
+  }
+
+  /* ——— 2) Autofill + Focus: add your ring ——— */
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:focus:hover,
+  textarea:-webkit-autofill:focus,
+  textarea:-webkit-autofill:focus:hover,
+  select:-webkit-autofill:focus,
+  select:-webkit-autofill:focus:hover {
+    /* reuse the two-layer inset and then layer your ring */
+    -webkit-box-shadow: 0 0 0px 1000px hsl(var(--background)) inset,
+      0 0 0 1px hsl(var(--border)) inset, 0 0 0 2px hsl(var(--ring)) !important;
+    box-shadow: 0 0 0px 1000px hsl(var(--background)) inset,
+      0 0 0 1px hsl(var(--border)) inset, 0 0 0 2px hsl(var(--ring)) !important;
+    background-clip: padding-box !important;
+    border-radius: var(--radius) !important;
+
+    /* guard white text & caret again */
+    color: hsl(var(--foreground)) !important;
+    -webkit-text-fill-color: hsl(var(--foreground)) !important;
+    caret-color: hsl(var(--foreground)) !important;
+
+    /* keep the ring style locked too */
+    -webkit-transition: background-color 9999s ease-in-out 0s,
+      color 9999s ease-in-out 0s !important;
+    transition: background-color 9999s ease-in-out 0s,
+      color 9999s ease-in-out 0s !important;
   }
 }
 
