@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Search, Menu, X } from "lucide-react";
 import { userAuthStore } from "@/store/auth.store";
+import LoadingSpinner from "../ui/loading-spinner";
+import AvatarSkeleton from "../shared/AvatarSkeleton";
 
 export default function Header() {
   const { isAuthenticated, isCheckingAuth, user } = userAuthStore();
@@ -23,11 +25,6 @@ export default function Header() {
     const q = searchQuery.trim();
     if (q) navigate(`/courses?search=${encodeURIComponent(q)}`);
   };
-
-  // A small circular skeleton placeholder
-  const AvatarSkeleton = () => (
-    <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse" />
-  );
 
   return (
     <header className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-50">
@@ -76,7 +73,8 @@ export default function Header() {
           {/* Auth Controls */}
           <div className="hidden md:flex items-center space-x-4">
             {isCheckingAuth ? (
-              <AvatarSkeleton />
+              // <AvatarSkeleton />
+              <LoadingSpinner />
             ) : isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

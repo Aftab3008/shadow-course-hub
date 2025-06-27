@@ -10,18 +10,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/schemas/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ForgetPassword from "./ForgetPassword";
 import ContinueWith from "./ContinueWith";
 import { userAuthStore } from "@/store/auth.store";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SignInForm() {
-  const { login } = userAuthStore();
+  const { login, error } = userAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -38,13 +40,15 @@ export default function SignInForm() {
   } = form;
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
-    try {
-      const { email, password } = values;
-      const response = await login(email, password);
-      console.log("Login response:", response);
-    } catch (error) {
-      setError("email", {
-        message: "Invalid email or password",
+    clearErrors();
+    const { email, password } = values;
+    const response = await login(email, password);
+    if (response.success) {
+      form.reset();
+      toast({
+        title: "Login Successful",
+        description: "You have successfully logged in.",
+        variant: "success",
       });
     }
   }
@@ -63,6 +67,14 @@ export default function SignInForm() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {!!error && (
+            <div className="mb-6 flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive justify-center">
+              <TriangleAlert className="w-5 h-5" />
+              <p className="flex items-center justify-center text-lg">
+                {error}
+              </p>
+            </div>
+          )}
           <FormField
             control={form.control}
             name="email"

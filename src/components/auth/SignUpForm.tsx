@@ -12,12 +12,13 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { signUpSchema } from "@/schemas/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import ContinueWith from "./ContinueWith";
+import { userAuthStore } from "@/store/auth.store";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,15 +44,48 @@ export default function SignUpForm() {
     getValues,
   } = form;
   const { agreeToTerms } = getValues();
+  const { error, signup } = userAuthStore();
 
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    clearErrors();
+    const { email, password, firstName, lastName, agreeToTerms } = values;
+    const name = `${firstName} ${lastName}`.trim();
+    if (!agreeToTerms) {
+      setError("agreeToTerms", {
+        message: "You must agree to the terms and conditions",
+      });
+      return;
+    }
+    const agreeToPrivacyPolicy = agreeToTerms;
+    const response = await signup(
+      name,
+      email,
+      password,
+      agreeToTerms,
+      agreeToPrivacyPolicy
+    );
+    if (response.success) {
+      form.reset();
+      toast({
+        title: "Sign Up Successful",
+        description: "You have successfully signed up.",
+        variant: "success",
+      });
+    }
   }
 
   return (
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {!!error && (
+            <div className="mb-6 flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive justify-center">
+              <TriangleAlert className="w-5 h-5" />
+              <p className="flex items-center justify-center text-lg">
+                {error}
+              </p>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}

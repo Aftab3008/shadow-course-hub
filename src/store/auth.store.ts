@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { UserAuthState } from "@/types";
 import { create } from "zustand";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -9,22 +10,6 @@ if (!BACKEND_URL) {
   );
 }
 
-interface UserAuthState {
-  user: any;
-  isAuthenticated: boolean;
-  error: string | null;
-  isLoading: boolean;
-  isCheckingAuth: boolean;
-  message: string | null;
-  signup: (name: string, email: string, password: string) => Promise<void>;
-  verifyEmail: (code: string) => Promise<any>;
-  checkAuth: () => Promise<void>;
-  login: (email: string, password: string) => Promise<{ message: string }>;
-  logout: () => Promise<void>;
-  forgotPassword: (email: string) => Promise<void>;
-  resetPassword: (token: string, newPassword: string) => Promise<void>;
-}
-
 export const userAuthStore = create<UserAuthState>((set) => ({
   user: null,
   isAuthenticated: false,
@@ -33,13 +18,21 @@ export const userAuthStore = create<UserAuthState>((set) => ({
   isCheckingAuth: true,
   message: null,
 
-  signup: async (name: string, email: string, password: string) => {
+  signup: async (
+    name: string,
+    email: string,
+    password: string,
+    agreeToTerms: boolean,
+    agreeToPrivacyPolicy: boolean
+  ) => {
     set({ isLoading: true });
     try {
       const response = await api.post(`${BACKEND_URL}/api/auth/register`, {
         name,
         email,
         password,
+        agreeToTerms,
+        agreeToPrivacyPolicy,
       });
       console.log("Signup response:", response.data);
       set({
@@ -47,12 +40,16 @@ export const userAuthStore = create<UserAuthState>((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
+      return { message: response.data.message, success: true };
     } catch (error) {
       set({
         error: error.response.data.message || "Error signing up",
         isLoading: false,
       });
-      throw error;
+      return {
+        message: error.response.data.message || "Error signing up",
+        success: false,
+      };
     }
   },
 
@@ -104,13 +101,16 @@ export const userAuthStore = create<UserAuthState>((set) => ({
         isAuthenticated: true,
         isLoading: false,
       });
-      return { message: response.data.message };
+      return { message: response.data.message, success: true };
     } catch (error) {
       set({
         error: error.response.data.message || "Error logging in",
         isLoading: false,
       });
-      return { message: error.response.data.message || "Error logging in" };
+      return {
+        message: error.response.data.message || "Error logging in",
+        success: false,
+      };
     }
   },
 

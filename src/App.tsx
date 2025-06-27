@@ -17,7 +17,11 @@ import AuthLayout from "./components/Layout/AuthLayout";
 import ProtectedLayout from "./components/Layout/ProtectedLayout";
 import MainLayout from "./components/Layout/MainLayout";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {},
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -29,13 +33,13 @@ const App = () => (
           <Routes>
             <Route element={<MainLayout />}>
               <Route path="/" element={<Home />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/course/:id" element={<CourseDetail />} />
               <Route element={<AuthLayout />}>
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
               </Route>
               <Route element={<ProtectedLayout />}>
-                <Route path="/courses" element={<Courses />} />
-                <Route path="/course/:id" element={<CourseDetail />} />
                 <Route path="/my-learning" element={<MyLearning />} />
                 <Route path="/instructor" element={<Instructor />} />
                 <Route

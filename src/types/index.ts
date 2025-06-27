@@ -1,4 +1,3 @@
-
 export interface User {
   id: string;
   name: string;
@@ -24,7 +23,7 @@ export interface Course {
   price: number;
   originalPrice?: number;
   category: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
+  level: "beginner" | "intermediate" | "advanced";
   chapters?: Chapter[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -64,8 +63,14 @@ export interface Category {
   slug: string;
 }
 
-export type CourseLevel = 'beginner' | 'intermediate' | 'advanced';
-export type CourseCategory = 'programming' | 'design' | 'business' | 'marketing' | 'photography' | 'music';
+export type CourseLevel = "beginner" | "intermediate" | "advanced";
+export type CourseCategory =
+  | "programming"
+  | "design"
+  | "business"
+  | "marketing"
+  | "photography"
+  | "music";
 
 export interface CourseFormData {
   title: string;
@@ -88,4 +93,29 @@ export interface LessonFormData {
   duration: string;
   videoUrl: string;
   order: number;
+}
+
+export interface UserAuthState {
+  user: any;
+  isAuthenticated: boolean;
+  error: string | null;
+  isLoading: boolean;
+  isCheckingAuth: boolean;
+  message: string | null;
+  signup: (
+    name: string,
+    email: string,
+    password: string,
+    agreeToTerms: boolean,
+    agreeToPrivacyPolicy: boolean
+  ) => Promise<{ message: string; success: boolean }>;
+  verifyEmail: (code: string) => Promise<any>;
+  checkAuth: () => Promise<void>;
+  login: (
+    email: string,
+    password: string
+  ) => Promise<{ message: string; success: boolean }>;
+  logout: () => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (token: string, newPassword: string) => Promise<void>;
 }

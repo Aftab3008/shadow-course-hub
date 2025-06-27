@@ -6,7 +6,7 @@ export default function ProtectedLayout() {
   const { isAuthenticated, isCheckingAuth } = userAuthStore();
 
   if (!isCheckingAuth && !isAuthenticated) {
-    return <Navigate to={`/signin`} replace />;
+    return <Navigate to="/signin" replace state={{ from: location }} />;
   }
 
   if (isCheckingAuth) {
