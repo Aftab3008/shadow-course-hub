@@ -50,11 +50,6 @@ export default function SignInForm() {
         description: "You have successfully logged in.",
         variant: "success",
       });
-    } else {
-      toast({
-        title: "Login Failed",
-        variant: "success",
-      });
     }
   }
 
@@ -75,9 +70,7 @@ export default function SignInForm() {
           {!!error && (
             <div className="mb-6 flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive justify-center">
               <TriangleAlert className="w-5 h-5" />
-              <p className="flex items-center justify-center text-lg">
-                {error}
-              </p>
+              <p className="flex items-center justify-center">{error}</p>
             </div>
           )}
           <FormField
