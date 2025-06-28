@@ -38,7 +38,7 @@ export const userAuthStore = create<UserAuthState>((set) => ({
       });
       set({
         message: response.data.message,
-        isAuthenticated: true,
+        isAuthenticated: false,
         isLoading: false,
       });
       return {
