@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { UserAuthState } from "@/types";
+import { LoginProps, SignupProps, UserAuthState, VerifyEmail } from "@/types";
 import { create } from "zustand";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -18,13 +18,14 @@ export const userAuthStore = create<UserAuthState>((set) => ({
   isCheckingAuth: true,
   message: null,
 
-  signup: async (
-    name: string,
-    email: string,
-    password: string,
-    agreeToTerms: boolean,
-    agreeToPrivacyPolicy: boolean
-  ) => {
+  signup: async ({
+    name,
+    email,
+    password,
+    confirmPassword,
+    agreeToTerms,
+    agreeToPrivacyPolicy,
+  }: SignupProps) => {
     set({ isLoading: true });
     try {
       const response = await api.post(`${BACKEND_URL}/api/auth/register`, {
@@ -33,14 +34,18 @@ export const userAuthStore = create<UserAuthState>((set) => ({
         password,
         agreeToTerms,
         agreeToPrivacyPolicy,
+        confirmPassword,
       });
-      console.log("Signup response:", response.data);
       set({
-        user: response.data.data,
+        message: response.data.message,
         isAuthenticated: true,
         isLoading: false,
       });
-      return { message: response.data.message, success: true };
+      return {
+        message: response.data.message,
+        success: true,
+        redirectURL: "/verify-email",
+      };
     } catch (error) {
       set({
         error: error.response.data.message || "Error signing up",
@@ -53,24 +58,31 @@ export const userAuthStore = create<UserAuthState>((set) => ({
     }
   },
 
-  verifyEmail: async (code: string) => {
+  verifyEmail: async ({ otp }: VerifyEmail) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`${BACKEND_URL}/api/auth/verify-email`, {
-        code,
+        otp,
       });
       set({
         user: response.data.data,
         isAuthenticated: true,
         isLoading: false,
       });
-      return response.data;
+      return {
+        message: response.data.message,
+        success: true,
+        redirectURL: "/",
+      };
     } catch (error) {
       set({
         error: error.response.data.message || "Error verifying email",
         isLoading: false,
       });
-      throw error;
+      return {
+        message: error.response.data.message || "Error verifying email",
+        success: false,
+      };
     }
   },
 
@@ -88,14 +100,13 @@ export const userAuthStore = create<UserAuthState>((set) => ({
     }
   },
 
-  login: async (email: string, password: string) => {
+  login: async ({ email, password }: LoginProps) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`${BACKEND_URL}/api/auth/login`, {
         email,
         password,
       });
-      console.log("Login response:", response.data);
       set({
         user: response.data.data,
         isAuthenticated: true,
@@ -103,6 +114,18 @@ export const userAuthStore = create<UserAuthState>((set) => ({
       });
       return { message: response.data.message, success: true };
     } catch (error) {
+      if (error.response && error.response.status === 403) {
+        set({
+          isAuthenticated: false,
+          isLoading: false,
+          message: error.response.data.message,
+        });
+        return {
+          message: error.response.data.message,
+          success: false,
+          redirectURL: "/verify-email",
+        };
+      }
       set({
         error: error.response.data.message || "Error logging in",
         isLoading: false,

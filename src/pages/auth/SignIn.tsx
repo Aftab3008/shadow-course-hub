@@ -9,6 +9,9 @@ const SignIn = () => {
         <CardTitle className="text-2xl text-center text-foreground">
           Sign In
         </CardTitle>
+        <p className="text-center text-sm text-muted-foreground">
+          Welcome back! Please enter your details.
+        </p>
       </CardHeader>
       <CardContent>
         <SignInForm />

@@ -94,27 +94,55 @@ export interface LessonFormData {
   videoUrl: string;
   order: number;
 }
+export interface SignupProps {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  agreeToTerms: boolean;
+  agreeToPrivacyPolicy: boolean;
+}
+
+export interface LoginProps {
+  email: string;
+  password: string;
+}
+
+export interface VerifyEmail {
+  otp: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  profileUrl: string;
+}
+
+export interface LocationState {
+  from?: {
+    pathname: string;
+  };
+}
 
 export interface UserAuthState {
-  user: any;
+  user: User | null;
   isAuthenticated: boolean;
   error: string | null;
   isLoading: boolean;
   isCheckingAuth: boolean;
   message: string | null;
+
   signup: (
-    name: string,
-    email: string,
-    password: string,
-    agreeToTerms: boolean,
-    agreeToPrivacyPolicy: boolean
-  ) => Promise<{ message: string; success: boolean }>;
-  verifyEmail: (code: string) => Promise<any>;
+    params: SignupProps
+  ) => Promise<{ message: string; success: boolean; redirectURL?: string }>;
+  verifyEmail: (
+    params: VerifyEmail
+  ) => Promise<{ message: string; success: boolean; redirectURL?: string }>;
   checkAuth: () => Promise<void>;
   login: (
-    email: string,
-    password: string
-  ) => Promise<{ message: string; success: boolean }>;
+    params: LoginProps
+  ) => Promise<{ message: string; success: boolean; redirectURL?: string }>;
   logout: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (token: string, newPassword: string) => Promise<void>;

@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import ContinueWith from "./ContinueWith";
 import { userAuthStore } from "@/store/auth.store";
@@ -24,6 +24,7 @@ export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -48,7 +49,14 @@ export default function SignUpForm() {
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     clearErrors();
-    const { email, password, firstName, lastName, agreeToTerms } = values;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      agreeToTerms,
+      confirmPassword,
+    } = values;
     const name = `${firstName} ${lastName}`.trim();
     if (!agreeToTerms) {
       setError("agreeToTerms", {
@@ -56,19 +64,18 @@ export default function SignUpForm() {
       });
       return;
     }
-    const response = await signup(
+    const response = await signup({
       name,
       email,
       password,
+      confirmPassword,
       agreeToTerms,
-      agreeToTerms
-    );
+      agreeToPrivacyPolicy: agreeToTerms,
+    });
     if (response.success) {
       form.reset();
-      toast({
-        title: "Sign Up Successful",
-        description: "You have successfully signed up.",
-        variant: "success",
+      navigate(response.redirectURL || "/verify-email", {
+        replace: true,
       });
     }
   }

@@ -19,12 +19,7 @@ import ContinueWith from "./ContinueWith";
 import { userAuthStore } from "@/store/auth.store";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-
-interface LocationState {
-  from?: {
-    pathname: string;
-  };
-}
+import { LocationState } from "@/types";
 
 export default function SignInForm() {
   const { login, error } = userAuthStore();
@@ -53,7 +48,7 @@ export default function SignInForm() {
   async function onSubmit(values: z.infer<typeof signInSchema>) {
     clearErrors();
     const { email, password } = values;
-    const response = await login(email, password);
+    const response = await login({ email, password });
     if (response.success) {
       form.reset();
       toast({
@@ -62,6 +57,9 @@ export default function SignInForm() {
         variant: "success",
       });
       navigate(redirectPath, { replace: true });
+    } else if (!response.success && response.redirectURL) {
+      form.reset();
+      navigate(response.redirectURL, { replace: true });
     }
   }
 

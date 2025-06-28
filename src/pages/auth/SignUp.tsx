@@ -9,6 +9,9 @@ const SignUp = () => {
         <CardTitle className="text-2xl text-center text-foreground">
           Create Account
         </CardTitle>
+        <p className="text-center text-sm text-muted-foreground">
+          Join us today! Fill in your details to get started.
+        </p>
       </CardHeader>
       <CardContent>
         <SignUpForm />
