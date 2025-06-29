@@ -146,11 +146,12 @@ const VideoPlayer = ({
         onDuration={setDuration}
         onClick={togglePlay}
         config={{
-          file: {
-            attributes: {
-              crossOrigin: "anonymous",
-            },
+          youtube: {
+            playerVars: { showinfo: 1 }
           },
+          vimeo: {
+            playerOptions: { byline: false }
+          }
         }}
         style={{
           position: "absolute",

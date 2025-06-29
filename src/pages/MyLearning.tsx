@@ -29,6 +29,7 @@ const MyLearning = () => {
         email: "sarah@example.com",
         avatar:
           "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
+        profileUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
       },
       rating: 4.8,
       reviews: 12450,
@@ -55,6 +56,7 @@ const MyLearning = () => {
         email: "mike@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.9,
       reviews: 8920,
@@ -81,6 +83,7 @@ const MyLearning = () => {
         email: "emily@example.com",
         avatar:
           "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
+        profileUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
       },
       rating: 4.7,
       reviews: 15680,
@@ -111,6 +114,7 @@ const MyLearning = () => {
         email: "alex@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.6,
       reviews: 7230,
@@ -139,6 +143,7 @@ const MyLearning = () => {
         email: "david@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.8,
       reviews: 11340,
