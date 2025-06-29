@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+
+import { useEffect, useRef, useState, useCallback } from "react";
+import ReactPlayer from "react-player";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -14,118 +16,100 @@ import {
 interface VideoPlayerProps {
   src: string;
   onTimeUpdate?: (currentTime: number, duration: number) => void;
+  onEnded?: () => void;
   initialTime?: number;
+  autoPlay?: boolean;
 }
 
 const VideoPlayer = ({
   src,
   onTimeUpdate,
+  onEnded,
   initialTime = 0,
+  autoPlay = true,
 }: VideoPlayerProps) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const playerRef = useRef<ReactPlayer>(null);
+  const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [hasSetInitialTime, setHasSetInitialTime] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleLoadedMetadata = () => {
-      setDuration(video.duration);
-      if (initialTime > 0 && !hasSetInitialTime) {
-        video.currentTime = initialTime;
-        setCurrentTime(initialTime);
-        setHasSetInitialTime(true);
-        console.log(`Video started at: ${initialTime}s`);
-      }
-    };
-
-    const handleTimeUpdate = () => {
-      setCurrentTime(video.currentTime);
-      onTimeUpdate?.(video.currentTime, video.duration);
-    };
-
-    video.addEventListener("loadedmetadata", handleLoadedMetadata);
-    video.addEventListener("timeupdate", handleTimeUpdate);
-
-    return () => {
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      video.removeEventListener("timeupdate", handleTimeUpdate);
-    };
-  }, [initialTime, onTimeUpdate, hasSetInitialTime]);
+    if (isReady && initialTime > 0 && !hasSetInitialTime && playerRef.current) {
+      playerRef.current.seekTo(initialTime);
+      setCurrentTime(initialTime);
+      setHasSetInitialTime(true);
+      console.log(`Video started at: ${initialTime}s`);
+    }
+  }, [isReady, initialTime, hasSetInitialTime]);
 
   // Reset hasSetInitialTime when src changes (new video)
   useEffect(() => {
     setHasSetInitialTime(false);
+    setIsReady(false);
   }, [src]);
 
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (isPlaying) {
-      video.pause();
-    } else {
-      video.play();
+  const handleReady = useCallback(() => {
+    setIsReady(true);
+    if (playerRef.current) {
+      setDuration(playerRef.current.getDuration());
     }
+  }, []);
+
+  const handleProgress = useCallback((state: { playedSeconds: number }) => {
+    setCurrentTime(state.playedSeconds);
+    if (playerRef.current) {
+      const duration = playerRef.current.getDuration();
+      onTimeUpdate?.(state.playedSeconds, duration);
+    }
+  }, [onTimeUpdate]);
+
+  const handleEnded = useCallback(() => {
+    setIsPlaying(false);
+    onEnded?.();
+  }, [onEnded]);
+
+  const togglePlay = () => {
     setIsPlaying(!isPlaying);
   };
 
   const handleSeek = (value: number[]) => {
-    const video = videoRef.current;
-    if (!video) return;
-
+    if (!playerRef.current) return;
+    
     const newTime = (value[0] / 100) * duration;
-    video.currentTime = newTime;
+    playerRef.current.seekTo(newTime);
     setCurrentTime(newTime);
   };
 
   const handleVolumeChange = (value: number[]) => {
-    const video = videoRef.current;
-    if (!video) return;
-
     const newVolume = value[0] / 100;
-    video.volume = newVolume;
     setVolume(newVolume);
     setIsMuted(newVolume === 0);
   };
 
   const toggleMute = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (isMuted) {
-      video.volume = volume;
-      setIsMuted(false);
-    } else {
-      video.volume = 0;
-      setIsMuted(true);
-    }
+    setIsMuted(!isMuted);
   };
 
   const skipTime = (seconds: number) => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.currentTime = Math.max(
-      0,
-      Math.min(video.currentTime + seconds, duration)
-    );
+    if (!playerRef.current) return;
+    
+    const newTime = Math.max(0, Math.min(currentTime + seconds, duration));
+    playerRef.current.seekTo(newTime);
   };
 
   const toggleFullscreen = () => {
-    const video = videoRef.current;
-    if (!video) return;
+    const playerElement = playerRef.current?.getInternalPlayer();
+    if (!playerElement) return;
 
     if (document.fullscreenElement) {
       document.exitFullscreen();
     } else {
-      video.requestFullscreen();
+      playerElement.requestFullscreen?.();
     }
   };
 
@@ -144,15 +128,35 @@ const VideoPlayer = ({
 
   return (
     <div
-      className="relative bg-black rounded-lg overflow-hidden group"
+      className="relative bg-black rounded-lg overflow-hidden group w-full h-full"
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}
     >
-      <video
-        ref={videoRef}
-        src={src}
-        className="w-full h-full"
+      <ReactPlayer
+        ref={playerRef}
+        url={src}
+        playing={isPlaying}
+        volume={isMuted ? 0 : volume}
+        muted={isMuted}
+        width="100%"
+        height="100%"
+        onReady={handleReady}
+        onProgress={handleProgress}
+        onEnded={handleEnded}
+        onDuration={setDuration}
         onClick={togglePlay}
+        config={{
+          file: {
+            attributes: {
+              crossOrigin: "anonymous",
+            },
+          },
+        }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
       />
 
       {/* Controls Overlay */}
@@ -220,7 +224,7 @@ const VideoPlayer = ({
                 )}
               </Button>
 
-              <div className="w-20">
+              <div className="w-20 hidden sm:block">
                 <Slider
                   value={[isMuted ? 0 : volume * 100]}
                   onValueChange={handleVolumeChange}
@@ -232,7 +236,7 @@ const VideoPlayer = ({
           </div>
 
           <div className="flex items-center space-x-4">
-            <span className="text-white text-sm">
+            <span className="text-white text-sm hidden sm:block">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
 

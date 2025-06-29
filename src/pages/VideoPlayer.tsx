@@ -19,7 +19,7 @@ const VideoPlayer = () => {
   const { courseId, lectureId } = useParams();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(0);
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 768);
   const [initialTime, setInitialTime] = useState(0);
   const currentTimeRef = useRef(0);
 
@@ -115,6 +115,20 @@ const VideoPlayer = () => {
   const nextLecture = allLectures[currentIndex + 1];
   const prevLecture = allLectures[currentIndex - 1];
 
+  // Handle responsive sidebar
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setShowSidebar(false);
+      } else {
+        setShowSidebar(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Load saved progress when component mounts or lecture changes
   useEffect(() => {
     const loadProgress = async () => {
@@ -132,7 +146,12 @@ const VideoPlayer = () => {
   const handleTimeUpdate = (time: number, duration: number) => {
     setCurrentTime(time);
     currentTimeRef.current = time;
-    // Removed URL query string update
+  };
+
+  const handleVideoEnded = () => {
+    if (nextLecture) {
+      navigateToLecture(nextLecture.id);
+    }
   };
 
   const saveProgressAndNavigate = async (path: string) => {
@@ -180,14 +199,14 @@ const VideoPlayer = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-background/95 backdrop-blur p-4">
+      <header className="border-b border-border bg-background/95 backdrop-blur p-4 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="icon" onClick={handleBackButton}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <div>
-              <h1 className="font-semibold text-foreground truncate max-w-md">
+            <div className="min-w-0 flex-1">
+              <h1 className="font-semibold text-foreground truncate">
                 {course.title}
               </h1>
               <p className="text-sm text-muted-foreground">
@@ -197,7 +216,7 @@ const VideoPlayer = () => {
           </div>
 
           <div className="flex items-center space-x-2">
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-4">
               <span className="text-sm text-muted-foreground">
                 Progress: {course.progress}%
               </span>
@@ -207,7 +226,7 @@ const VideoPlayer = () => {
               variant="ghost"
               size="icon"
               onClick={() => setShowSidebar(!showSidebar)}
-              className="md:hidden"
+              className="lg:hidden"
             >
               {showSidebar ? (
                 <X className="h-5 w-5" />
@@ -221,22 +240,24 @@ const VideoPlayer = () => {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Main Video Area */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 bg-black flex items-center justify-center p-4">
-            <div className="w-full max-w-5xl">
+        <div className="flex-1 flex flex-col min-w-0">
+          <div className="flex-1 bg-black flex items-center justify-center p-2 sm:p-4">
+            <div className="w-full h-full max-w-none">
               <VideoPlayerComponent
                 src={currentLecture.videoUrl}
                 onTimeUpdate={handleTimeUpdate}
+                onEnded={handleVideoEnded}
                 initialTime={initialTime}
+                autoPlay={true}
               />
             </div>
           </div>
 
-          {/* Video Controls */}
-          <div className="border-t border-border bg-background p-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h2 className="text-xl font-semibold text-foreground mb-1">
+          {/* Video Info */}
+          <div className="border-t border-border bg-background p-4 flex-shrink-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="min-w-0 flex-1">
+                <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-1 truncate">
                   {currentLecture.title}
                 </h2>
                 <div className="flex items-center space-x-4 text-sm text-muted-foreground">
@@ -245,15 +266,21 @@ const VideoPlayer = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 flex-shrink-0">
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={handlePrevious}
                   disabled={!prevLecture}
+                  className="hidden sm:inline-flex"
                 >
                   Previous
                 </Button>
-                <Button onClick={handleNext} disabled={!nextLecture}>
+                <Button
+                  size="sm"
+                  onClick={handleNext}
+                  disabled={!nextLecture}
+                >
                   {nextLecture ? "Next Lecture" : "Course Complete"}
                 </Button>
               </div>
@@ -263,125 +290,129 @@ const VideoPlayer = () => {
 
         {/* Course Content Sidebar */}
         <div
-          className={`${showSidebar ? "w-full md:w-96" : "w-0"} ${
+          className={`${
+            showSidebar ? "w-full lg:w-96" : "w-0"
+          } ${
             showSidebar ? "block" : "hidden"
-          } md:block border-l border-border bg-muted transition-all duration-300 overflow-hidden`}
+          } lg:block border-l border-border bg-muted transition-all duration-300 overflow-hidden flex-shrink-0`}
         >
-          <div className="p-4 border-b border-border">
-            <h3 className="font-semibold text-foreground mb-2">
-              Course Content
-            </h3>
-            <div className="text-sm text-muted-foreground">
-              {allLectures.filter((l) => l.completed).length} of{" "}
-              {allLectures.length} lectures completed
+          <div className="flex flex-col h-full">
+            <div className="p-4 border-b border-border flex-shrink-0">
+              <h3 className="font-semibold text-foreground mb-2">
+                Course Content
+              </h3>
+              <div className="text-sm text-muted-foreground">
+                {allLectures.filter((l) => l.completed).length} of{" "}
+                {allLectures.length} lectures completed
+              </div>
+              <Progress
+                value={
+                  (allLectures.filter((l) => l.completed).length /
+                    allLectures.length) *
+                  100
+                }
+                className="mt-2"
+              />
             </div>
-            <Progress
-              value={
-                (allLectures.filter((l) => l.completed).length /
-                  allLectures.length) *
-                100
-              }
-              className="mt-2"
-            />
-          </div>
 
-          <ScrollArea className="flex-1 h-[calc(100vh-12rem)]">
-            <div className="p-4">
-              <Accordion
-                type="multiple"
-                defaultValue={["section-1", "section-2"]}
-                className="w-full"
-              >
-                {course.curriculum.map((section) => (
-                  <AccordionItem
-                    key={section.id}
-                    value={`section-${section.id}`}
-                    className="border-border"
-                  >
-                    <AccordionTrigger className="hover:no-underline">
-                      <div className="flex justify-between items-center w-full mr-4">
-                        <span className="font-medium text-foreground text-left">
-                          {section.title}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          {section.lectures.filter((l) => l.completed).length}/
-                          {section.lectures.length}
-                        </span>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-1 pt-2">
-                        {section.lectures.map((lecture) => {
-                          const isCurrent =
-                            lecture.id === parseInt(lectureId || "1");
-                          const isAccessible =
-                            lecture.completed ||
-                            isCurrent ||
-                            currentIndex >=
-                              allLectures.findIndex((l) => l.id === lecture.id);
+            <ScrollArea className="flex-1">
+              <div className="p-4">
+                <Accordion
+                  type="multiple"
+                  defaultValue={["section-1", "section-2"]}
+                  className="w-full"
+                >
+                  {course.curriculum.map((section) => (
+                    <AccordionItem
+                      key={section.id}
+                      value={`section-${section.id}`}
+                      className="border-border"
+                    >
+                      <AccordionTrigger className="hover:no-underline">
+                        <div className="flex justify-between items-center w-full mr-4">
+                          <span className="font-medium text-foreground text-left">
+                            {section.title}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            {section.lectures.filter((l) => l.completed).length}/
+                            {section.lectures.length}
+                          </span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-1 pt-2">
+                          {section.lectures.map((lecture) => {
+                            const isCurrent =
+                              lecture.id === parseInt(lectureId || "1");
+                            const isAccessible =
+                              lecture.completed ||
+                              isCurrent ||
+                              currentIndex >=
+                                allLectures.findIndex((l) => l.id === lecture.id);
 
-                          return (
-                            <Card
-                              key={lecture.id}
-                              className={`cursor-pointer transition-all duration-200 ${
-                                isCurrent
-                                  ? "border-primary bg-primary/10"
-                                  : "border-border hover:bg-accent"
-                              } ${!isAccessible ? "opacity-50" : ""}`}
-                              onClick={() =>
-                                isAccessible && navigateToLecture(lecture.id)
-                              }
-                            >
-                              <CardContent className="p-3">
-                                <div className="flex items-center space-x-3">
-                                  <div className="flex-shrink-0">
-                                    {lecture.completed ? (
-                                      <CheckCircle className="h-5 w-5 text-green-500" />
-                                    ) : isCurrent ? (
-                                      <Play className="h-5 w-5 text-primary" />
-                                    ) : !isAccessible ? (
-                                      <Lock className="h-5 w-5 text-muted-foreground" />
-                                    ) : (
-                                      <div className="h-5 w-5 rounded-full border-2 border-muted-foreground" />
-                                    )}
-                                  </div>
-
-                                  <div className="flex-1 min-w-0">
-                                    <p
-                                      className={`text-sm font-medium truncate ${
-                                        isCurrent
-                                          ? "text-primary"
-                                          : "text-foreground"
-                                      }`}
-                                    >
-                                      {lecture.title}
-                                    </p>
-                                    <div className="flex items-center justify-between mt-1">
-                                      <span className="text-xs text-muted-foreground">
-                                        {lecture.duration}
-                                      </span>
-                                      {lecture.type === "video" && (
-                                        <Badge
-                                          variant="outline"
-                                          className="text-xs"
-                                        >
-                                          Video
-                                        </Badge>
+                            return (
+                              <Card
+                                key={lecture.id}
+                                className={`cursor-pointer transition-all duration-200 ${
+                                  isCurrent
+                                    ? "border-primary bg-primary/10"
+                                    : "border-border hover:bg-accent"
+                                } ${!isAccessible ? "opacity-50" : ""}`}
+                                onClick={() =>
+                                  isAccessible && navigateToLecture(lecture.id)
+                                }
+                              >
+                                <CardContent className="p-3">
+                                  <div className="flex items-center space-x-3">
+                                    <div className="flex-shrink-0">
+                                      {lecture.completed ? (
+                                        <CheckCircle className="h-5 w-5 text-green-500" />
+                                      ) : isCurrent ? (
+                                        <Play className="h-5 w-5 text-primary" />
+                                      ) : !isAccessible ? (
+                                        <Lock className="h-5 w-5 text-muted-foreground" />
+                                      ) : (
+                                        <div className="h-5 w-5 rounded-full border-2 border-muted-foreground" />
                                       )}
                                     </div>
+
+                                    <div className="flex-1 min-w-0">
+                                      <p
+                                        className={`text-sm font-medium truncate ${
+                                          isCurrent
+                                            ? "text-primary"
+                                            : "text-foreground"
+                                        }`}
+                                      >
+                                        {lecture.title}
+                                      </p>
+                                      <div className="flex items-center justify-between mt-1">
+                                        <span className="text-xs text-muted-foreground">
+                                          {lecture.duration}
+                                        </span>
+                                        {lecture.type === "video" && (
+                                          <Badge
+                                            variant="outline"
+                                            className="text-xs"
+                                          >
+                                            Video
+                                          </Badge>
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          );
-                        })}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-          </ScrollArea>
+                                </CardContent>
+                              </Card>
+                            );
+                          })}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </ScrollArea>
+          </div>
         </div>
       </div>
     </div>
