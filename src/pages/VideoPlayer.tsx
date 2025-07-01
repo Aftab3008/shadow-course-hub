@@ -1,19 +1,21 @@
-import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import VideoPlayerComponent from "@/components/Video/VideoPlayer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ArrowLeft, Play, CheckCircle, Lock, Menu, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { progressService } from "@/services/progressService";
+import { ArrowLeft, CheckCircle, Lock, Menu, Play, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+const masterUrl = "/assets/output/master.m3u8";
 
 const VideoPlayer = () => {
   const { courseId, lectureId } = useParams();
@@ -42,9 +44,10 @@ const VideoPlayer = () => {
             duration: "15:30",
             type: "video",
             videoUrl:
-              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+              "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
             completed: true,
           },
+          //   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
           {
             id: 2,
             title: "Setting up Development Environment",
@@ -125,8 +128,8 @@ const VideoPlayer = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Load saved progress when component mounts or lecture changes
@@ -245,11 +248,12 @@ const VideoPlayer = () => {
             <div className="w-full h-full max-w-none">
               <VideoPlayerComponent
                 src={currentLecture.videoUrl}
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={handleVideoEnded}
-                initialTime={initialTime}
-                autoPlay={true}
+                // onTimeUpdate={handleTimeUpdate}
+                // onEnded={handleVideoEnded}
+                // initialTime={initialTime}
+                // autoPlay={true}
               />
+              {/* <VideoPlayer1 src={currentLecture.videoUrl} /> */}
             </div>
           </div>
 
@@ -276,11 +280,7 @@ const VideoPlayer = () => {
                 >
                   Previous
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={handleNext}
-                  disabled={!nextLecture}
-                >
+                <Button size="sm" onClick={handleNext} disabled={!nextLecture}>
                   {nextLecture ? "Next Lecture" : "Course Complete"}
                 </Button>
               </div>
@@ -290,9 +290,7 @@ const VideoPlayer = () => {
 
         {/* Course Content Sidebar */}
         <div
-          className={`${
-            showSidebar ? "w-full lg:w-96" : "w-0"
-          } ${
+          className={`${showSidebar ? "w-full lg:w-96" : "w-0"} ${
             showSidebar ? "block" : "hidden"
           } lg:block border-l border-border bg-muted transition-all duration-300 overflow-hidden flex-shrink-0`}
         >
@@ -334,8 +332,8 @@ const VideoPlayer = () => {
                             {section.title}
                           </span>
                           <span className="text-sm text-muted-foreground">
-                            {section.lectures.filter((l) => l.completed).length}/
-                            {section.lectures.length}
+                            {section.lectures.filter((l) => l.completed).length}
+                            /{section.lectures.length}
                           </span>
                         </div>
                       </AccordionTrigger>
@@ -348,7 +346,9 @@ const VideoPlayer = () => {
                               lecture.completed ||
                               isCurrent ||
                               currentIndex >=
-                                allLectures.findIndex((l) => l.id === lecture.id);
+                                allLectures.findIndex(
+                                  (l) => l.id === lecture.id
+                                );
 
                             return (
                               <Card

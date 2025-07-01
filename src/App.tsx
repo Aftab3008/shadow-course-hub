@@ -1,22 +1,19 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { userAuthStore } from "@/store/auth.store";
-
-import RootLayout from "@/components/Layout/RootLayout";
 import AuthLayout from "@/components/Layout/AuthLayout";
 import ProtectedLayout from "@/components/Layout/ProtectedLayout";
-
-import Home from "@/pages/Home";
-import Courses from "@/pages/Courses";
+import RootLayout from "@/components/Layout/RootLayout";
 import CourseDetail from "@/pages/CourseDetail";
+import Courses from "@/pages/Courses";
+import EditCourse from "@/pages/EditCourse";
+import Home from "@/pages/Home";
+import Instructor from "@/pages/Instructor";
+import MyLearning from "@/pages/MyLearning";
+import VideoPlayer from "@/pages/VideoPlayer";
 import SignIn from "@/pages/auth/SignIn";
 import SignUp from "@/pages/auth/SignUp";
-import MyLearning from "@/pages/MyLearning";
-import Instructor from "@/pages/Instructor";
-import EditCourse from "@/pages/EditCourse";
-import VideoPlayer from "@/pages/VideoPlayer";
 import NotFound from "@/pages/not-found/NotFound";
-import { rootLoader } from "./services/rootLoader";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { VerifyOtp } from "./pages/auth/VerifyOtp";
+import { rootLoader } from "./services/rootLoader";
 
 const router = createBrowserRouter([
   {

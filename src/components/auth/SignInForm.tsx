@@ -66,10 +66,6 @@ export default function SignInForm() {
   function handleForgotPassword(e: React.MouseEvent) {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log("Mail sent for password reset");
-    }, 4000);
     console.log("Forgot password");
   }
 
