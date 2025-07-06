@@ -219,7 +219,7 @@ export default function VideoPlayer1({
     const player = playerRef.current;
     if (!player) return;
 
-    const tech = player.tech();
+    const tech = player.tech() as any;
     if (tech && tech.hls) {
       if (quality === "auto") {
         tech.hls.bandwidth = undefined;
