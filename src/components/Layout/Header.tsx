@@ -13,6 +13,7 @@ import { Search, Menu, X } from "lucide-react";
 import { userAuthStore } from "@/store/auth.store";
 import LoadingSpinner from "../ui/loading-spinner";
 import AvatarSkeleton from "../shared/AvatarSkeleton";
+import CartIcon from "../Cart/CartIcon";
 
 export default function Header() {
   const { isAuthenticated, isCheckingAuth, user } = userAuthStore();
@@ -72,6 +73,7 @@ export default function Header() {
 
           {/* Auth Controls */}
           <div className="hidden md:flex items-center space-x-4">
+            <CartIcon />
             {isCheckingAuth ? (
               // <AvatarSkeleton />
               <LoadingSpinner />
@@ -151,6 +153,9 @@ export default function Header() {
                 />
               </div>
             </form>
+            <div className="mb-4">
+              <CartIcon />
+            </div>
             <nav className="flex flex-col space-y-4">
               <Link to="/courses" className="hover:text-primary">
                 Courses
