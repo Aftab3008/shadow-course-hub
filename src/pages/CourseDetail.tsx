@@ -22,13 +22,16 @@ import {
   Globe,
   Award,
   Download,
+  ShoppingCart,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useCartStore } from "@/store/cart.store";
 
 const CourseDetail = () => {
   const { id } = useParams();
   const [isEnrolled, setIsEnrolled] = useState(false);
   const { toast } = useToast();
+  const { addToCart, isInCart, removeFromCart } = useCartStore();
 
   // Mock course data
   const course = {
@@ -154,6 +157,22 @@ const CourseDetail = () => {
     ],
   };
 
+  const handleAddToCart = () => {
+    if (isInCart(course.id)) {
+      removeFromCart(course.id);
+      toast({
+        title: "Removed from cart",
+        description: "Course has been removed from your cart.",
+      });
+    } else {
+      addToCart(course);
+      toast({
+        title: "Added to cart!",
+        description: "Course has been added to your cart.",
+      });
+    }
+  };
+
   const handleEnroll = () => {
     setIsEnrolled(true);
     toast({
@@ -194,6 +213,8 @@ const CourseDetail = () => {
         "Great course content. Would love to see more advanced topics covered.",
     },
   ];
+
+  const courseInCart = isInCart(course.id);
 
   return (
     <div className="min-h-screen bg-background">
@@ -576,14 +597,19 @@ const CourseDetail = () => {
                   ) : (
                     <div className="space-y-3">
                       <Button
-                        onClick={handleEnroll}
+                        onClick={handleAddToCart}
                         className="w-full"
                         size="lg"
+                        variant={courseInCart ? "outline" : "default"}
                       >
-                        Enroll Now
+                        <ShoppingCart className="h-5 w-5 mr-2" />
+                        {courseInCart ? "Remove from Cart" : "Add to Cart"}
                       </Button>
                       <Button variant="outline" className="w-full">
                         Add to Wishlist
+                      </Button>
+                      <Button asChild variant="outline" className="w-full">
+                        <Link to="/cart">View Cart</Link>
                       </Button>
                     </div>
                   )}

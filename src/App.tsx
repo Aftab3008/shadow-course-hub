@@ -1,6 +1,8 @@
+
 import AuthLayout from "@/components/Layout/AuthLayout";
 import ProtectedLayout from "@/components/Layout/ProtectedLayout";
 import RootLayout from "@/components/Layout/RootLayout";
+import Cart from "@/pages/Cart";
 import CourseDetail from "@/pages/CourseDetail";
 import Courses from "@/pages/Courses";
 import EditCourse from "@/pages/EditCourse";
@@ -24,6 +26,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "courses", element: <Courses /> },
       { path: "course/:id", element: <CourseDetail /> },
+      { path: "cart", element: <Cart /> },
       {
         element: <AuthLayout />,
         children: [
