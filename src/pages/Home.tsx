@@ -1,15 +1,13 @@
-import { Link } from "react-router-dom";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
-import CoursesGrid from "@/components/course/CoursesGrid";
 import CategoriesGrid from "@/components/category/CategoriesGrid";
-import LoadingSpinner from "@/components/ui/loading-spinner";
+import CoursesGrid from "@/components/course/CoursesGrid";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Play, Users, BookOpen, Award } from "lucide-react";
-import { useCourses, useCategories } from "@/hooks/useCourses";
+import { Input } from "@/components/ui/input";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import { useToast } from "@/hooks/use-toast";
+import { useCategories, useCourses } from "@/hooks/useCourses";
+import { Award, BookOpen, Play, Search, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { toast } = useToast();
@@ -44,10 +42,7 @@ const Home = () => {
   const featuredCourses = courses?.slice(0, 3) || [];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-
-      {/* Hero Section */}
+    <main>
       <section className="relative py-20 px-4 bg-gradient-to-br from-background via-background to-muted">
         <div className="container mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 animate-fade-in">
@@ -208,9 +203,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </main>
   );
 };
 

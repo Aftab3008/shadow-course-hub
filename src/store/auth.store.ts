@@ -10,7 +10,7 @@ if (!BACKEND_URL) {
   );
 }
 
-export const userAuthStore = create<UserAuthState>((set) => ({
+export const userAuthStore = create<UserAuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
   error: null,
@@ -44,7 +44,7 @@ export const userAuthStore = create<UserAuthState>((set) => ({
       return {
         message: response.data.message,
         success: true,
-        redirectURL: "/verify-email",
+        redirectURL: "/auth/verify-email",
       };
     } catch (error) {
       set({
@@ -89,6 +89,10 @@ export const userAuthStore = create<UserAuthState>((set) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
     try {
+      if (get().user) {
+        set({ isCheckingAuth: false, isAuthenticated: true });
+        return;
+      }
       const response = await api.get(`${BACKEND_URL}/api/auth/me`);
       set({
         user: response.data.data,
@@ -123,7 +127,7 @@ export const userAuthStore = create<UserAuthState>((set) => ({
         return {
           message: error.response.data.message,
           success: false,
-          redirectURL: "/verify-email",
+          redirectURL: "/auth/verify-email",
         };
       }
       set({
@@ -146,9 +150,10 @@ export const userAuthStore = create<UserAuthState>((set) => ({
         error: null,
         isLoading: false,
       });
+      return { success: true, message: "Logged out successfully" };
     } catch (error) {
       set({ error: "Error logging out", isLoading: false });
-      throw error;
+      return { success: false, message: "Error logging out" };
     }
   },
 

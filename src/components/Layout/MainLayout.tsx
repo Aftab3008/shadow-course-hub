@@ -1,18 +1,13 @@
-import { userAuthStore } from "@/store/auth.store";
-import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import LoadingSpinner from "../ui/loading-spinner";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default function MainLayout() {
-  const { checkAuth, isCheckingAuth } = userAuthStore();
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
   return (
-    <main>
+    <div className="min-h-screen bg-background">
+      <Header />
       <Outlet />
-    </main>
+      <Footer />
+    </div>
   );
 }

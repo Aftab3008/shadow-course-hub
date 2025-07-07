@@ -1,14 +1,12 @@
-import { useState } from "react";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
 import CourseCard from "@/components/course/CourseCard";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Clock, BookOpen, Award, Play } from "lucide-react";
+import { Award, BookOpen, Clock, Play, Search } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const MyLearning = () => {
@@ -29,7 +27,8 @@ const MyLearning = () => {
         email: "sarah@example.com",
         avatar:
           "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
       },
       rating: 4.8,
       reviews: 12450,
@@ -56,7 +55,8 @@ const MyLearning = () => {
         email: "mike@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.9,
       reviews: 8920,
@@ -83,7 +83,8 @@ const MyLearning = () => {
         email: "emily@example.com",
         avatar:
           "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
       },
       rating: 4.7,
       reviews: 15680,
@@ -114,7 +115,8 @@ const MyLearning = () => {
         email: "alex@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.6,
       reviews: 7230,
@@ -143,7 +145,8 @@ const MyLearning = () => {
         email: "david@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.8,
       reviews: 11340,
@@ -168,9 +171,7 @@ const MyLearning = () => {
     enrolledCourses.length;
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-
+    <main>
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
@@ -437,9 +438,7 @@ const MyLearning = () => {
           </TabsContent>
         </Tabs>
       </div>
-
-      <Footer />
-    </div>
+    </main>
   );
 };
 

@@ -17,7 +17,7 @@ const SignIn = () => {
         <SignInForm />
         <p className="text-center text-sm text-muted-foreground mt-6">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-primary hover:underline">
+          <Link to="/auth/signup" className="text-primary hover:underline">
             Sign up
           </Link>
         </p>

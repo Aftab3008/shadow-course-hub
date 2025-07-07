@@ -26,7 +26,7 @@ export default function GoogleButton({ isLoading }: { isLoading?: boolean }) {
       disabled={isLoading}
     >
       <FcGoogle className="mr-2" size={32} />
-      Sign in with Google
+      Google
     </Button>
   );
 }

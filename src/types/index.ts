@@ -143,7 +143,33 @@ export interface UserAuthState {
   login: (
     params: LoginProps
   ) => Promise<{ message: string; success: boolean; redirectURL?: string }>;
-  logout: () => Promise<void>;
+  logout: () => Promise<{ success: boolean; message: string }>;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (token: string, newPassword: string) => Promise<void>;
+}
+
+export interface CartItem {
+  id: string;
+  courseId: string;
+  title: string;
+  instructor: string;
+  price: number;
+  originalPrice?: number;
+  thumbnail: string;
+  duration: string;
+  rating: number;
+  level: "beginner" | "intermediate" | "advanced";
+  addedAt: Date;
+}
+
+export interface CartState {
+  items: CartItem[];
+  totalItems: number;
+  totalPrice: number;
+  addToCart: (course: any) => void;
+  removeFromCart: (courseId: string) => void;
+  // updateQuantity: (courseId: string, quantity: number) => void;
+  clearCart: () => void;
+  getCartItem: (courseId: string) => CartItem | undefined;
+  isInCart: (courseId: string) => boolean;
 }

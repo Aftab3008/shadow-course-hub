@@ -74,7 +74,7 @@ export default function SignUpForm() {
     });
     if (response.success) {
       form.reset();
-      navigate(response.redirectURL || "/verify-email", {
+      navigate(response.redirectURL || "/auth/verify-email", {
         replace: true,
       });
     }

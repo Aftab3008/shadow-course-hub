@@ -17,7 +17,7 @@ const SignUp = () => {
         <SignUpForm />
         <p className="text-center text-sm text-muted-foreground mt-6">
           Already have an account?{" "}
-          <Link to="/signin" className="text-primary hover:underline">
+          <Link to="/auth/signin" className="text-primary hover:underline">
             Sign in
           </Link>
         </p>

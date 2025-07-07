@@ -1,13 +1,16 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -16,27 +19,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  PlusCircle,
   BookOpen,
-  Users,
   DollarSign,
-  TrendingUp,
-  Star,
   Edit,
   Eye,
+  PlusCircle,
+  Star,
+  TrendingUp,
   Upload,
+  Users,
   Video,
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Instructor = () => {
   const [isCreateCourseOpen, setIsCreateCourseOpen] = useState(false);
@@ -101,9 +99,7 @@ const Instructor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-
+    <main>
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
@@ -526,9 +522,7 @@ const Instructor = () => {
           </TabsContent>
         </Tabs>
       </div>
-
-      <Footer />
-    </div>
+    </main>
   );
 };
 

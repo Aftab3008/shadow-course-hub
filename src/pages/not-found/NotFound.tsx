@@ -1,13 +1,10 @@
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
 import { Ghost } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header />
+    <main className="flex flex-col text-foreground">
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-md mx-auto text-center">
           <div className="flex flex-col items-center mb-8">
@@ -36,8 +33,7 @@ const NotFound = () => {
           </Button>
         </div>
       </main>
-      <Footer />
-    </div>
+    </main>
   );
 };
 

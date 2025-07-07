@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
 import CourseCard from "@/components/course/CourseCard";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -12,10 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Search, Filter, X } from "lucide-react";
+import { Filter, Search, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Courses = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,7 +42,8 @@ const Courses = () => {
         email: "sarah@example.com",
         avatar:
           "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
       },
       rating: 4.8,
       reviews: 12450,
@@ -68,7 +67,8 @@ const Courses = () => {
         email: "mike@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.9,
       reviews: 8920,
@@ -92,7 +92,8 @@ const Courses = () => {
         email: "emily@example.com",
         avatar:
           "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
       },
       rating: 4.7,
       reviews: 15680,
@@ -116,7 +117,8 @@ const Courses = () => {
         email: "alex@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.6,
       reviews: 7230,
@@ -140,7 +142,8 @@ const Courses = () => {
         email: "david@example.com",
         avatar:
           "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
       },
       rating: 4.8,
       reviews: 11340,
@@ -164,7 +167,8 @@ const Courses = () => {
         email: "lisa@example.com",
         avatar:
           "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-        profileUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
+        profileUrl:
+          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
       },
       rating: 4.5,
       reviews: 5670,
@@ -245,9 +249,7 @@ const Courses = () => {
   }, [searchQuery, selectedCategory, setSearchParams]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-
+    <main>
       <div className="container mx-auto px-4 py-8">
         {/* Search and Filter Header */}
         <div className="mb-8">
@@ -567,9 +569,7 @@ const Courses = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
-    </div>
+    </main>
   );
 };
 

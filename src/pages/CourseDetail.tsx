@@ -1,41 +1,37 @@
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Star,
-  Clock,
-  Users,
-  Play,
-  CheckCircle,
-  Globe,
-  Award,
-  Download,
-  ShoppingCart,
-} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useCartStore } from "@/store/cart.store";
+import {
+  CheckCircle,
+  Clock,
+  Globe,
+  Play,
+  ShoppingCart,
+  Star,
+  Users,
+} from "lucide-react";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const CourseDetail = () => {
   const { id } = useParams();
   const [isEnrolled, setIsEnrolled] = useState(false);
   const { toast } = useToast();
   const { addToCart, isInCart, removeFromCart } = useCartStore();
+  const courseInCart = isInCart(id);
 
-  // Mock course data
   const course = {
-    id: "1",
+    id: id,
     title: "Complete React Development Bootcamp 2024",
     description:
       "Master React, Redux, Hooks, Context API, and modern development practices with hands-on projects",
@@ -53,7 +49,7 @@ const CourseDetail = () => {
       rating: 4.8,
     },
     rating: 4.8,
-    reviews: 12450,
+    reviewsCount: 12450,
     students: 45230,
     duration: "42h 30m",
     price: 89.99,
@@ -155,6 +151,38 @@ const CourseDetail = () => {
         ],
       },
     ],
+    reviews: [
+      {
+        id: 1,
+        user: "John Doe",
+        avatar:
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+        rating: 5,
+        date: "2 weeks ago",
+        comment:
+          "Excellent course! Sarah explains everything clearly and the projects are very practical.",
+      },
+      {
+        id: 2,
+        user: "Jane Smith",
+        avatar:
+          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
+        rating: 5,
+        date: "1 month ago",
+        comment:
+          "Best React course I've taken. The content is up-to-date and well-structured.",
+      },
+      {
+        id: 3,
+        user: "Mike Johnson",
+        avatar:
+          "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
+        rating: 4,
+        date: "3 weeks ago",
+        comment:
+          "Great course content. Would love to see more advanced topics covered.",
+      },
+    ],
   };
 
   const handleAddToCart = () => {
@@ -173,58 +201,11 @@ const CourseDetail = () => {
     }
   };
 
-  const handleEnroll = () => {
-    setIsEnrolled(true);
-    toast({
-      title: "Enrolled successfully!",
-      description: "You can now access all course content.",
-    });
-  };
-
-  const reviews = [
-    {
-      id: 1,
-      user: "John Doe",
-      avatar:
-        "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-      rating: 5,
-      date: "2 weeks ago",
-      comment:
-        "Excellent course! Sarah explains everything clearly and the projects are very practical.",
-    },
-    {
-      id: 2,
-      user: "Jane Smith",
-      avatar:
-        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-      rating: 5,
-      date: "1 month ago",
-      comment:
-        "Best React course I've taken. The content is up-to-date and well-structured.",
-    },
-    {
-      id: 3,
-      user: "Mike Johnson",
-      avatar:
-        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
-      rating: 4,
-      date: "3 weeks ago",
-      comment:
-        "Great course content. Would love to see more advanced topics covered.",
-    },
-  ];
-
-  const courseInCart = isInCart(course.id);
-
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-
+    <main>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Course Header */}
             <div>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge variant="secondary">{course.category}</Badge>
@@ -502,7 +483,7 @@ const CourseDetail = () => {
                 </div>
 
                 <div className="space-y-4">
-                  {reviews.map((review) => (
+                  {course.reviews.map((review) => (
                     <Card key={review.id} className="border-border bg-card">
                       <CardContent className="p-6">
                         <div className="flex items-start space-x-4">
@@ -638,9 +619,7 @@ const CourseDetail = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
-    </div>
+    </main>
   );
 };
 

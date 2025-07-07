@@ -1,4 +1,3 @@
-
 import AuthLayout from "@/components/Layout/AuthLayout";
 import ProtectedLayout from "@/components/Layout/ProtectedLayout";
 import RootLayout from "@/components/Layout/RootLayout";
@@ -16,32 +15,43 @@ import NotFound from "@/pages/not-found/NotFound";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { VerifyOtp } from "./pages/auth/VerifyOtp";
 import { rootLoader } from "./services/rootLoader";
+import MainLayout from "./components/Layout/MainLayout";
 
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <RootLayout />,
+    errorElement: <NotFound />,
     loader: rootLoader,
+    shouldRevalidate: ({ currentUrl, nextUrl }) => {
+      return false;
+    },
     children: [
-      { index: true, element: <Home /> },
-      { path: "courses", element: <Courses /> },
-      { path: "course/:id", element: <CourseDetail /> },
-      { path: "cart", element: <Cart /> },
       {
+        path: "/auth",
         element: <AuthLayout />,
         children: [
           { path: "signin", element: <SignIn /> },
           { path: "signup", element: <SignUp /> },
-          { path: "/verify-email", element: <VerifyOtp /> },
+          { path: "verify-email", element: <VerifyOtp /> },
         ],
       },
       {
-        element: <ProtectedLayout />,
+        path: "/",
+        element: <MainLayout />,
         children: [
-          { path: "my-learning", element: <MyLearning /> },
-          { path: "instructor", element: <Instructor /> },
-          { path: "instructor/edit-course/:id", element: <EditCourse /> },
-          { path: "learn/:courseId/:lectureId", element: <VideoPlayer /> },
+          { index: true, element: <Home /> },
+          { path: "courses", element: <Courses /> },
+          { path: "course/:id", element: <CourseDetail /> },
+          { path: "cart", element: <Cart /> },
+          {
+            element: <ProtectedLayout />,
+            children: [
+              { path: "my-learning", element: <MyLearning /> },
+              { path: "instructor", element: <Instructor /> },
+              { path: "instructor/edit-course/:id", element: <EditCourse /> },
+              { path: "learn/:courseId/:lectureId", element: <VideoPlayer /> },
+            ],
+          },
         ],
       },
       { path: "*", element: <NotFound /> },

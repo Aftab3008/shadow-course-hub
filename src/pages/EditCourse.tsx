@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
+import ChapterManager from "@/components/Course/ChapterManager";
+import CourseSettingsDialog from "@/components/Course/CourseSettingsDialog";
+import VideoUploadDialog from "@/components/Course/VideoUploadDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -15,29 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  ArrowLeft,
-  Plus,
-  Edit,
-  Trash2,
-  Upload,
-  Video,
-  GripVertical,
-  Save,
-  Eye,
-  Settings,
-} from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import ChapterManager from "@/components/Course/ChapterManager";
-import VideoUploadDialog from "@/components/Course/VideoUploadDialog";
-import CourseSettingsDialog from "@/components/Course/CourseSettingsDialog";
+import { ArrowLeft, Eye, Plus, Save, Settings, Upload } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const EditCourse = () => {
   const { id } = useParams();
@@ -129,9 +110,7 @@ const EditCourse = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-
+    <main>
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
@@ -384,9 +363,7 @@ const EditCourse = () => {
           </TabsContent>
         </Tabs>
       </div>
-
-      <Footer />
-    </div>
+    </main>
   );
 };
 
