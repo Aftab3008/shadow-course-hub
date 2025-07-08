@@ -1,4 +1,4 @@
-import { OrbitIcon } from "../../types";
+import { OrbitIcon } from "../../types/external";
 
 export const iconsArray: OrbitIcon[] = [
   {

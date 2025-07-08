@@ -56,8 +56,8 @@ export default function DesktopBar() {
         ) : isAuthenticated ? (
           <div className="flex items-center space-x-2">
             <Button
-              variant="ghost"
-              className="text-primary hover:bg-gray-400 hover:bg-opacity-15 hover:text-primary h-full"
+              variant="link"
+              className="text-primary hover:text-primary h-full" //hover:bg-gray-400 hover:bg-opacity-15
               asChild
             >
               <Link
@@ -141,7 +141,7 @@ export default function DesktopBar() {
             </Button>
             <Button asChild className="h-full">
               <Link to="/auth/signup" className="flex h-full items-center px-2">
-                Sign Up
+                Get Started
               </Link>
             </Button>
           </>

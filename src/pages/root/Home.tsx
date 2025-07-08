@@ -1,12 +1,14 @@
 import CategoriesGrid from "@/components/category/CategoriesGrid";
 import CoursesGrid from "@/components/course/CoursesGrid";
+import Demo from "@/components/shared/Demo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import LoadingSpinner from "@/components/ui/loading-spinner";
+import { testCategories } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import { useCategories, useCourses } from "@/hooks/useCourses";
-import { Award, BookOpen, Play, Search, Users } from "lucide-react";
+import { ArrowRight, Award, BookOpen, Play, Search, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -107,11 +109,18 @@ const Home = () => {
       </section>
 
       {/* Categories */}
-      <section className="py-16 px-4 bg-muted">
+      <section className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-            Explore by Category
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              Explore Top Categories
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Discover courses across various fields and industries. From
+              technology to business, find the perfect course to advance your
+              skills.
+            </p>
+          </div>
 
           {categoriesLoading ? (
             <div className="flex justify-center py-12">
@@ -119,9 +128,51 @@ const Home = () => {
             </div>
           ) : categories ? (
             <CategoriesGrid categories={categories} />
-          ) : null}
+          ) : (
+            <div className="text-center py-12 text-2xl">
+              <p className="text-muted-foreground">
+                No categories available at the moment
+              </p>
+            </div>
+          )}
         </div>
       </section>
+
+      {/* <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              Explore Top Categories
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Discover courses across various fields and industries. From
+              technology to business, find the perfect course to advance your
+              skills.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {testCategories.map((category) => {
+              return (
+                <Link
+                  key={category.id}
+                  to={`/courses?category=${category.query.toLowerCase()}`}
+                >
+                  <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                    <CardContent className="p-6 text-center">
+                      <div className="h-12 w-12 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary/20 transition-colors"></div>
+                      <h3 className="font-semibold mb-2">{category.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {category.courseCount.toLocaleString()} courses
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section> */}
 
       {/* Why Choose Us */}
       <section className="py-16 px-4">
@@ -178,6 +229,33 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Stats Section */}
+      <section className="py-20 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold mb-2">50K+</div>
+              <div className="text-primary-foreground/80">Active Students</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">1,500+</div>
+              <div className="text-primary-foreground/80">Online Courses</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">200+</div>
+              <div className="text-primary-foreground/80">
+                Expert Instructors
+              </div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">4.8/5</div>
+              <div className="text-primary-foreground/80">Average Rating</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Demo />
       {/* Call to Action */}
       <section className="py-16 px-4 bg-primary">
         <div className="container mx-auto text-center">
@@ -190,7 +268,10 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" asChild>
-              <Link to="/courses">Browse Courses</Link>
+              <Link to="/courses">
+                Browse Courses
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
             <Button
               size="lg"

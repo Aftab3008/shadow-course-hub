@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { IconType } from "react-icons";
 
 export interface User {
   id: string;
@@ -59,8 +59,9 @@ export interface UserProgress {
 }
 
 export interface Category {
+  id: string;
   name: string;
-  icon: string;
+  icon: IconType;
   courses: string;
   slug: string;
 }
@@ -174,14 +175,4 @@ export interface CartState {
   clearCart: () => void;
   getCartItem: (courseId: string) => CartItem | undefined;
   isInCart: (courseId: string) => boolean;
-}
-
-export interface OrbitIcon {
-  component: () => ReactNode;
-  className: string;
-  duration?: number;
-  delay?: number;
-  radius?: number;
-  path?: boolean;
-  reverse?: boolean;
 }

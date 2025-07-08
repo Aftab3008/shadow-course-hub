@@ -142,7 +142,7 @@ export default function MobileBar() {
                   className="w-full flex items-center justify-center"
                 >
                   <Link to="/auth/signup" className="w-full">
-                    Sign Up
+                    Get Started
                   </Link>
                 </Button>
               </div>
