@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import ShowAvatar from "../shared/ShowAvatar";
+import ShowAvatar from "./ShowAvatar";
 import { userAuthStore } from "@/store/auth.store";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "../ui/separator";
