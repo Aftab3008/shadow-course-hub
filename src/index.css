@@ -42,6 +42,14 @@
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217.2 32.6% 17.5%;
     --sidebar-ring: 168 76% 42%;
+
+    --skeleton: 220 20% 90%;
+    --btn-border: 214deg 31.8% 91.4%;
+  }
+
+  .dark {
+    --skeleton: 218 36% 16%;
+    --btn-border: 217deg 32.6% 17.5%;
   }
 }
 
@@ -53,7 +61,6 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
-}
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
@@ -80,7 +87,7 @@
     -webkit-text-fill-color: hsl(var(--foreground)) !important;
     caret-color: hsl(var(--foreground)) !important;
 
-    /* 3. keep our styles “locked in” until the user edits */
+    /* 3. keep our styles "locked in" until the user edits */
     -webkit-transition: background-color 9999s ease-in-out 0s,
       color 9999s ease-in-out 0s !important;
     transition: background-color 9999s ease-in-out 0s,
@@ -128,18 +135,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-@layer base {
-   :root {
-    --skeleton: 220 20% 90%;
-    --btn-border: 214deg 31.8% 91.4%;
-  }
-
-  .dark {
-    --skeleton: 218 36% 16%;
-    --btn-border: 217deg 32.6% 17.5%;
-  }
 }
 
 @layer components {
