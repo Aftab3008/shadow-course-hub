@@ -146,7 +146,10 @@ export default function SignInForm() {
           </Button>
         </form>
       </Form>
-      <ContinueWith isLoading={isLoading || isSubmitting} />
+      <ContinueWith
+        isLoading={isLoading || isSubmitting}
+        title="Sign in with Google"
+      />
     </>
   );
 }

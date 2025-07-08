@@ -4,7 +4,13 @@ import { GoogleSignInError } from "./GoogleSignInError";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-export default function GoogleButton({ isLoading }: { isLoading?: boolean }) {
+export default function GoogleButton({
+  isLoading,
+  title,
+}: {
+  isLoading?: boolean;
+  title?: string;
+}) {
   try {
     if (!backendUrl) {
       throw new Error("VITE_BACKEND_URL is not defined");
@@ -26,7 +32,7 @@ export default function GoogleButton({ isLoading }: { isLoading?: boolean }) {
       disabled={isLoading}
     >
       <FcGoogle className="mr-2" size={32} />
-      Google
+      {title || "Sign in with Google"}
     </Button>
   );
 }

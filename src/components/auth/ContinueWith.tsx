@@ -1,6 +1,12 @@
 import GoogleButton from "./GoogleButton";
 
-export default function ContinueWith({ isLoading }: { isLoading?: boolean }) {
+export default function ContinueWith({
+  isLoading,
+  title,
+}: {
+  isLoading?: boolean;
+  title?: string;
+}) {
   return (
     <div className="mt-6">
       <div className="relative">
@@ -15,7 +21,7 @@ export default function ContinueWith({ isLoading }: { isLoading?: boolean }) {
       </div>
 
       <div className="w-full mt-4">
-        <GoogleButton isLoading={isLoading} />
+        <GoogleButton isLoading={isLoading} title={title} />
       </div>
     </div>
   );

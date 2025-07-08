@@ -255,7 +255,7 @@ export default function SignUpForm() {
         </form>
       </Form>
 
-      <ContinueWith isLoading={isSubmitting} />
+      <ContinueWith isLoading={isSubmitting} title="Sign up with Google" />
     </>
   );
 }
