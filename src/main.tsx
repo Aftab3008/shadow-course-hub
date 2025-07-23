@@ -7,7 +7,7 @@ import App from "./App.tsx";
 import { TooltipProvider } from "./components/ui/tooltip.tsx";
 import "./index.css";
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {},
   },

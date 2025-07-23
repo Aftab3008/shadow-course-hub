@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -62,7 +61,10 @@ const CourseCard = ({ course }: CourseCardProps) => {
       </CardContent>
 
       <CardFooter className="p-4 pt-0">
-        <CoursePrice price={course.price} originalPrice={course.originalPrice} />
+        <CoursePrice
+          price={course.price}
+          originalPrice={course.originalPrice}
+        />
       </CardFooter>
     </Card>
   );

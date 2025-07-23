@@ -26,7 +26,7 @@ export const LearningLinks = [
     label: "My Cart",
   },
   {
-    to: "/instructor",
+    to: "/instructor/dashboard",
     label: "Become Instructor",
   },
 ];
@@ -41,7 +41,7 @@ export const MobileLearningLinks = [
     label: "My Cart",
   },
   {
-    to: "/instructor",
+    to: "/instructor/dashboard",
     label: "Become Instructor",
   },
 ];

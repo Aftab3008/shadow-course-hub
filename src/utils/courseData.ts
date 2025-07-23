@@ -165,11 +165,6 @@ export const fetchCourseById = async (id: string): Promise<Course> => {
   return course;
 };
 
-export const fetchCategories = async (): Promise<Category[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  return getMockCategories();
-};
-
 export const updateCourse = async (
   id: string,
   data: Partial<Course>

@@ -33,7 +33,7 @@ const Footer = () => {
                 All Courses
               </Link>
               <Link
-                to="/instructor"
+                to="/instructor/dashboard"
                 className="text-muted-foreground hover:text-primary transition-colors text-sm"
               >
                 Become an Instructor

@@ -1,13 +1,12 @@
-import AuthLayout from "@/components/Layout/AuthLayout";
-import ProtectedLayout from "@/components/Layout/ProtectedLayout";
-import RootLayout from "@/components/Layout/RootLayout";
-import Cart from "@/pages/root/Cart";
-import CourseDetail from "@/pages/root/CourseDetail";
-import Courses from "@/pages/root/Courses";
-import EditCourse from "@/pages/root/EditCourse";
-import Home from "@/pages/root/Home";
-import Instructor from "@/pages/root/Instructor";
-import MyLearning from "@/pages/root/MyLearning";
+import AuthLayout from "@/components/layout/AuthLayout";
+import ProtectedLayout from "@/components/layout/ProtectedLayout";
+import RootLayout from "@/components/layout/RootLayout";
+import Cart from "@/pages/root/cart/Cart";
+import CourseDetail from "@/pages/root/courses/courseId/CourseDetail";
+import Courses from "@/pages/root/courses/Courses";
+import EditCourse from "@/pages/root/instructor/edit-course/EditCourse";
+import Home from "@/pages/root/home/Home";
+import MyLearning from "@/pages/root/users/MyLearning";
 import VideoPlayer from "@/pages/root/VideoPlayer";
 import SignIn from "@/pages/auth/SignIn";
 import SignUp from "@/pages/auth/SignUp";
@@ -15,12 +14,16 @@ import NotFound from "@/pages/not-found/NotFound";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { VerifyOtp } from "./pages/auth/VerifyOtp";
 import { rootLoader } from "./services/rootLoader";
-import MainLayout from "./components/Layout/MainLayout";
-import EditProfile from "./pages/root/EditProfile";
-import Profile from "./pages/root/Profile";
-import PurchaseHistory from "./pages/root/PurchaseHistory";
-import WishList from "./pages/root/WishList";
+import MainLayout from "./components/layout/MainLayout";
+import EditProfile from "./pages/root/users/EditProfile";
+import Profile from "./pages/root/users/Profile";
+import PurchaseHistory from "./pages/root/users/PurchaseHistory";
+import WishList from "./pages/root/users/WishList";
 import AuthNotFound from "./pages/not-found/AuthNotFound";
+import Success from "./pages/root/common/Success";
+import Cancel from "./pages/root/common/Cancel";
+import AdminDashboard from "./pages/root/admin/AdminDashboard";
+import InstructorDashboard from "./pages/root/instructor/InstructorDashboard";
 
 const router = createBrowserRouter([
   {
@@ -54,9 +57,14 @@ const router = createBrowserRouter([
             element: <ProtectedLayout />,
             children: [
               { path: "my-learning", element: <MyLearning /> },
-              { path: "instructor", element: <Instructor /> },
-              { path: "instructor/edit-course/:id", element: <EditCourse /> },
-              { path: "learn/:courseId/:lectureId", element: <VideoPlayer /> },
+              {
+                path: "instructor/dashboard",
+                element: <InstructorDashboard />,
+              },
+              {
+                path: "instructor/edit-course/:courseId",
+                element: <EditCourse />,
+              },
               {
                 path: "my-profile",
                 element: <Profile />,
@@ -67,9 +75,19 @@ const router = createBrowserRouter([
               },
               { path: "purchase-history", element: <PurchaseHistory /> },
               { path: "wishlist", element: <WishList /> },
+              { path: "checkout/success", element: <Success /> },
+              { path: "checkout/cancel", element: <Cancel /> },
+              { path: "admin/dashboard", element: <AdminDashboard /> },
             ],
           },
           { path: "*", element: <NotFound /> },
+        ],
+      },
+      {
+        element: <ProtectedLayout />,
+        errorElement: <NotFound />,
+        children: [
+          { path: "learn/:courseId/:lectureId", element: <VideoPlayer /> },
         ],
       },
     ],

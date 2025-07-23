@@ -1,6 +1,6 @@
 import { AccountLinks, LearningLinks, NavLinks } from "@/constants/NavbarLinks";
 import { Link } from "react-router-dom";
-import CartIcon from "../Cart/CartIcon";
+import CartIcon from "../cart/CartIcon";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -61,7 +61,7 @@ export default function DesktopBar() {
               asChild
             >
               <Link
-                to="/instructor"
+                to="/instructor/dashboard"
                 className="flex h-full items-center justify-center"
               >
                 Become Instructor
@@ -116,6 +116,16 @@ export default function DesktopBar() {
                     </Link>
                   </DropdownMenuItem>
                 ))}
+                {user.isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to="/admin/dashboard"
+                      className="hover:bg-gray-100 text-sm tracking-wide cursor-pointer"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <Separator className="my-1" />
                 <Button
                   variant="ghost"

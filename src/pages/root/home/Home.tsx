@@ -1,13 +1,11 @@
-import CategoriesGrid from "@/components/category/CategoriesGrid";
 import CoursesGrid from "@/components/course/CoursesGrid";
 import Demo from "@/components/shared/Demo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import { testCategories } from "@/constants";
+import { useCourses } from "@/hooks/Courses";
 import { useToast } from "@/hooks/use-toast";
-import { useCategories, useCourses } from "@/hooks/useCourses";
 import { ArrowRight, Award, BookOpen, Play, Search, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -19,24 +17,10 @@ const Home = () => {
     error: coursesError,
   } = useCourses();
 
-  const {
-    data: categories,
-    isLoading: categoriesLoading,
-    error: categoriesError,
-  } = useCategories();
-
   if (coursesError) {
     toast({
       title: "Error",
       description: "Failed to load courses",
-      variant: "destructive",
-    });
-  }
-
-  if (categoriesError) {
-    toast({
-      title: "Error",
-      description: "Failed to load categories",
       variant: "destructive",
     });
   }
@@ -86,7 +70,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Courses */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -108,7 +91,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto">
           <div className="text-center mb-12">
@@ -122,7 +104,7 @@ const Home = () => {
             </p>
           </div>
 
-          {categoriesLoading ? (
+          {/* {categoriesLoading ? (
             <div className="flex justify-center py-12">
               <LoadingSpinner size="lg" />
             </div>
@@ -134,7 +116,7 @@ const Home = () => {
                 No categories available at the moment
               </p>
             </div>
-          )}
+          )} */}
         </div>
       </section>
 
@@ -174,7 +156,6 @@ const Home = () => {
         </div>
       </section> */}
 
-      {/* Why Choose Us */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-foreground text-center mb-12">
@@ -279,7 +260,7 @@ const Home = () => {
               className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary"
               asChild
             >
-              <Link to="/instructor">Become an Instructor</Link>
+              <Link to="/instructor/dashboard">Become an Instructor</Link>
             </Button>
           </div>
         </div>

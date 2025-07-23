@@ -1,3 +1,5 @@
+import { CourseLevel } from "@/types/course";
+import { C } from "node_modules/framer-motion/dist/types.d-D0HXPxHm";
 import { z } from "zod";
 
 export const courseFormSchema = z.object({
@@ -9,22 +11,17 @@ export const courseFormSchema = z.object({
     .string()
     .min(1, "Description is required")
     .max(500, "Description must be less than 500 characters"),
-  category: z.enum(
-    ["programming", "design", "business", "marketing", "photography", "music"],
-    {
-      required_error: "Category is required",
-    }
-  ),
-  level: z.enum(["beginner", "intermediate", "advanced"], {
+  category: z.string().min(1, "Category is required"),
+  level: z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"], {
     required_error: "Level is required",
   }),
   price: z
     .number()
-    .min(0, "Price must be positive")
+    .min(1, "Price must be positive")
     .max(999.99, "Price must be less than $1000"),
 });
 
-export const chapterFormSchema = z.object({
+export const sectionSchema = z.object({
   title: z
     .string()
     .min(1, "Title is required")
@@ -33,10 +30,10 @@ export const chapterFormSchema = z.object({
     .string()
     .min(1, "Description is required")
     .max(300, "Description must be less than 300 characters"),
-  order: z.number().min(1, "Order must be at least 1"),
+  order: z.number().min(1, "Order must be at least 1").optional(),
 });
 
-export const lessonFormSchema = z.object({
+export const lessonSchema = z.object({
   title: z
     .string()
     .min(1, "Title is required")
@@ -45,11 +42,28 @@ export const lessonFormSchema = z.object({
     .string()
     .min(1, "Description is required")
     .max(300, "Description must be less than 300 characters"),
-  duration: z.string().min(1, "Duration is required"),
-  videoUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
-  order: z.number().min(1, "Order must be at least 1"),
+  videoFile: z
+    .instanceof(File, {
+      message: "Video file is required",
+    })
+    .refine((file) => file.type === "video/mp4", {
+      message: "File must be a video/mp4 type",
+    })
+    .refine((file) => file.size <= 100 * 1024 * 1024, {
+      message: "File size must be less than 100MB",
+    }),
 });
 
-export type CourseFormData = z.infer<typeof courseFormSchema>;
-export type ChapterFormData = z.infer<typeof chapterFormSchema>;
-export type LessonFormData = z.infer<typeof lessonFormSchema>;
+export const courseDetailsSchema = z.object({
+  title: z.string().min(1, "Course title is required"),
+  price: z.number().min(0, "Price must be a positive number"),
+  description: z.string().min(1, "Description is required"),
+  category: z.object({
+    name: z.string().min(1, "Category is required"),
+  }),
+  level: z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"], {
+    required_error: "Level is required",
+    invalid_type_error:
+      "Level must be one of beginner, intermediate, or advanced",
+  }),
+});

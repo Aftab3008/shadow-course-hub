@@ -12,43 +12,43 @@ export interface Instructor extends User {
   expertise?: string[];
 }
 
-export interface Course {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  instructor: Instructor;
-  rating: number;
-  reviews: number;
-  students: number;
-  duration: string;
-  price: number;
-  originalPrice?: number;
-  category: string;
-  level: "beginner" | "intermediate" | "advanced";
-  chapters?: Chapter[];
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+// export interface Course {
+//   id: string;
+//   title: string;
+//   description: string;
+//   thumbnail: string;
+//   instructor: Instructor;
+//   rating: number;
+//   reviews: number;
+//   students: number;
+//   duration: string;
+//   price: number;
+//   originalPrice?: number;
+//   category: string;
+//   level: "beginner" | "intermediate" | "advanced";
+//   chapters?: Chapter[];
+//   createdAt?: Date;
+//   updatedAt?: Date;
+// }
 
-export interface Chapter {
-  id: string;
-  title: string;
-  description: string;
-  order: number;
-  lessons: Lesson[];
-  courseId?: string;
-}
+// export interface Chapter {
+//   id: string;
+//   title: string;
+//   description: string;
+//   order: number;
+//   lessons: Lesson[];
+//   courseId?: string;
+// }
 
-export interface Lesson {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  videoUrl: string;
-  order: number;
-  chapterId?: string;
-}
+// export interface Lesson {
+//   id: string;
+//   title: string;
+//   description: string;
+//   duration: string;
+//   videoUrl: string;
+//   order: number;
+//   chapterId?: string;
+// }
 
 export interface UserProgress {
   userId: string;
@@ -120,6 +120,7 @@ export interface User {
   email: string;
   name: string;
   profileUrl: string;
+  isAdmin: boolean;
 }
 
 export interface LocationState {

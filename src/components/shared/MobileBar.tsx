@@ -18,7 +18,7 @@ import {
 import { LogOut, Menu } from "lucide-react";
 import { userAuthStore } from "@/store/auth.store";
 import ShowAvatar from "../shared/ShowAvatar";
-import CartIcon from "../Cart/CartIcon";
+import CartIcon from "../cart/CartIcon";
 import { useToast } from "@/hooks/use-toast";
 
 export default function MobileBar() {
@@ -43,16 +43,21 @@ export default function MobileBar() {
   };
 
   return (
-    <div className="flex md:hidden items-center space-x-2">
-      {isAuthenticated && (
+    <div className="flex md:hidden items-center space-x-2 justify-between">
+      <CartIcon />
+      {isAuthenticated ? (
         <ShowAvatar
           profileUrl={user.profileUrl}
           name={user.name}
           className="h-7 w-7"
         />
+      ) : (
+        <Button variant="default" asChild>
+          <Link to="/auth/signup" className="flex h-full items-center px-2">
+            Get Started
+          </Link>
+        </Button>
       )}
-      <CartIcon />
-
       <Sheet>
         <SheetTrigger>
           <Menu className="h-8 w-8" />
@@ -108,6 +113,21 @@ export default function MobileBar() {
                     </SheetClose>
                   ))}
                 </nav>
+                {user.isAdmin && (
+                  <>
+                    <Separator className="my-2" />
+                    <nav className="flex flex-col space-y-6 px-6 mt-2">
+                      <SheetClose asChild key="/admin/dashboard">
+                        <Link
+                          to="/admin/dashboard"
+                          className="hover:text-primary text-lg tracking-wide transition-colors duration-150"
+                        >
+                          Admin Dashboard
+                        </Link>
+                      </SheetClose>
+                    </nav>
+                  </>
+                )}
               </>
             )}
           </div>

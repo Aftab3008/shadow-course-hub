@@ -1,28 +1,28 @@
+import { Course } from "@/types/course";
+import {
+  fetchCourseById,
+  fetchCourses,
+  updateCourse,
+} from "@/utils/courseData";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "./use-toast";
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Course, Category } from '@/types';
-import { fetchCourses, fetchCourseById, fetchCategories, updateCourse } from '@/utils/courseData';
-import { useToast } from '@/hooks/use-toast';
-
+// Sample hook to fetch all courses
 export const useCourses = () => {
-  return useQuery({
-    queryKey: ['courses'],
+  const query = useQuery({
+    queryKey: ["courses"],
     queryFn: fetchCourses,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
+  return query;
 };
 
 export const useCourse = (id: string) => {
   return useQuery({
-    queryKey: ['course', id],
+    queryKey: ["course", id],
     queryFn: () => fetchCourseById(id),
     enabled: !!id,
-  });
-};
-
-export const useCategories = () => {
-  return useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
   });
 };
 
@@ -34,8 +34,8 @@ export const useUpdateCourse = () => {
     mutationFn: ({ id, data }: { id: string; data: Partial<Course> }) =>
       updateCourse(id, data),
     onSuccess: (updatedCourse) => {
-      queryClient.setQueryData(['course', updatedCourse.id], updatedCourse);
-      queryClient.invalidateQueries({ queryKey: ['courses'] });
+      queryClient.setQueryData(["course", updatedCourse.id], updatedCourse);
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
       toast({
         title: "Success",
         description: "Course updated successfully!",

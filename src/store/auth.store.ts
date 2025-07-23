@@ -2,14 +2,6 @@ import { api } from "@/lib/api";
 import { LoginProps, SignupProps, UserAuthState, VerifyEmail } from "@/types";
 import { create } from "zustand";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-if (!BACKEND_URL) {
-  throw new Error(
-    "VITE_BACKEND_URL is not defined. Please set it in your .env file."
-  );
-}
-
 export const userAuthStore = create<UserAuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
@@ -26,9 +18,9 @@ export const userAuthStore = create<UserAuthState>((set, get) => ({
     agreeToTerms,
     agreeToPrivacyPolicy,
   }: SignupProps) => {
-    set({ isLoading: true });
+    set({ isLoading: true, error: null });
     try {
-      const response = await api.post(`${BACKEND_URL}/api/auth/register`, {
+      const response = await api.post("/api/auth/register", {
         name,
         email,
         password,
@@ -61,7 +53,7 @@ export const userAuthStore = create<UserAuthState>((set, get) => ({
   verifyEmail: async ({ otp }: VerifyEmail) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.post(`${BACKEND_URL}/api/auth/verify-email`, {
+      const response = await api.post("/api/auth/verify-email", {
         otp,
       });
       set({
@@ -93,7 +85,7 @@ export const userAuthStore = create<UserAuthState>((set, get) => ({
         set({ isCheckingAuth: false, isAuthenticated: true });
         return;
       }
-      const response = await api.get(`${BACKEND_URL}/api/auth/me`);
+      const response = await api.get("/api/auth/me");
       set({
         user: response.data.data,
         isAuthenticated: true,
@@ -107,7 +99,7 @@ export const userAuthStore = create<UserAuthState>((set, get) => ({
   login: async ({ email, password }: LoginProps) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.post(`${BACKEND_URL}/api/auth/login`, {
+      const response = await api.post("/api/auth/login", {
         email,
         password,
       });
@@ -143,7 +135,7 @@ export const userAuthStore = create<UserAuthState>((set, get) => ({
 
   logout: async () => {
     try {
-      await api.post(`${BACKEND_URL}/api/auth/logout`);
+      await api.post("/api/auth/logout");
       set({
         user: null,
         isAuthenticated: false,
@@ -160,12 +152,9 @@ export const userAuthStore = create<UserAuthState>((set, get) => ({
   forgotPassword: async (email: string) => {
     set({ isLoading: true, error: null, message: null });
     try {
-      const response = await api.post(
-        `${BACKEND_URL}/api/auth/forgot-password`,
-        {
-          email,
-        }
-      );
+      const response = await api.post("/api/auth/forgot-password", {
+        email,
+      });
       set({ message: response.data.message, isLoading: false });
     } catch (error) {
       set({
@@ -180,12 +169,9 @@ export const userAuthStore = create<UserAuthState>((set, get) => ({
   resetPassword: async (token: string, newPassword: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.post(
-        `${BACKEND_URL}/api/auth/reset-password/${token}`,
-        {
-          newPassword,
-        }
-      );
+      const response = await api.post(`/api/auth/reset-password/${token}`, {
+        newPassword,
+      });
       set({ message: response.data.message, isLoading: false });
     } catch (error) {
       set({ isLoading: false, error: "Error resetting password" });
