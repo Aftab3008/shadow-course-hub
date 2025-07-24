@@ -40,9 +40,11 @@ export default function Lessons({
   return (
     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={lessons} strategy={verticalListSortingStrategy}>
-        {lessons.map((lesson) => (
-          <LessonCard key={lesson.id} lesson={lesson} sectionId={sectionId} />
-        ))}
+        <div className="flex flex-col gap-4 mb-4">
+          {lessons.map((lesson) => (
+            <LessonCard key={lesson.id} lesson={lesson} sectionId={sectionId} />
+          ))}
+        </div>
       </SortableContext>
       <AddLesson sectionId={sectionId} />
     </DndContext>

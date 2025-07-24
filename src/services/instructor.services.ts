@@ -8,17 +8,29 @@ export async function createCourse({
   category,
   level,
   price,
+  language,
+  briefDescription,
+  requirements,
+  objectives,
 }: {
   title: string;
   description: string;
   category: string;
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   price: number;
+  language: string;
+  briefDescription: string;
+  requirements: string[];
+  objectives: string[];
 }): Promise<{
   message: string;
   success: boolean;
   data?: {
     id: string;
+    title: string;
+    description: string;
+    briefDescription: string;
+    category: { name: string };
   };
 }> {
   try {
@@ -28,6 +40,10 @@ export async function createCourse({
       category,
       level: level.toUpperCase(),
       price,
+      language,
+      briefDescription,
+      requirements,
+      objectives,
     });
     return response.data;
   } catch (error) {
@@ -357,6 +373,10 @@ export async function updateCourseDetails({
   title,
   price,
   description,
+  briefDescription,
+  requirements,
+  objectives,
+  language,
   category,
   level,
 }: {
@@ -364,6 +384,10 @@ export async function updateCourseDetails({
   title: string;
   price: number;
   description: string;
+  briefDescription: string;
+  requirements: string[];
+  objectives: string[];
+  language: string;
   category: { name: string };
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
 }): Promise<{ success: boolean; message: string }> {
@@ -374,6 +398,10 @@ export async function updateCourseDetails({
         title,
         price,
         description,
+        briefDescription,
+        requirements,
+        objectives,
+        language,
         category: { name: category.name.toLowerCase() },
         level: level,
       }

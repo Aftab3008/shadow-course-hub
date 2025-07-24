@@ -9,23 +9,34 @@ export const useCartStore = create<CartState>()(
       totalItems: 0,
       totalPrice: 0,
 
-      addToCart: (course) => {
-        const newCourse = {
-          id: `${course.id}-${Date.now()}`,
-          courseId: course.id,
-          title: course.title,
-          instructor: course.instructor.name,
-          price: course.price,
-          originalPrice: course.originalPrice,
-          thumbnail: course.thumbnail,
-          duration: course.duration,
-          rating: course.rating,
-          level: course.level.toLowerCase(),
+      addToCart: ({
+        courseId,
+        title,
+        instructor,
+        price,
+        OriginalPrice,
+        thumbnail,
+        level,
+        duration,
+      }) => {
+        const newCourse: CartItem = {
+          courseId,
+          title,
+          instructor: {
+            name: instructor.name,
+            profileUrl: instructor.profileUrl,
+          },
+          price,
+          OriginalPrice,
+          thumbnail,
+          level,
+          duration,
           addedAt: new Date(),
         };
+
         set((state) => {
           const existingItem = state.items.find(
-            (item) => item.courseId === course.id
+            (item) => item.courseId === courseId
           );
 
           if (existingItem) {
@@ -34,7 +45,7 @@ export const useCartStore = create<CartState>()(
             return {
               items: [...state.items, { ...newCourse }],
               totalItems: state.totalItems + 1,
-              totalPrice: state.totalPrice + course.price,
+              totalPrice: state.totalPrice + newCourse.price,
             };
           }
         });

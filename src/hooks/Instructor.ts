@@ -219,12 +219,20 @@ export const useUpdateCourseDetails = (courseId: string) => {
       title,
       price,
       description,
+      briefDescription,
+      requirements,
+      objectives,
+      language,
       category,
       level,
     }: {
       title: string;
       price: number;
       description: string;
+      briefDescription: string;
+      requirements: string[];
+      objectives: string[];
+      language: string;
       category: { name: string };
       level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
     }) => {
@@ -233,6 +241,10 @@ export const useUpdateCourseDetails = (courseId: string) => {
         title,
         price,
         description,
+        briefDescription,
+        requirements,
+        objectives,
+        language,
         category: { name: category.name.toLowerCase() },
         level: level,
       });
@@ -241,7 +253,17 @@ export const useUpdateCourseDetails = (courseId: string) => {
       }
       return result;
     },
-    onMutate: async ({ title, price, description, category, level }) => {
+    onMutate: async ({
+      title,
+      price,
+      description,
+      briefDescription,
+      requirements,
+      objectives,
+      language,
+      category,
+      level,
+    }) => {
       await queryClient.cancelQueries({
         queryKey: ["course-instructor", courseId],
       });
@@ -260,6 +282,10 @@ export const useUpdateCourseDetails = (courseId: string) => {
             title,
             price,
             description,
+            briefDescription,
+            requirements,
+            objectives,
+            language,
             category,
             level,
           };
@@ -571,3 +597,100 @@ export const useInstructorPublish = () => {
   });
   return { ...mutation };
 };
+
+// export const useAddLessonToSection = () => {
+//   const { toast } = useToast();
+
+//   const mutation = useMutation({
+//     mutationFn: async ({
+//       courseId,
+//       sectionId,
+//       title,
+//       description,
+//       file,
+//       abortSignal,
+//       setProgress,
+//     }: {
+//       courseId: string;
+//       sectionId: string;
+//       title: string;
+//       description: string;
+//       file: File;
+//       abortSignal?: AbortSignal;
+//       setProgress: (progress: number) => void;
+//     }) => {
+//       const { url, fileId, duration } = await uploadVideo({
+//         courseId,
+//         sectionId,
+//         file: file,
+//         abortSignal: abortSignal,
+//         setProgress,
+//       });
+//       const result = await addLessonToSection({
+//         courseId,
+//         sectionId,
+//         title,
+//         description,
+//         videoUrl: url,
+//         videoId: fileId,
+//         duration,
+//         fileName: file.name,
+//       });
+//       if (!result.success) {
+//         throw new Error(result.message);
+//       }
+//       return result;
+//     },
+//     onMutate: async ({ courseId, sectionId, title, description, file }) => {
+//       await queryClient.cancelQueries({
+//         queryKey: ["course-instructor", courseId],
+//       });
+
+//       const prev = queryClient.getQueryData<InstructorCourse>([
+//         "course-instructor",
+//         courseId,
+//       ]);
+
+//       queryClient.setQueryData<InstructorCourse>(
+//         ["course-instructor", courseId],
+//         (oldData) => {
+//           if (!oldData) return oldData;
+//           const updatedSections = oldData.data.sections.map((section) => {
+//             if (section.id === sectionId) {
+//               const newLesson: Lesson = {
+//                 id: "",
+//                 title,
+//                 description,
+//                 videoUrl: url,
+//                 videoId: fileId,
+//                 duration,
+//                 fileName: file.name,
+//                 order: section.lessons.length + 1,
+//               };
+//               return { ...section, lessons: [...section.lessons, newLesson] };
+//             }
+//             return section;
+//           });
+//           return { ...oldData, sections: updatedSections };
+//         }
+//       );
+
+//       return { prev };
+//     },
+//     onSuccess: () => {
+//       toast({
+//         title: "Success",
+//         description: "Lesson added successfully!",
+//         variant: "success",
+//       });
+//     },
+//     onError: (error) => {
+//       toast({
+//         title: "Error",
+//         description: error.message || "Failed to add lesson",
+//         variant: "destructive",
+//       });
+//     },
+//   });
+//   return { ...mutation };
+// };

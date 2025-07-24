@@ -24,6 +24,8 @@ import Success from "./pages/root/common/Success";
 import Cancel from "./pages/root/common/Cancel";
 import AdminDashboard from "./pages/root/admin/AdminDashboard";
 import InstructorDashboard from "./pages/root/instructor/InstructorDashboard";
+import InstructorLayout from "./components/layout/InstructorLayout";
+import CreateCourse from "./components/instructor/dashboard/CreateCourse";
 
 const router = createBrowserRouter([
   {
@@ -51,19 +53,20 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Home /> },
           { path: "courses", element: <Courses /> },
-          { path: "course/:id", element: <CourseDetail /> },
+          { path: "course/:courseId", element: <CourseDetail /> },
           { path: "cart", element: <Cart /> },
           {
             element: <ProtectedLayout />,
             children: [
               { path: "my-learning", element: <MyLearning /> },
               {
-                path: "instructor/dashboard",
-                element: <InstructorDashboard />,
-              },
-              {
-                path: "instructor/edit-course/:courseId",
-                element: <EditCourse />,
+                path: "instructor",
+                element: <InstructorLayout />,
+                children: [
+                  { path: "dashboard", element: <InstructorDashboard /> },
+                  { path: "create-course", element: <CreateCourse /> },
+                  { path: "edit-course/:courseId", element: <EditCourse /> },
+                ],
               },
               {
                 path: "my-profile",

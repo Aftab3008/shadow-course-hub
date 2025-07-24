@@ -1,13 +1,21 @@
 import AdvancedSettings from "@/components/instructor/edit-course/AdvancedSettings";
 import CourseDetails from "@/components/instructor/edit-course/CourseDetails";
-import AddSection from "@/components/instructor/edit-course/sections/AddSection";
 import SectionsManager from "@/components/instructor/edit-course/sections/SectionsManager";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useInstructorCourse } from "@/hooks/Instructor";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BookOpen, Edit3, Settings } from "lucide-react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
+import ErrorCourse from "./ErrorCourse";
+import ErrorCourseAuth from "./ErrorCourseAuth";
 
 const EditCourse = () => {
   const { courseId } = useParams();
@@ -23,56 +31,63 @@ const EditCourse = () => {
 
   if (isError && error) {
     if ("status" in error && error.status === 403) {
-      return (
-        <div className="container mx-auto px-4 py-8 w-full h-screen flex flex-col items-center justify-center space-y-4">
-          <h2 className="text-2xl font-bold text-red-600">Course Not Found</h2>
-        </div>
-      );
+      return <ErrorCourseAuth />;
     }
 
-    return (
-      <div className="container mx-auto px-4 py-8 w-full h-screen flex flex-col items-center justify-center space-y-4">
-        <h2 className="text-2xl font-bold text-red-600">
-          Error Loading Course
-        </h2>
-        <p className="text-red-500">{error.message}</p>
-      </div>
-    );
+    return <ErrorCourse error={error.message || null} />;
   }
+
   // Todo: Edit functionality for lessons
   return (
-    <main>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col justify-between items-start md:items-center mb-8">
-          <div className="w-full flex items-center justify-start space-x-2 mb-4 md:mb-0">
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/instructor/dashboard">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Dashboard
-              </Link>
-            </Button>
-          </div>
-          <div className="flex items-center justify-between w-full mt-8">
-            <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <div>
-                {isLoading ? (
-                  <div>
-                    <Skeleton className="h-10 w-full rounded" />
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="mb-8">
+          <Button
+            variant="outline"
+            size="sm"
+            asChild
+            className="mb-6 hover:bg-primary/10 transition-colors"
+          >
+            <Link to="/instructor/dashboard">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Dashboard
+            </Link>
+          </Button>
+
+          <Card className="shadow-xl border-0 bg-gradient-to-r from-card/80 to-card/60 backdrop-blur-sm">
+            <CardHeader className="pb-6">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-primary/10">
+                    <Edit3 className="h-6 w-6 text-primary" />
                   </div>
-                ) : (
-                  course &&
-                  course.data && (
-                    <h1 className="text-3xl font-bold text-foreground">
-                      {course.data.title}
-                    </h1>
-                  )
-                )}
-                <p className="text-muted-foreground">
-                  Edit your course content and settings
-                </p>
+                  <div>
+                    <CardTitle className="text-2xl sm:text-3xl font-bold text-foreground">
+                      {isLoading ? (
+                        <Skeleton className="h-8 w-80" />
+                      ) : (
+                        course?.data?.title || "Untitled Course"
+                      )}
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground mt-2 text-base">
+                      {isLoading ? (
+                        <Skeleton className="h-5 w-64 mt-2" />
+                      ) : (
+                        "Edit your course content, settings, and curriculum"
+                      )}
+                    </CardDescription>
+                  </div>
+                </div>
+                <Badge variant="secondary" className="shrink-0">
+                  {isLoading ? (
+                    <Skeleton className="h-5 w-16" />
+                  ) : (
+                    `${course?.data?.sections?.length || 0} sections`
+                  )}
+                </Badge>
               </div>
-            </div>
-          </div>
+            </CardHeader>
+          </Card>
         </div>
 
         <Tabs
@@ -80,63 +95,72 @@ const EditCourse = () => {
           onValueChange={(value) => setSearchParams({ tab: value })}
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-3 bg-muted mb-8">
-            <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-            <TabsTrigger value="details">Course Details</TabsTrigger>
-            <TabsTrigger value="settings">Advanced Settings</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 bg-card/50 backdrop-blur-sm border shadow-sm h-12 p-1 mb-8 gap-2">
+            <TabsTrigger
+              value="curriculum"
+              className="flex items-center gap-2 h-10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground font-medium transition-all duration-200 hover:bg-primary/10"
+            >
+              <BookOpen className="h-4 w-4 transition-transform duration-200 group-data-[state=active]:scale-110" />
+              <span className="hidden sm:inline">Curriculum</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="details"
+              className="flex items-center gap-2 h-10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground font-medium transition-all duration-200 hover:bg-primary/10"
+            >
+              <Edit3 className="h-4 w-4 transition-transform duration-200 group-data-[state=active]:scale-110" />
+              <span className="hidden sm:inline">Course Details</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="settings"
+              className="flex items-center gap-2 h-10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground font-medium transition-all duration-200 hover:bg-primary/10"
+            >
+              <Settings className="h-4 w-4 transition-transform duration-200 group-data-[state=active]:scale-110" />
+              <span className="hidden sm:inline">Advanced Settings</span>
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="curriculum">
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-semibold text-foreground">
-                  Course Curriculum
-                </h2>
-                <div className="flex items-center space-x-2">
-                  <AddSection refetch={refetchCourse} courseId={courseId} />
-                </div>
-              </div>
-              <SectionsManager
-                sections={course?.data.sections}
-                isLoading={isLoading}
-              />
-            </div>
+          <TabsContent
+            value="curriculum"
+            className="mt-0 animate-in fade-in-0 slide-in-from-right-1 duration-200"
+          >
+            <SectionsManager
+              sections={course?.data.sections || []}
+              isLoading={isLoading}
+              isError={isError}
+              refetch={refetchCourse}
+            />
           </TabsContent>
 
-          <TabsContent value="details">
-            <div className="space-y-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-semibold text-foreground">
-                  Course Details
-                </h2>
-              </div>
-              <CourseDetails
-                title={course?.data.title}
-                price={course?.data.price}
-                description={course?.data.description}
-                category={course?.data.category}
-                level={course?.data.level}
-                isLoading={isLoading}
-              />
-            </div>
+          <TabsContent
+            value="details"
+            className="mt-0 animate-in fade-in-0 slide-in-from-right-1 duration-200"
+          >
+            <CourseDetails
+              title={course?.data.title}
+              price={course?.data.price}
+              description={course?.data.description}
+              category={course?.data.category}
+              level={course?.data.level}
+              briefDescription={course?.data.briefDescription}
+              requirements={course?.data.requirements}
+              objectives={course?.data.objectives}
+              language={course?.data.language}
+              isLoading={isLoading}
+            />
           </TabsContent>
 
-          <TabsContent value="settings">
-            <div className="space-y-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-semibold text-foreground mb-4">
-                  Advanced Settings
-                </h2>
-              </div>
-              <AdvancedSettings
-                thumbnail={course?.data.thumbnail}
-                isLoading={isLoading}
-              />
-            </div>
+          <TabsContent
+            value="settings"
+            className="mt-0 animate-in fade-in-0 slide-in-from-right-1 duration-200"
+          >
+            <AdvancedSettings
+              thumbnail={course?.data.thumbnail}
+              isLoading={isLoading}
+            />
           </TabsContent>
         </Tabs>
       </div>
-    </main>
+    </div>
   );
 };
 

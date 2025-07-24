@@ -1,7 +1,16 @@
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -15,10 +24,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useUpdateSection } from "@/hooks/Instructor";
 import { sectionSchema } from "@/schemas/courseSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Edit, Loader2, Plus, TriangleAlert } from "lucide-react";
+import {
+  Edit,
+  Loader2,
+  TriangleAlert,
+  BookOpen,
+  Save,
+  RotateCcw,
+} from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -75,86 +92,129 @@ export default function UpdateSectionDes({
       onOpenChange={(value) => {
         setIsDialogOpen(value);
         setError(null);
-        form.reset();
+        form.reset({ title, description });
       }}
     >
-      <Button variant="outline" size="sm" disabled={isPending} asChild>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={isPending}
+        asChild
+        className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary transition-colors"
+      >
         <DialogTrigger>
           <Edit className="h-4 w-4" />
         </DialogTrigger>
       </Button>
 
-      <DialogContent>
-        <DialogTitle className="text-2xl font-semibold text-foreground">
-          Update Section
-        </DialogTitle>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {error && (
-              <div className="text-red-500 text-sm flex items-center gap-3 justify-center bg-red-300  bg-opacity-10 p-4 rounded-lg">
-                <TriangleAlert className="inline mr-1" />
-                {error}
+      <DialogContent className="sm:max-w-[500px] p-0">
+        <Card className="border-0 shadow-none">
+          <CardHeader className="space-y-4 pb-6 px-6 pt-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <BookOpen className="h-5 w-5 text-primary" />
               </div>
+              <div>
+                <DialogTitle className="text-xl font-semibold text-foreground">
+                  Edit Section
+                </DialogTitle>
+                <DialogDescription className="text-muted-foreground mt-1">
+                  Update the section title and description to better organize
+                  your course content.
+                </DialogDescription>
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="px-6 pb-6">
+            {error && (
+              <Alert variant="destructive" className="mb-6">
+                <TriangleAlert className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
             )}
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground">
-                    Section Title
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter section title"
-                      className="bg-background border-border"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground">Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Brief course description"
-                      className="bg-background border-border"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isSubmitting ? (
-                <div className="flex items-center justify-center">
-                  <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                  <span>Updating...</span>
+
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-foreground">
+                          Section Title
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., Introduction to React Hooks"
+                            className="h-10 bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-foreground">
+                          Description
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Provide a brief description of what students will learn in this section..."
+                            className="min-h-[100px] bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-              ) : (
-                "Update Section"
-              )}
-            </Button>
-            <Button
-              type="reset"
-              className="w-full bg-gray-700"
-              variant="outline"
-              disabled={isLoading}
-              onClick={() => {
-                form.reset({ title, description });
-              }}
-            >
-              Reset
-            </Button>
-          </form>
-        </Form>
+
+                <div className="flex gap-3 pt-4 border-t border-border">
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="flex-1 h-10 font-medium"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Updating...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4 mr-2" />
+                        Update Section
+                      </>
+                    )}
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={isLoading}
+                    onClick={() => form.reset({ title, description })}
+                    className="h-10 px-4 font-medium hover:bg-muted/50 transition-colors"
+                  >
+                    <RotateCcw className="h-4 w-4 mr-2" />
+                    Reset
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </DialogContent>
     </Dialog>
   );

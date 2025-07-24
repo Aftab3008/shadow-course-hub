@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   ChevronDown,
@@ -6,6 +7,7 @@ import {
   Edit,
   GripVertical,
   Loader2,
+  PlayCircle,
   Trash2,
 } from "lucide-react";
 
@@ -61,19 +63,25 @@ export default function SectionCard({
   return (
     <Card
       key={id}
-      className="border-border bg-card"
+      className={`border-border bg-card/50 backdrop-blur-sm transition-all duration-200 hover:shadow-lg ${
+        isDragging ? "shadow-xl ring-2 ring-primary/20 scale-105" : ""
+      }`}
       ref={setNodeRef}
       style={style}
     >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3 flex-1">
-            <div className="cursor-move" {...listeners} {...attributes}>
-              <GripVertical className="h-5 w-5 text-muted-foreground" />
+          <div className="flex items-center space-x-3 flex-1 min-w-0">
+            <div
+              className="cursor-move p-1 rounded hover:bg-muted/50 transition-colors"
+              {...listeners}
+              {...attributes}
+            >
+              <GripVertical className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
             </div>
 
             <Collapsible open={open} onOpenChange={setOpen}>
-              <CollapsibleTrigger className="flex items-center space-x-2 hover:text-primary">
+              <CollapsibleTrigger className="flex items-center space-x-2 hover:text-primary transition-colors p-1 rounded hover:bg-muted/50">
                 {open ? (
                   <ChevronDown className="h-4 w-4" />
                 ) : (
@@ -82,22 +90,45 @@ export default function SectionCard({
               </CollapsibleTrigger>
             </Collapsible>
 
-            <div className="flex-1">
-              <h3 className="font-semibold text-foreground">
-                Chapter {index}: {title}
-              </h3>
-              <p className="text-sm text-muted-foreground">{description}</p>
-              <div className="flex items-center space-x-4 mt-1">
-                <span className="text-xs text-muted-foreground">
-                  {lessons.length > 1
-                    ? `${lessons.length} lessons`
-                    : `${lessons.length} lesson`}
-                </span>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <Badge variant="secondary" className="text-xs font-medium">
+                  Chapter {index}
+                </Badge>
+                <h3 className="font-semibold text-foreground truncate">
+                  {title}
+                </h3>
+              </div>
+
+              <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                {description}
+              </p>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <PlayCircle className="h-3 w-3" />
+                  <span>
+                    {lessons.length}{" "}
+                    {lessons.length === 1 ? "lesson" : "lessons"}
+                  </span>
+                </div>
+                {lessons.length > 0 && (
+                  <Badge variant="outline" className="text-xs">
+                    {lessons.reduce((total, lesson) => {
+                      const duration =
+                        typeof lesson.duration === "number"
+                          ? lesson.duration
+                          : parseInt(lesson.duration || "0", 10);
+                      return total + duration;
+                    }, 0)}
+                    min
+                  </Badge>
+                )}
               </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ml-4">
             <UpdateSectionDes
               title={title}
               description={description}
@@ -108,7 +139,7 @@ export default function SectionCard({
               variant="outline"
               size="sm"
               onClick={() => deleteSection(id)}
-              className="text-destructive hover:text-red-500"
+              className="text-destructive hover:text-red-500 transition-colors"
               disabled={isPending}
             >
               {isPending ? (
@@ -123,8 +154,8 @@ export default function SectionCard({
 
       <Collapsible open={open}>
         <CollapsibleContent>
-          <CardContent className="pt-0">
-            <div className="space-y-3">
+          <CardContent className="pt-0 px-6 pb-6">
+            <div className="border-t border-border pt-4">
               <Lessons lessons={lessons} sectionId={id} />
             </div>
           </CardContent>

@@ -29,14 +29,17 @@ export function formatHMS(totalSeconds: number, pad: boolean = false): string {
   return [hStr, mStr, sStr].join(" ");
 }
 
-export function formatDuration(secondsStr: string): string {
-  if (!/^\d+$/.test(secondsStr)) {
+export function formatDuration(totalSeconds: number): string {
+  if (
+    typeof totalSeconds !== "number" ||
+    !Number.isInteger(totalSeconds) ||
+    totalSeconds < 0
+  ) {
     throw new Error(
-      `Invalid input: "${secondsStr}" is not a non-negative integer string.`
+      `Invalid input: "${totalSeconds}" is not a non-negative integer.`
     );
   }
 
-  const totalSeconds = parseInt(secondsStr, 10);
   const hours = Math.floor(totalSeconds / 3600);
   const remainingAfterHours = totalSeconds % 3600;
   const minutes = Math.floor(remainingAfterHours / 60);
@@ -57,3 +60,23 @@ export function formatDate(date: Date | string): string {
   }
   return format(parsedDate, "yyyy-MM-dd");
 }
+
+export const formatString = (str: string): string => {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+};
+
+export function formatName(name: string): string {
+  if (!name) return "";
+  const result = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
+  return result.toUpperCase();
+}
+
+export const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
+};

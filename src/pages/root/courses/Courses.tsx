@@ -1,9 +1,11 @@
 import CourseCard from "@/components/course/CourseCard";
+import CoursesGrid from "@/components/course/CoursesGrid";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import {
   Select,
   SelectContent,
@@ -11,11 +13,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCourses } from "@/hooks/Courses";
 import { Filter, Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const Courses = () => {
+  const {
+    data: allCourses,
+    isLoading: coursesLoading,
+    isError: coursesError,
+    refetch: refetchCourses,
+    error: coursesErrorMessage,
+  } = useCourses();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get("search") || ""
@@ -28,159 +38,6 @@ const Courses = () => {
   const [rating, setRating] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
-  const allCourses = [
-    {
-      id: "1",
-      title: "Complete React Development Bootcamp 2024",
-      description:
-        "Master React, Redux, Hooks, Context API, and modern development practices",
-      thumbnail:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
-      instructor: {
-        id: "inst-1",
-        name: "Sarah Johnson",
-        email: "sarah@example.com",
-        avatar:
-          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-        profileUrl:
-          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-      },
-      rating: 4.8,
-      reviews: 12450,
-      students: 45230,
-      duration: "42h 30m",
-      price: 89.99,
-      originalPrice: 199.99,
-      category: "programming",
-      level: "intermediate" as const,
-    },
-    {
-      id: "2",
-      title: "UI/UX Design Masterclass - Figma to Production",
-      description:
-        "Learn design principles, user research, prototyping, and development handoff",
-      thumbnail:
-        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop",
-      instructor: {
-        id: "inst-2",
-        name: "Mike Chen",
-        email: "mike@example.com",
-        avatar:
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl:
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-      },
-      rating: 4.9,
-      reviews: 8920,
-      students: 23470,
-      duration: "35h 15m",
-      price: 79.99,
-      originalPrice: 159.99,
-      category: "design",
-      level: "beginner" as const,
-    },
-    {
-      id: "3",
-      title: "Machine Learning with Python - Complete Course",
-      description:
-        "From basics to advanced ML algorithms, neural networks, and real-world projects",
-      thumbnail:
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=450&fit=crop",
-      instructor: {
-        id: "inst-3",
-        name: "Dr. Emily Rodriguez",
-        email: "emily@example.com",
-        avatar:
-          "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
-        profileUrl:
-          "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop",
-      },
-      rating: 4.7,
-      reviews: 15680,
-      students: 38940,
-      duration: "58h 45m",
-      price: 119.99,
-      originalPrice: 249.99,
-      category: "design",
-      level: "advanced" as const,
-    },
-    {
-      id: "4",
-      title: "Digital Marketing Strategy 2024",
-      description:
-        "Complete guide to SEO, social media, content marketing, and paid advertising",
-      thumbnail:
-        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=450&fit=crop",
-      instructor: {
-        id: "inst-4",
-        name: "Alex Thompson",
-        email: "alex@example.com",
-        avatar:
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl:
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-      },
-      rating: 4.6,
-      reviews: 7230,
-      students: 18950,
-      duration: "28h 20m",
-      price: 69.99,
-      originalPrice: 129.99,
-      category: "marketing",
-      level: "intermediate" as const,
-    },
-    {
-      id: "5",
-      title: "Full Stack Web Development - MERN Stack",
-      description:
-        "Build complete web applications with MongoDB, Express, React, and Node.js",
-      thumbnail:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
-      instructor: {
-        id: "inst-5",
-        name: "David Kim",
-        email: "david@example.com",
-        avatar:
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-        profileUrl:
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-      },
-      rating: 4.8,
-      reviews: 11340,
-      students: 32180,
-      duration: "65h 15m",
-      price: 139.99,
-      originalPrice: 279.99,
-      category: "programming",
-      level: "advanced" as const,
-    },
-    {
-      id: "6",
-      title: "Business Analytics with Excel & Power BI",
-      description:
-        "Master data analysis, visualization, and business intelligence tools",
-      thumbnail:
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=450&fit=crop",
-      instructor: {
-        id: "inst-6",
-        name: "Lisa Wang",
-        email: "lisa@example.com",
-        avatar:
-          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-        profileUrl:
-          "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop",
-      },
-      rating: 4.5,
-      reviews: 5670,
-      students: 15280,
-      duration: "32h 45m",
-      price: 79.99,
-      originalPrice: 149.99,
-      category: "business",
-      level: "beginner" as const,
-    },
-  ];
-
   const categories = [
     "Programming",
     "Design",
@@ -192,7 +49,7 @@ const Courses = () => {
   const priceRanges = ["Free", "Under $50", "$50-$100", "$100+"];
   const ratings = ["4.5 & up", "4.0 & up", "3.5 & up"];
 
-  const filteredCourses = allCourses.filter((course) => {
+  const filteredCourses = allCourses?.data.filter((course) => {
     const matchesSearch =
       !searchQuery ||
       course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -201,7 +58,7 @@ const Courses = () => {
 
     const matchesCategory =
       !selectedCategory ||
-      course.category.toLowerCase() === selectedCategory.toLowerCase();
+      course.category.name.toLowerCase() === selectedCategory.toLowerCase();
     const matchesLevel = !selectedLevel || course.level === selectedLevel;
 
     let matchesPrice = true;
@@ -212,9 +69,9 @@ const Courses = () => {
     else if (priceRange === "$100+") matchesPrice = course.price > 100;
 
     let matchesRating = true;
-    if (rating === "4.5 & up") matchesRating = course.rating >= 4.5;
-    else if (rating === "4.0 & up") matchesRating = course.rating >= 4.0;
-    else if (rating === "3.5 & up") matchesRating = course.rating >= 3.5;
+    // if (rating === "4.5 & up") matchesRating = course.rating >= 4.5;
+    // else if (rating === "4.0 & up") matchesRating = course.rating >= 4.0;
+    // else if (rating === "3.5 & up") matchesRating = course.rating >= 3.5;
 
     return (
       matchesSearch &&
@@ -248,10 +105,17 @@ const Courses = () => {
     setSearchParams(params);
   }, [searchQuery, selectedCategory, setSearchParams]);
 
+  if (coursesLoading && !allCourses) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
   return (
     <main>
       <div className="container mx-auto px-4 py-8">
-        {/* Search and Filter Header */}
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row gap-4 mb-6">
             <div className="flex-1">
@@ -276,7 +140,6 @@ const Courses = () => {
             </Button>
           </div>
 
-          {/* Active Filters */}
           {activeFiltersCount > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {selectedCategory && (
@@ -334,7 +197,6 @@ const Courses = () => {
         </div>
 
         <div className="flex gap-8">
-          {/* Sidebar Filters - Desktop */}
           <div className="hidden lg:block w-80 space-y-6">
             <Card className="border-border bg-card">
               <CardContent className="p-6">
@@ -430,7 +292,6 @@ const Courses = () => {
             </Card>
           </div>
 
-          {/* Mobile Filters */}
           {showFilters && (
             <div className="lg:hidden fixed inset-0 bg-background z-50 overflow-y-auto">
               <div className="p-4">
@@ -545,14 +406,15 @@ const Courses = () => {
             </div>
           )}
 
-          {/* Course Grid */}
           <div className="flex-1">
             {filteredCourses.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredCourses.map((course) => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </div>
+              <CoursesGrid
+                courses={filteredCourses}
+                isLoading={coursesLoading}
+                isError={coursesError}
+                error={coursesErrorMessage?.message}
+                refetch={refetchCourses}
+              />
             ) : (
               <div className="text-center py-12">
                 <h3 className="text-xl font-semibold text-foreground mb-2">

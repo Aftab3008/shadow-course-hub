@@ -1,15 +1,5 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { PlusCircle } from "lucide-react";
-import { useState } from "react";
-import CourseForm from "./CourseForm";
 import { useCategories } from "@/hooks/Category";
+import CourseForm from "./CourseForm";
 
 export default function CreateCourse() {
   const {
@@ -17,29 +7,31 @@ export default function CreateCourse() {
     isLoading: isLoadingCategories,
     refetch,
   } = useCategories();
-  const [isCreateCourseOpen, setIsCreateCourseOpen] = useState(false);
 
   return (
-    <Dialog open={isCreateCourseOpen} onOpenChange={setIsCreateCourseOpen}>
-      <Button size="lg" asChild>
-        <DialogTrigger>
-          <PlusCircle className="h-5 w-5 mr-2" />
-          Create Course
-        </DialogTrigger>
-      </Button>
-      <DialogContent className="max-w-md bg-popover border-border">
-        <DialogHeader>
-          <DialogTitle className="text-foreground">
-            <p>Create New Course</p>
-          </DialogTitle>
-        </DialogHeader>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+      <div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16 max-w-7xl">
+        <div className="flex flex-col items-center justify-center space-y-8">
+          <div className="text-center space-y-4 max-w-2xl">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              Share Your Expertise
+            </h1>
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+              Create an engaging online course and help thousands of students
+              learn new skills
+            </p>
+          </div>
 
-        <CourseForm
-          categories={categories?.data}
-          isLoadingCategories={isLoadingCategories}
-          refetch={refetch}
-        />
-      </DialogContent>
-    </Dialog>
+          {/* Form Section */}
+          <div className="w-full">
+            <CourseForm
+              categories={categories?.data}
+              isLoadingCategories={isLoadingCategories}
+              refetch={refetch}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

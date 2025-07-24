@@ -1,24 +1,29 @@
-import { Course } from "@/types/course";
 import {
   fetchCourseById,
   fetchCourses,
-  updateCourse,
-} from "@/utils/courseData";
+  fetchFeaturedCourses,
+} from "@/services/courses.services";
+import { Course } from "@/types/course";
+import { updateCourse } from "@/utils/courseData";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./use-toast";
 
-// Sample hook to fetch all courses
 export const useCourses = () => {
   const query = useQuery({
     queryKey: ["courses"],
     queryFn: fetchCourses,
-    staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
   });
   return query;
 };
 
-export const useCourse = (id: string) => {
+export const useFeaturedCourses = (count: number) => {
+  return useQuery({
+    queryKey: ["featuredCourses", count],
+    queryFn: () => fetchFeaturedCourses(count),
+  });
+};
+
+export const useCourseById = (id: string) => {
   return useQuery({
     queryKey: ["course", id],
     queryFn: () => fetchCourseById(id),
@@ -26,6 +31,7 @@ export const useCourse = (id: string) => {
   });
 };
 
+// Sample hook to fetch all courses
 export const useUpdateCourse = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();

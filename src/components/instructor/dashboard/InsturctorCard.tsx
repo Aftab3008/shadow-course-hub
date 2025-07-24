@@ -41,7 +41,8 @@ export default function InstructorCard({ course }: InsturctorCardProps) {
           </Badge>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-3">
+        <div className="flex items-center mb-4 gap-2 text-xs">
+          {/* //grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-3 */}
           <div>
             <span className="text-muted-foreground">Students: </span>
             <span className="font-medium text-foreground">
@@ -52,29 +53,27 @@ export default function InstructorCard({ course }: InsturctorCardProps) {
             <span className="text-muted-foreground">Revenue: </span>
             <span className="font-medium text-foreground">${"0"}</span>
           </div>
-          {course.published && (
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">Rating: </span>
-                <span className="font-medium text-foreground">
-                  {course.reviews.length > 0
-                    ? (
-                        course.reviews.reduce(
-                          (acc, review) => acc + review.rating.rating,
-                          0
-                        ) / course.reviews.length
-                      ).toFixed(1)
-                    : "N/A"}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">Reviews: </span>
-                <span className="font-medium text-foreground">
-                  {course.reviews.length}
-                </span>
-              </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground">Rating: </span>
+              <span className="font-medium text-foreground">
+                {course.published && course.reviews.length > 0
+                  ? (
+                      course.reviews.reduce(
+                        (acc, review) => acc + review.rating.rating,
+                        0
+                      ) / course.reviews.length
+                    ).toFixed(1)
+                  : "N/A"}
+              </span>
             </div>
-          )}
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground">Reviews: </span>
+              <span className="font-medium text-foreground">
+                {course.published ? course.reviews.length : "N/A"}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-center">

@@ -1,15 +1,14 @@
 import { IconType } from "react-icons";
+import { Course, Enrollment, Review } from "./course";
 
-export interface User {
+export interface UserType {
   id: string;
-  name: string;
   email: string;
-  avatar: string;
-}
-
-export interface Instructor extends User {
-  bio?: string;
-  expertise?: string[];
+  name: string;
+  profileUrl: string;
+  courses: Course[];
+  reviews: Review[];
+  enrollments: Enrollment[];
 }
 
 // export interface Course {
@@ -153,24 +152,39 @@ export interface UserAuthState {
 }
 
 export interface CartItem {
-  id: string;
   courseId: string;
   title: string;
-  instructor: string;
+  instructor: {
+    name: string;
+    profileUrl: string;
+  };
   price: number;
-  originalPrice?: number;
+  OriginalPrice?: number;
   thumbnail: string;
-  duration: string;
-  rating: number;
-  level: "beginner" | "intermediate" | "advanced";
+  level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  duration: number;
   addedAt: Date;
+}
+
+export interface addToCartParams {
+  courseId: string;
+  title: string;
+  instructor: {
+    name: string;
+    profileUrl: string;
+  };
+  price: number;
+  OriginalPrice?: number;
+  thumbnail: string;
+  level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  duration: number;
 }
 
 export interface CartState {
   items: CartItem[];
   totalItems: number;
   totalPrice: number;
-  addToCart: (course: any) => void;
+  addToCart: (course: addToCartParams) => void;
   removeFromCart: (courseId: string) => void;
   // updateQuantity: (courseId: string, quantity: number) => void;
   clearCart: () => void;

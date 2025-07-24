@@ -5,6 +5,10 @@ export default function CourseDetails({
   title,
   price,
   description,
+  briefDescription,
+  requirements,
+  objectives,
+  language,
   category,
   level,
   isLoading,
@@ -12,6 +16,10 @@ export default function CourseDetails({
   title: string;
   price: number;
   description: string;
+  briefDescription: string;
+  requirements: string[];
+  objectives: string[];
+  language: string;
   category: { name: string };
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   isLoading?: boolean;
@@ -27,6 +35,10 @@ export default function CourseDetails({
       description={description}
       category={category}
       level={level}
+      briefDescription={briefDescription}
+      requirements={requirements}
+      objectives={objectives}
+      language={language}
     />
   );
 }

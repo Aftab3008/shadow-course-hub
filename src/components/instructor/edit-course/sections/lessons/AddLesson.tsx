@@ -1,7 +1,15 @@
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -17,31 +25,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useInstructorCourse } from "@/hooks/Instructor";
+import { uploadVideo } from "@/lib/imagekit";
 import { lessonSchema } from "@/schemas/courseSchema";
-import {
-  addLessonToSection,
-  getImageKitAuth,
-} from "@/services/instructor.services";
+import { addLessonToSection } from "@/services/instructor.services";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ImageKitAbortError,
   ImageKitInvalidRequestError,
   ImageKitServerError,
   ImageKitUploadNetworkError,
-  upload,
-  UploadResponse,
 } from "@imagekit/react";
-import { Loader2, Plus, TriangleAlert } from "lucide-react";
+import {
+  Loader2,
+  Plus,
+  TriangleAlert,
+  PlayCircle,
+  Save,
+  Upload,
+} from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { VideoUpload } from "./VideoUpload";
-
-interface uploadProps extends UploadResponse {
-  duration?: number;
-}
 
 export default function AddLesson({ sectionId }) {
   const { courseId } = useParams();
@@ -70,33 +78,13 @@ export default function AddLesson({ sectionId }) {
   async function onSubmit(values: z.infer<typeof lessonSchema>) {
     try {
       setError(null);
-      const { data } = await getImageKitAuth();
-
-      if (!data) {
-        throw new Error(
-          "Something went wrong while uploading, please try again later."
-        );
-      }
-
-      const { token, expire, signature, publicKey } = data;
-      const filename = `${values.videoFile.name}-${Date.now()}`;
-      const uploadResponse: uploadProps = await upload({
-        token,
-        expire,
-        signature,
-        publicKey,
+      const { url, fileId, duration } = await uploadVideo({
+        courseId,
+        sectionId,
         file: values.videoFile,
-        fileName: filename,
-        folder: `/courses/${courseId}/sections/${sectionId}/lessons`,
-        isPrivateFile: false,
-        useUniqueFileName: true,
         abortSignal: abortController.signal,
-        onProgress(event) {
-          setProgress((event.loaded / event.total) * 100);
-        },
+        setProgress,
       });
-      const { url, fileId } = uploadResponse;
-      const duration = uploadResponse.duration;
       const response = await addLessonToSection({
         courseId,
         sectionId,
@@ -108,9 +96,6 @@ export default function AddLesson({ sectionId }) {
         fileName: values.videoFile.name,
       });
       if (response.success) {
-        setValue("title", "");
-        setValue("description", "");
-        setValue("videoFile", null);
         setProgress(0);
         setError(null);
         form.reset();
@@ -145,16 +130,19 @@ export default function AddLesson({ sectionId }) {
   return (
     <Dialog
       open={open}
-      onOpenChange={() => {
-        setOpen(!open);
-        setError(null);
-        setProgress(0);
-        form.reset();
+      onOpenChange={(value) => {
+        setOpen(value);
+        if (!value) {
+          setError(null);
+          setProgress(0);
+          form.reset();
+          abortController.abort();
+        }
       }}
     >
       <Button
         variant="outline"
-        className="w-full border-dashed border-2"
+        className="w-full border-dashed border-2 h-12 hover:bg-primary/5 hover:border-primary/30 transition-all duration-200"
         asChild
       >
         <DialogTrigger>
@@ -162,92 +150,144 @@ export default function AddLesson({ sectionId }) {
           Add Lesson
         </DialogTrigger>
       </Button>
-      <DialogContent className="max-w-lg bg-popover border-border">
-        <DialogHeader>
-          <DialogTitle className="text-foreground">Add New Lesson</DialogTitle>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {error && (
-                <div className="text-red-500 text-sm flex items-center gap-3 justify-center bg-red-300  bg-opacity-10 p-4 rounded-lg">
-                  <TriangleAlert className="inline mr-1" />
-                  {error}
+
+      <DialogContent className="sm:max-w-[600px] p-0">
+        <Card className="border-0 shadow-none">
+          <CardHeader className="space-y-4 pb-6 px-6 pt-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <PlayCircle className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <DialogTitle className="text-xl font-semibold text-foreground">
+                  Add New Lesson
+                </DialogTitle>
+                <DialogDescription className="text-muted-foreground mt-1">
+                  Create a new lesson with video content for your course
+                  section.
+                </DialogDescription>
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="px-6 pb-6">
+            {error && (
+              <Alert variant="destructive" className="mb-6">
+                <TriangleAlert className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-foreground">
+                          Lesson Title
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., Introduction to useState Hook"
+                            className="h-10 bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all"
+                            {...field}
+                            disabled={isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-foreground">
+                          Description
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Describe what students will learn in this lesson..."
+                            className="min-h-[100px] bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                            {...field}
+                            disabled={isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="videoFile"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                          <Upload className="h-4 w-4" />
+                          Video File
+                        </FormLabel>
+                        <FormControl>
+                          <div className="space-y-3">
+                            <VideoUpload
+                              onVideoSelect={handleVideoSelect}
+                              onRemove={handleVideoRemove}
+                            />
+                            {progress > 0 && (
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between text-sm">
+                                  <span className="text-muted-foreground">
+                                    Upload Progress
+                                  </span>
+                                  <span className="font-medium">
+                                    {Math.round(progress)}%
+                                  </span>
+                                </div>
+                                <Progress
+                                  value={progress}
+                                  className="w-full h-2"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-              )}
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-foreground">Title</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter lesson title"
-                        className="bg-background border-border"
-                        {...field}
-                        disabled={isSubmitting}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-foreground">
-                      Description
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Brief course description"
-                        className="bg-background border-border"
-                        {...field}
-                        disabled={isSubmitting}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="videoFile"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-foreground">
-                      Video File
-                    </FormLabel>
-                    <FormControl>
-                      <VideoUpload
-                        onVideoSelect={handleVideoSelect}
-                        onRemove={handleVideoRemove}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {progress > 0 && (
-                <Progress
-                  value={progress}
-                  className="w-full h-2 bg-primary mt-2"
-                />
-              )}
-              <Button type="submit" disabled={isSubmitting} className="w-full">
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                    <p>Creating...</p>
-                  </>
-                ) : (
-                  "Create Lesson"
-                )}
-              </Button>
-            </form>
-          </Form>
-        </DialogHeader>
+
+                <div className="pt-4 border-t border-border">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-10 font-medium"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Creating...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4 mr-2" />
+                        Create Lesson
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </DialogContent>
     </Dialog>
   );
