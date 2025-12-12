@@ -80,3 +80,19 @@ export const formatPrice = (price: number) => {
     currency: "USD",
   }).format(price);
 };
+
+export function getProgressPercentage(
+  completedLessons: number,
+  totalLessons: number
+): number {
+  if (totalLessons === 0) return 0;
+  return Math.round((completedLessons / totalLessons) * 100);
+}
+
+export function formatTitle(title: string): string {
+  if (!title) return "";
+  return title
+    .split(" ")
+    .map((word) => word.toLowerCase())
+    .join("-");
+}

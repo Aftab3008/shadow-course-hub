@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import CourseInstructor from "./CourseInstructor";
 import CoursePrice from "./CoursePrice";
 import CourseStats from "./CourseStats";
+import { formatString, formatTitle } from "@/utils/utils";
 
 interface CourseCardProps {
   course: Course;
@@ -13,7 +14,7 @@ interface CourseCardProps {
 const CourseCard = ({ course }: CourseCardProps) => {
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 border-border bg-card">
-      <Link to={`/course/${course.id}`}>
+      <Link to={`/course/${formatTitle(course.title)}/${course.id}`}>
         <div className="aspect-video relative overflow-hidden rounded-t-lg">
           <img
             src={course.thumbnail}
@@ -25,14 +26,14 @@ const CourseCard = ({ course }: CourseCardProps) => {
               variant="secondary"
               className="bg-background/80 text-foreground capitalize"
             >
-              {course.level}
+              {formatString(course.level)}
             </Badge>
           </div>
         </div>
       </Link>
 
       <CardContent className="p-4">
-        <Link to={`/course/${course.id}`}>
+        <Link to={`/course/${formatTitle(course.title)}/${course.id}`}>
           <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
             {course.title}
           </h3>

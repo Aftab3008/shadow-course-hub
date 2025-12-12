@@ -2,14 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { initiateCheckout, initiateStripe } from "@/lib/stripe";
+import { userAuthStore } from "@/store/auth.store";
 import { useCartStore } from "@/store/cart.store";
 import { formatPrice } from "@/utils/utils";
-import { ArrowLeft, CreditCard, ListCheck, Star } from "lucide-react";
+import { ArrowLeft, CreditCard, ListCheck } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function SideCartcard() {
   const { items, totalPrice, clearCart } = useCartStore();
+  const { isAuthenticated } = userAuthStore();
   const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
   const { toast } = useToast();
 
@@ -19,17 +22,40 @@ export default function SideCartcard() {
       return total + (originalPrice - item.price);
     }, 0);
   };
-  const handleCheckout = async () => {
+
+  const handleCheckout = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setIsProcessingCheckout(true);
 
-    setTimeout(() => {
-      setIsProcessingCheckout(false);
+    try {
+      const { success, sessionId, url, publicKey } = await initiateCheckout();
+      console.log("Checkout response:", { success, sessionId, url, publicKey });
+      if (success && sessionId && url && publicKey) {
+        const {
+          stripe,
+          success: stripeSuccess,
+          message,
+        } = await initiateStripe(publicKey);
+        if (stripeSuccess && stripe) {
+          await stripe.redirectToCheckout({ sessionId });
+        } else {
+          toast({
+            title: "Stripe Initialization Failed",
+            description: message,
+            variant: "destructive",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
       toast({
-        title: "Checkout successful!",
-        description: "You have been enrolled in all courses.",
+        title: "Checkout failed",
+        description: "An error occurred while processing your checkout.",
+        variant: "destructive",
       });
-      clearCart();
-    }, 2000);
+    } finally {
+      setIsProcessingCheckout(false);
+    }
   };
 
   const savings = calculateSavings();
@@ -76,15 +102,28 @@ export default function SideCartcard() {
             </div>
 
             <div className="space-y-3">
-              <Button
-                onClick={handleCheckout}
-                className="w-full shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200"
-                size="lg"
-                disabled={isProcessingCheckout}
-              >
-                <CreditCard className="h-5 w-5 mr-2" />
-                {isProcessingCheckout ? "Processing..." : "Proceed to Checkout"}
-              </Button>
+              {isAuthenticated ? (
+                <Button
+                  onClick={handleCheckout}
+                  className="w-full shadow-md hover:shadow-lg transform transition-all duration-200"
+                  size="lg"
+                  disabled={isProcessingCheckout}
+                >
+                  <CreditCard className="h-5 w-5 mr-2" />
+                  {isProcessingCheckout
+                    ? "Processing..."
+                    : "Proceed to Checkout"}
+                </Button>
+              ) : (
+                <Button
+                  asChild
+                  className="w-full shadow-md hover:shadow-lg transform transition-all duration-200"
+                  size="lg"
+                  disabled={isProcessingCheckout}
+                >
+                  <Link to="/auth/signin">Sign In to Checkout</Link>
+                </Button>
+              )}
 
               <Button
                 variant="outline"

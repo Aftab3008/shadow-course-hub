@@ -21,15 +21,22 @@ const CourseDetail = () => {
   const { data: course, isLoading: isCourseLoading } = useCourseById(courseId);
   const currentTab = searchParams.get("tab") || "overview";
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (courseInCart) {
-      removeFromCart(courseId);
-      toast({
-        title: "Removed from cart",
-        description: "Course has been removed from your cart.",
-      });
+      const result = await removeFromCart(courseId);
+      if (result.success) {
+        toast({
+          title: "Removed from cart",
+          description: "Course has been removed from your cart.",
+        });
+      } else {
+        toast({
+          title: "Failed to remove from cart",
+          description: result.message || "Something went wrong.",
+        });
+      }
     } else {
-      addToCart({
+      const result = await addToCart({
         courseId: courseId,
         title: course?.data.title,
         price: course?.data.price,
@@ -42,10 +49,17 @@ const CourseDetail = () => {
         },
         duration: course?.data.duration,
       });
-      toast({
-        title: "Added to cart!",
-        description: "Course has been added to your cart.",
-      });
+      if (result.success) {
+        toast({
+          title: "Added to cart!",
+          description: "Course has been added to your cart.",
+        });
+      } else {
+        toast({
+          title: "Failed to add to cart",
+          description: result.message || "Something went wrong.",
+        });
+      }
     }
   };
 

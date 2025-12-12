@@ -1,3 +1,5 @@
+export type CourseProgressStatus = "NOTSTARTED" | "INPROGRESS" | "COMPLETED";
+
 export interface Course {
   id: string;
   title: string;
@@ -10,18 +12,18 @@ export interface Course {
   thumbnail?: string;
   thumbnailId?: string;
   published?: boolean;
-  instructor: {
-    name: string;
-    email: string;
-    profileUrl: string;
-  };
+  instructor: Instructor;
   reviews: Review[];
   requirements: string[];
   objectives: string[];
   language: string;
   duration: number;
+  totalLessons: number;
+  totalSections: number;
   sections: Section[];
   enrollments: Enrollment[];
+  isEnrolled?: boolean; // Client-side flag: true if current user is enrolled
+  userEnrollment?: Enrollment; // Current user's enrollment data (if enrolled)
   updatedAt: string;
   createdAt: string;
 }
@@ -33,8 +35,10 @@ export interface Lesson {
   duration: number;
   order: number;
   fileName?: string;
-  videoUrl?: string;
+  videoUrl?: string; // Only returned for enrolled users or preview lessons
   videoId?: string;
+  isPreview?: boolean; // Indicates if this is a free preview lesson
+  isLocked?: boolean; // UI flag to show lesson is locked (computed client-side)
   createdAt: string;
   updatedAt: string;
 }
@@ -68,10 +72,31 @@ export interface Rating {
 export interface Enrollment {
   id: string;
   courseId: string;
+  progressCourse: CourseProgressStatus;
+  currentLessonId?: string;
+  currentSectionId?: string;
+  currentSection?: Partial<Section>;
+  currentLesson?: Partial<Lesson>;
   user: {
     name: string;
     email: string;
   };
+  LessonProgress: LessonProgress[];
+  course: Partial<Course>;
+}
+
+export interface LessonProgress {
+  lesson: LessonTitle;
+}
+
+export interface LessonTitle {
+  title: string;
+}
+
+export interface Instructor {
+  name: string;
+  profileUrl: string;
+  email: string;
 }
 
 export interface InstructorCourse {
@@ -97,6 +122,12 @@ export interface CourseIdResponse {
   message: string;
   success: boolean;
   data?: Course;
+}
+
+export interface MyLearningResponse {
+  success: true;
+  message: string;
+  data: Partial<Enrollment>[];
 }
 
 export enum CourseLevel {

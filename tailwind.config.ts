@@ -95,11 +95,11 @@ export default {
             transform: "translateY(0)",
           },
         },
-        "ripple": {
+        ripple: {
           "0%, 100%": { transform: "translate(-50%, -50%) scale(1)" },
           "50%": { transform: "translate(-50%, -50%) scale(0.9)" },
         },
-        "orbit": {
+        orbit: {
           "0%": {
             transform:
               "rotate(0deg) translateY(calc(var(--radius) * 1px)) rotate(0deg)",
@@ -114,10 +114,12 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.6s ease-out",
-        "ripple": "ripple 2s ease calc(var(--i, 0) * 0.2s) infinite",
-        "orbit": "orbit calc(var(--duration) * 1s) linear infinite",
+        ripple: "ripple 2s ease calc(var(--i, 0) * 0.2s) infinite",
+        orbit: "orbit calc(var(--duration) * 1s) linear infinite",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
+// @tailwindcss/line-clamp

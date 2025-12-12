@@ -115,11 +115,11 @@ export interface VerifyEmail {
 }
 
 export interface User {
-  id: string;
   email: string;
   name: string;
   profileUrl: string;
   isAdmin: boolean;
+  isInstructor: boolean;
 }
 
 export interface LocationState {
@@ -163,7 +163,6 @@ export interface CartItem {
   thumbnail: string;
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   duration: number;
-  addedAt: Date;
 }
 
 export interface addToCartParams {
@@ -184,10 +183,22 @@ export interface CartState {
   items: CartItem[];
   totalItems: number;
   totalPrice: number;
-  addToCart: (course: addToCartParams) => void;
-  removeFromCart: (courseId: string) => void;
-  // updateQuantity: (courseId: string, quantity: number) => void;
-  clearCart: () => void;
+  addToCart: (course: addToCartParams) => Promise<{
+    success: boolean;
+    message: string;
+  }>;
+  removeFromCart: (courseId: string) => Promise<{
+    success: boolean;
+    message: string;
+  }>;
+  loadCart: () => Promise<{
+    success: boolean;
+    message: string;
+  }>;
+  clearCart: () => Promise<{
+    success: boolean;
+    message: string;
+  }>;
   getCartItem: (courseId: string) => CartItem | undefined;
   isInCart: (courseId: string) => boolean;
 }

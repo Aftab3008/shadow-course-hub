@@ -10,12 +10,19 @@ const Cart = () => {
   const { items, clearCart } = useCartStore();
   const { toast } = useToast();
 
-  const handleClearCart = () => {
-    clearCart();
-    toast({
-      title: "Cart cleared",
-      description: "All items have been removed from your cart.",
-    });
+  const handleClearCart = async () => {
+    const result = await clearCart();
+    if (result.success) {
+      toast({
+        title: "Cart cleared",
+        description: "All items have been removed from your cart.",
+      });
+    } else {
+      toast({
+        title: "Failed to clear cart",
+        description: result.message || "Something went wrong.",
+      });
+    }
   };
 
   return (

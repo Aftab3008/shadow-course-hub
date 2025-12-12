@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Course } from "@/types/course";
-import { formatDate } from "@/utils/utils";
+import { formatDate, formatTitle } from "@/utils/utils";
 import { Edit, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import PublishButton from "./PublishButton";
@@ -91,7 +91,7 @@ export default function InstructorCard({ course }: InsturctorCardProps) {
             </Button>
             {course.published && (
               <Button size="sm" variant="outline" asChild>
-                <Link to={`/course/${course.id}`}>
+                <Link to={`/course/${formatTitle(course.title)}/${course.id}`}>
                   <Eye className="h-4 w-4" />
                 </Link>
               </Button>

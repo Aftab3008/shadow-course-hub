@@ -1,3 +1,5 @@
+import { BookOpen, Compass, Search } from "lucide-react";
+
 export const NavLinks = [
   {
     to: "/courses",
@@ -8,6 +10,7 @@ export const NavLinks = [
     label: "My Learning",
   },
 ];
+
 export const LearningLinks = [
   {
     to: "/my-learning",
@@ -59,4 +62,10 @@ export const AccountLinks = [
     to: "/purchase-history",
     label: "Purchase History",
   },
+];
+
+export const popularPages = [
+  { name: "Browse Courses", href: "/courses", icon: BookOpen },
+  { name: "My Learning", href: "/my-learning", icon: Compass },
+  { name: "Cart", href: "/cart", icon: Search },
 ];

@@ -10,7 +10,9 @@ export default function Success() {
   const { clearCart } = useCartStore();
 
   useEffect(() => {
-    clearCart();
+    (async () => {
+      await clearCart();
+    })();
   }, []);
 
   const handleContinueShopping = () => {

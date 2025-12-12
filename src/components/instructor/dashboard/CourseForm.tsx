@@ -416,15 +416,19 @@ export default function CourseForm({
                         <Textarea
                           placeholder="e.g., Basic HTML knowledge, Computer with internet access"
                           className="bg-background/60 border-border hover:border-primary/50 focus:border-primary transition-colors min-h-[60px] sm:min-h-[80px] resize-none"
-                          value={field.value.join(", ")}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value
-                                .split(",")
-                                .map((req) => req.trim())
-                                .filter(Boolean)
-                            )
+                          value={
+                            Array.isArray(field.value)
+                              ? field.value.join(", ")
+                              : field.value
                           }
+                          onChange={(e) => field.onChange(e.target.value)}
+                          onBlur={(e) => {
+                            const items = e.target.value
+                              .split(",")
+                              .map((req) => req.trim())
+                              .filter(Boolean);
+                            field.onChange(items);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -445,15 +449,19 @@ export default function CourseForm({
                         <Textarea
                           placeholder="e.g., Build modern web applications, Master React concepts"
                           className="bg-background/60 border-border hover:border-primary/50 focus:border-primary transition-colors min-h-[60px] sm:min-h-[80px] resize-none"
-                          value={field.value.join(", ")}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value
-                                .split(",")
-                                .map((obj) => obj.trim())
-                                .filter(Boolean)
-                            )
+                          value={
+                            Array.isArray(field.value)
+                              ? field.value.join(", ")
+                              : field.value
                           }
+                          onChange={(e) => field.onChange(e.target.value)}
+                          onBlur={(e) => {
+                            const items = e.target.value
+                              .split(",")
+                              .map((obj) => obj.trim())
+                              .filter(Boolean);
+                            field.onChange(items);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />

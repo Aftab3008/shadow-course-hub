@@ -10,12 +10,19 @@ export default function Cartcard() {
   const { items, removeFromCart } = useCartStore();
   const { toast } = useToast();
 
-  const handleRemoveItem = (courseId: string) => {
-    removeFromCart(courseId);
-    toast({
-      title: "Item removed",
-      description: "Course has been removed from your cart.",
-    });
+  const handleRemoveItem = async (courseId: string) => {
+    const result = await removeFromCart(courseId);
+    if (result.success) {
+      toast({
+        title: "Item removed",
+        description: "Course has been removed from your cart.",
+      });
+    } else {
+      toast({
+        title: "Failed to remove item",
+        description: result.message || "Something went wrong.",
+      });
+    }
   };
   return (
     <main>

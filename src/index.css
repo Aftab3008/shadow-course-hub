@@ -137,6 +137,222 @@
   height: 100%;
 }
 
+/* Enhanced video player styles */
+.slider-thumb-green .rc-slider-handle {
+  background-color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+}
+
+.slider-thumb-green .rc-slider-track {
+  background-color: hsl(var(--primary));
+}
+
+/* Video player progress bar enhancements */
+.video-progress-slider {
+  --slider-thumb-size: 12px;
+}
+
+.video-progress-slider [data-radix-slider-thumb] {
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: hsl(var(--primary));
+  border: 2px solid white;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.video-progress-slider:hover [data-radix-slider-thumb],
+.video-progress-slider [data-radix-slider-thumb]:focus {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.video-progress-slider [data-radix-slider-track] {
+  background: rgba(255, 255, 255, 0.3);
+  height: 4px;
+  transition: height 0.2s ease;
+}
+
+.video-progress-slider:hover [data-radix-slider-track] {
+  height: 6px;
+}
+
+.video-progress-slider [data-radix-slider-range] {
+  background: hsl(var(--primary));
+  height: 100%;
+}
+
+/* Video player button hover effects */
+.video-control-button {
+  @apply p-1.5 rounded-md transition-all duration-200;
+  @apply hover:bg-white/20 hover:text-primary hover:scale-110;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary/50;
+}
+
+/* Center play button pulse animation */
+@keyframes pulse-play {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.center-play-button {
+  animation: pulse-play 2s ease-in-out infinite;
+}
+
+/* Seek feedback animation */
+@keyframes seek-feedback {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.seek-feedback {
+  animation: seek-feedback 0.6s ease-out;
+}
+
+/* Video loading skeleton */
+.video-skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted-foreground) / 0.1) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 2s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Custom scrollbar for course content */
+.course-content-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.course-content-scroll::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+.course-content-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 3px;
+}
+
+.course-content-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--accent-foreground));
+}
+
+/* Smooth transitions for cards */
+.lecture-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lecture-card:hover {
+  transform: translateY(-1px);
+}
+
+/* Video player aspect ratio responsive adjustments */
+@media (max-width: 640px) {
+  .video-player-container {
+    aspect-ratio: 16/9;
+    min-height: 200px;
+  }
+
+  /* Mobile touch optimizations */
+  .video-control-button {
+    @apply p-2 min-w-[44px] min-h-[44px];
+  }
+
+  .center-play-button {
+    @apply p-5;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .video-player-container {
+    aspect-ratio: 16/9;
+    min-height: 300px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .video-player-container {
+    aspect-ratio: 16/9;
+    min-height: 400px;
+  }
+}
+
+/* Enhanced video container */
+.video-player-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* Ensure video controls are always clickable */
+.video-controls-area {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 9999 !important;
+} /* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .video-control-button:hover {
+    transform: none;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .center-play-button:hover {
+    transform: none;
+  }
+
+  .video-progress-slider [data-radix-slider-thumb] {
+    opacity: 1;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Course progress animations */
+.progress-bar {
+  transition: width 0.3s ease-in-out;
+}
+
+/* Backdrop blur support */
+.backdrop-blur-fallback {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+@supports (backdrop-filter: blur(8px)) {
+  .backdrop-blur-fallback {
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
 @layer components {
   .g-button {
     @apply rounded-[var(--radius)] border;
