@@ -149,6 +149,7 @@ export default function SectionsManager({
                   key={section.id}
                   index={index + 1}
                   id={section.id}
+                  duration={section.duration}
                   title={section.title}
                   description={section.description}
                   order={section.order}

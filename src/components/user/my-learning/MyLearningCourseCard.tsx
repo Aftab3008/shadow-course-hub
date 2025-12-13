@@ -21,7 +21,7 @@ export function MyLearningCourseCard({
     enrollment.LessonProgress?.length || 0,
     enrollment.course?.totalLessons || 0
   );
-
+  const { currentLessonId, currentSectionId } = enrollment;
   const isCompleted = progress === 100;
   const hasStarted = progress > 0;
 
@@ -193,7 +193,9 @@ export function MyLearningCourseCard({
                     <Link
                       to={`/my-learning/${formatTitle(
                         enrollment.course.title
-                      )}/${enrollment.course.id}/learn/1/1/1`}
+                      )}/${
+                        enrollment.course.id
+                      }/learn/${currentSectionId}/${currentLessonId}`}
                       className="flex items-center gap-2"
                     >
                       <Play className="h-4 w-4" />

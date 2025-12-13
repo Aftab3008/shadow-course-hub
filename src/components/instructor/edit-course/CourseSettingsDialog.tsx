@@ -202,7 +202,7 @@ const CourseSettingsDialog = ({
           </h3>
 
           <div className="flex items-center space-x-4">
-            <div className="relative">
+            <div className="relative bg-muted">
               <img
                 src={
                   thumbnailFile
@@ -210,6 +210,7 @@ const CourseSettingsDialog = ({
                     : settings.thumbnail
                 }
                 alt="Course thumbnail"
+                loading="lazy"
                 className="w-32 h-20 object-cover rounded border"
               />
               <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity rounded flex items-center justify-center">

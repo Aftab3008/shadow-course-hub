@@ -1,3 +1,4 @@
+import { formatDuration } from "@/utils/utils";
 import { Users, Clock } from "lucide-react";
 
 interface CourseStatsProps {
@@ -14,7 +15,7 @@ const CourseStats = ({ enrollments, duration }: CourseStatsProps) => {
       </div>
       <div className="flex items-center space-x-1 text-muted-foreground">
         <Clock className="h-4 w-4" />
-        <span className="text-sm">{duration}</span>
+        <span className="text-sm">{formatDuration(duration)}</span>
       </div>
     </div>
   );

@@ -3,16 +3,14 @@ import { Button } from "@/components/ui/button";
 import { useEnrollmentCheck } from "@/hooks/Enrollment";
 import { AlertCircle, Lock, ShoppingCart } from "lucide-react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useMemo } from "react";
 
-/**
- * EnrollmentGuard - Protects video/learning routes by verifying user enrollment
- * This component should wrap any route that requires course enrollment
- */
-export default function EnrollmentGuard() {
-  console.log("EnrollmentGuard rendered");
-  const { courseId } = useParams<{ courseId: string }>();
-  console.log("courseId:", courseId);
+function EnrollmentGuard() {
+  const params = useParams<{ courseId: string }>();
   const navigate = useNavigate();
+
+  // Memoize courseId to ensure stable queryKey for React Query
+  const courseId = useMemo(() => params.courseId, [params.courseId]);
 
   const {
     data: enrollmentData,
@@ -37,7 +35,7 @@ export default function EnrollmentGuard() {
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-muted-foreground">Verifying access...</p>
+          {/* <p className="text-muted-foreground">Verifying access...</p> */}
         </div>
       </div>
     );
@@ -116,3 +114,5 @@ export default function EnrollmentGuard() {
 
   return <Outlet context={{ enrollmentData }} />;
 }
+
+export default EnrollmentGuard;

@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Course } from "@/types/course";
 import { Link } from "react-router-dom";
+import { memo } from "react";
 import CourseInstructor from "./CourseInstructor";
 import CoursePrice from "./CoursePrice";
 import CourseStats from "./CourseStats";
@@ -11,14 +12,16 @@ interface CourseCardProps {
   course: Course;
 }
 
-const CourseCard = ({ course }: CourseCardProps) => {
+const CourseCard = memo(({ course }: CourseCardProps) => {
+  const { enrollments } = course._count;
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 border-border bg-card">
       <Link to={`/course/${formatTitle(course.title)}/${course.id}`}>
-        <div className="aspect-video relative overflow-hidden rounded-t-lg">
+        <div className="aspect-video relative overflow-hidden rounded-t-lg bg-muted">
           <img
             src={course.thumbnail}
             alt={course.title}
+            loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
           <div className="absolute top-3 left-3">
@@ -52,10 +55,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
         </div>
 
         <div className="mb-3">
-          <CourseStats
-            enrollments={course.enrollments.length}
-            duration={course.duration}
-          />
+          <CourseStats enrollments={enrollments} duration={course.duration} />
         </div>
 
         <Badge variant="outline" className="text-xs capitalize">
@@ -71,6 +71,8 @@ const CourseCard = ({ course }: CourseCardProps) => {
       </CardFooter>
     </Card>
   );
-};
+});
+
+CourseCard.displayName = "CourseCard";
 
 export default CourseCard;

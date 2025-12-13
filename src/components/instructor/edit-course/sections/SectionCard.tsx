@@ -21,6 +21,7 @@ import Lessons from "./lessons/Lessons";
 import { useParams } from "react-router-dom";
 import { useDeleteSection } from "@/hooks/Instructor";
 import UpdateSectionDes from "./UpdateSectionDes";
+import { formatDuration } from "@/utils/utils";
 
 export default function SectionCard({
   id,
@@ -29,12 +30,14 @@ export default function SectionCard({
   order,
   index,
   lessons,
+  duration,
 }: {
   id: string;
   title: string;
   description: string;
   order: number;
   index: number;
+  duration: number;
   lessons: Lesson[];
 }) {
   const {
@@ -114,14 +117,7 @@ export default function SectionCard({
                 </div>
                 {lessons.length > 0 && (
                   <Badge variant="outline" className="text-xs">
-                    {lessons.reduce((total, lesson) => {
-                      const duration =
-                        typeof lesson.duration === "number"
-                          ? lesson.duration
-                          : parseInt(lesson.duration || "0", 10);
-                      return total + duration;
-                    }, 0)}
-                    min
+                    {formatDuration(duration)}
                   </Badge>
                 )}
               </div>

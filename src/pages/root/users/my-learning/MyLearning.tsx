@@ -1,5 +1,9 @@
-import { MyLearningPageSkeleton } from "@/components/shared/skeletons/MyLearningSkeletons";
+import {
+  MyLearningCardsSkeleton,
+  MyLearningGridSkeleton,
+} from "@/components/shared/skeletons/MyLearningSkeletons";
 import { Button } from "@/components/ui/button";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Card, CardContent } from "@/components/ui/card";
 import MyLearningError from "@/components/user/my-learning/MyLearningError";
 import MyLearningSection from "@/components/user/my-learning/MyLearningSection";
@@ -12,11 +16,6 @@ import { Link } from "react-router-dom";
 const MyLearning = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
   const { data: myLearningData, isLoading, error } = useMyLearning();
-  console.log("My Learning Data:", myLearningData);
-
-  if (isLoading) {
-    return <MyLearningPageSkeleton />;
-  }
 
   if (error) {
     return <MyLearningError message={error.message} />;
@@ -54,9 +53,13 @@ const MyLearning = () => {
                   <p className="text-sm font-medium text-muted-foreground mb-1">
                     Total Courses
                   </p>
-                  <p className="text-3xl font-bold text-foreground">
-                    {enrollments.length}
-                  </p>
+                  <span className="text-3xl font-bold text-foreground">
+                    {isLoading ? (
+                      <LoadingSpinner size="sm" />
+                    ) : (
+                      enrollments.length
+                    )}
+                  </span>
                   <p className="text-xs text-muted-foreground mt-1">
                     {enrollments.length > 0
                       ? "Keep learning!"
@@ -108,6 +111,7 @@ const MyLearning = () => {
                   variant={viewMode === "list" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setViewMode("list")}
+                  disabled={isLoading}
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -115,6 +119,7 @@ const MyLearning = () => {
                   variant={viewMode === "grid" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setViewMode("grid")}
+                  disabled={isLoading}
                 >
                   <Grid3X3 className="h-4 w-4" />
                 </Button>
@@ -124,7 +129,13 @@ const MyLearning = () => {
         </Card>
 
         <div className="space-y-6">
-          {enrollments.length > 0 ? (
+          {isLoading ? (
+            viewMode === "grid" ? (
+              <MyLearningGridSkeleton count={8} />
+            ) : (
+              <MyLearningCardsSkeleton count={3} />
+            )
+          ) : enrollments.length > 0 ? (
             <MyLearningSection enrollments={enrollments} viewMode={viewMode} />
           ) : (
             <Card className="border-border/50">

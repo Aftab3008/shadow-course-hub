@@ -1,5 +1,6 @@
 import { AccountLinks, LearningLinks, NavLinks } from "@/constants/NavbarLinks";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import CartIcon from "../cart/CartIcon";
 import { Button } from "../ui/button";
 import {
@@ -12,7 +13,7 @@ import ShowAvatar from "./ShowAvatar";
 import { userAuthStore } from "@/store/auth.store";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "../ui/separator";
-import { LogOut } from "lucide-react";
+import { LogOut, ChevronDown, Sparkles, User, ShieldCheck } from "lucide-react";
 
 export default function DesktopBar() {
   const { isAuthenticated, isCheckingAuth, user, logout } = userAuthStore();
@@ -36,125 +37,174 @@ export default function DesktopBar() {
   };
 
   return (
-    <div className="flex items-center space-x-2 md:space-x-4 lg:space-x-6">
-      <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 flex-shrink-0">
+    <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
+      {/* Navigation Links */}
+      <nav className="hidden md:flex items-center gap-1 flex-shrink-0">
         {NavLinks.map(({ to, label }) => (
           <Link
             key={to}
             to={to}
-            className="flex h-8 items-center px-2 hover:text-primary transition whitespace-nowrap"
+            className="relative group px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 whitespace-nowrap"
           >
             {label}
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
           </Link>
         ))}
       </nav>
 
-      <div className="hidden md:flex items-center space-x-4 justify-end">
+      {/* Right Section */}
+      <div className="hidden md:flex items-center gap-3 justify-end">
         <CartIcon />
+
         {isCheckingAuth ? (
-          <div className="animate-pulse bg-muted rounded-full h-8 w-8" />
+          <div className="flex items-center gap-2">
+            <div className="animate-pulse bg-muted rounded-full h-9 w-20" />
+            <div className="animate-pulse bg-muted rounded-full h-9 w-9" />
+          </div>
         ) : isAuthenticated ? (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            {/* Teach Button */}
             <Button
-              variant="link"
-              className="text-primary hover:text-primary h-full" //hover:bg-gray-400 hover:bg-opacity-15
+              variant="ghost"
+              size="sm"
               asChild
+              className="group relative overflow-hidden"
             >
               <Link
                 to="/instructor/dashboard"
-                className="flex h-full items-center justify-center"
+                className="flex items-center gap-1.5"
               >
-                Become Instructor
+                <Sparkles className="h-4 w-4" />
+                <span className="hidden lg:inline">Teach</span>
               </Link>
             </Button>
+
+            {/* User Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="relative h-8 w-8 rounded-full"
+                  className="relative h-9 gap-2 px-2 hover:bg-accent"
                 >
                   <ShowAvatar
                     profileUrl={user?.profileUrl}
                     name={user?.name}
-                    className="h-8 w-8"
+                    className="h-7 w-7 ring-2 ring-primary/10"
                   />
+                  <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-background">
-                <div className="px-4 py-2 flex items-center space-x-2">
+              <DropdownMenuContent
+                align="end"
+                className="w-64 bg-card border-border shadow-lg"
+                sideOffset={8}
+              >
+                {/* User Info */}
+                <div className="px-3 py-3 flex items-center gap-3">
                   <ShowAvatar
                     profileUrl={user?.profileUrl}
                     name={user?.name}
-                    className="h-10 w-10 mb-2"
+                    className="h-12 w-12 ring-2 ring-primary/20"
                   />
-                  <div className="flex flex-col">
-                    <p className="text-sm font-semibold text-gray-700">
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-foreground truncate">
                       {user?.name}
                     </p>
-                    <p className="text-xs text-gray-500">{user?.email}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {user?.email}
+                    </p>
                   </div>
                 </div>
-                <Separator className="my-1" />
-                {LearningLinks.map(({ to, label }) => (
-                  <DropdownMenuItem key={to} asChild>
-                    <Link
-                      to={to}
-                      className="hover:bg-gray-100 text-sm tracking-wide cursor-pointer"
-                    >
-                      {label}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-                <Separator className="my-1" />
-                {AccountLinks.map(({ to, label }) => (
-                  <DropdownMenuItem key={to} asChild>
-                    <Link
-                      to={to}
-                      className="hover:bg-gray-100 text-sm tracking-wide cursor-pointer"
-                    >
-                      {label}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-                {user.isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link
-                      to="/admin/dashboard"
-                      className="hover:bg-gray-100 text-sm tracking-wide cursor-pointer"
-                    >
-                      Admin Dashboard
-                    </Link>
-                  </DropdownMenuItem>
+
+                <Separator className="my-1.5" />
+
+                {/* Learning Links */}
+                <div className="py-1">
+                  {LearningLinks.map(({ to, label }) => (
+                    <DropdownMenuItem key={to} asChild>
+                      <Link
+                        to={to}
+                        className="cursor-pointer text-sm font-medium px-3 py-2 focus:bg-accent"
+                      >
+                        {label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+
+                <Separator className="my-1.5" />
+
+                {/* Account Links */}
+                <div className="py-1">
+                  {AccountLinks.map(({ to, label }) => (
+                    <DropdownMenuItem key={to} asChild>
+                      <Link
+                        to={to}
+                        className="cursor-pointer text-sm font-medium px-3 py-2 focus:bg-accent"
+                      >
+                        {label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+
+                {/* Admin Link */}
+                {user?.isAdmin && (
+                  <>
+                    <Separator className="my-1.5" />
+                    <div className="py-1">
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/admin/dashboard"
+                          className="cursor-pointer text-sm font-medium px-3 py-2 focus:bg-accent flex items-center gap-2"
+                        >
+                          <ShieldCheck className="h-4 w-4 text-primary" />
+                          Admin Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    </div>
+                  </>
                 )}
-                <Separator className="my-1" />
-                <Button
-                  variant="ghost"
-                  className="w-full bg-gray-400 bg-opacity-15 hover:bg-gray-400 hover:bg-opacity-20 flex justify-start items-center gap-2 text-red-500 hover:text-red-600 cursor-pointer hover:border-none hover:ring-0"
-                  onClick={handleSignOut}
-                >
-                  <LogOut className="mr-2 h-4 w-4 rotate-180" />
-                  Sign Out
-                </Button>
+
+                <Separator className="my-1.5" />
+
+                {/* Sign Out */}
+                <div className="py-1.5 px-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+                    onClick={handleSignOut}
+                  >
+                    <LogOut className="mr-2 h-4 w-4 rotate-180" />
+                    Sign Out
+                  </Button>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         ) : (
-          <>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-2"
+          >
             <Button
               variant="ghost"
+              size="sm"
               asChild
-              className="h-full text-primary hover:text-primary"
+              className="hover:bg-accent"
             >
-              <Link to="/auth/signin" className="flex h-full items-center px-2">
-                Sign In
-              </Link>
+              <Link to="/auth/signin">Sign In</Link>
             </Button>
-            <Button asChild className="h-full">
-              <Link to="/auth/signup" className="flex h-full items-center px-2">
-                Get Started
-              </Link>
+            <Button
+              size="sm"
+              asChild
+              className="magnetic-button shadow-md hover:shadow-lg"
+            >
+              <Link to="/auth/signup">Get Started</Link>
             </Button>
-          </>
+          </motion.div>
         )}
       </div>
     </div>

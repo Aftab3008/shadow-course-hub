@@ -6,7 +6,8 @@ import AdminNavbar from "@/components/admin/AdminNavbar";
 export default function AdminLayout() {
   const { isAuthenticated, isCheckingAuth, user } = userAuthStore();
 
-  if (!isCheckingAuth && !isAuthenticated && !user?.isAdmin) {
+  // Show NotFound if not checking auth AND (not authenticated OR not admin)
+  if (!isCheckingAuth && (!isAuthenticated || !user?.isAdmin)) {
     return <NotFound />;
   }
 

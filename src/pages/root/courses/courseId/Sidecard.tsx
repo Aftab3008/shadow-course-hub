@@ -38,10 +38,11 @@ export default function Sidecard({
     <div className="xl:col-span-1">
       <div className="sticky top-24 space-y-6">
         <Card className="border-border bg-gradient-to-br from-card to-card/80 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-          <div className="aspect-video relative group">
+          <div className="aspect-video relative group bg-muted">
             <img
               src={thumbnail}
               alt={title}
+              loading="eager"
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 group-hover:bg-black/50">

@@ -26,6 +26,10 @@ export interface Course {
   userEnrollment?: Enrollment; // Current user's enrollment data (if enrolled)
   updatedAt: string;
   createdAt: string;
+  _count?: {
+    enrollments: number;
+    reviews: number;
+  };
 }
 
 export interface Lesson {
