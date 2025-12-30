@@ -11,7 +11,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { saveLastViewedLessonSync } from "@/services/progressService";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function CourseLearningLayout() {
   const {
@@ -60,12 +60,7 @@ export default function CourseLearningLayout() {
 
   return (
     <div className="min-h-screen bg-background w-full">
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm"
-      >
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
 
@@ -101,7 +96,7 @@ export default function CourseLearningLayout() {
                 </p>
               </div>
               <div className="w-24 h-2 bg-secondary/30 rounded-full overflow-hidden">
-                <motion.div
+                <m.div
                   initial={{ width: 0 }}
                   animate={{ width: `${courseProgress}%` }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
@@ -111,7 +106,7 @@ export default function CourseLearningLayout() {
             </div>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       <div className="w-full mx-auto px-4 py-6">
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
@@ -124,6 +119,7 @@ export default function CourseLearningLayout() {
               course={enrollment.course}
               lessonProgress={enrollment.lessonProgress}
               courseId={courseId!}
+              sectionId={sectionId!}
               courseName={courseName!}
               currentLessonId={lessonId!}
             />

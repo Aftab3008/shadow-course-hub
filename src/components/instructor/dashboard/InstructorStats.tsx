@@ -1,7 +1,7 @@
 import InstructorStatsSkeleton from "@/components/shared/skeletons/InstructorStatsSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, DollarSign, Star, TrendingUp, Users } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function InstructorStats({
   totalStudents,
@@ -76,14 +76,14 @@ export default function InstructorStats({
   };
 
   return (
-    <motion.div
+    <m.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8"
     >
       {stats.map((stat, index) => (
-        <motion.div key={index} variants={itemVariants}>
+        <m.div key={index} variants={itemVariants}>
           <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 group overflow-hidden relative">
             <div
               className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
@@ -102,8 +102,8 @@ export default function InstructorStats({
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   );
 }

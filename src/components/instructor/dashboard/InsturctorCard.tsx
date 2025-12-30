@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import PublishButton from "./PublishButton";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface InsturctorCardProps {
   course: Partial<Course>;
@@ -38,7 +38,7 @@ export default function InstructorCard({ course }: InsturctorCardProps) {
   };
 
   return (
-    <motion.div variants={itemVariants}>
+    <m.div variants={itemVariants}>
       <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 group overflow-hidden">
         <div className="flex flex-col sm:flex-row gap-0">
           {/* Course Thumbnail */}
@@ -163,6 +163,6 @@ export default function InstructorCard({ course }: InsturctorCardProps) {
           </CardContent>
         </div>
       </Card>
-    </motion.div>
+    </m.div>
   );
 }

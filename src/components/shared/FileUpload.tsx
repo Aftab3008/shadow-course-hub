@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -59,7 +59,7 @@ export const FileUpload = ({
 
   return (
     <div className="w-full" {...getRootProps()}>
-      <motion.div
+      <m.div
         onClick={handleClick}
         whileHover="animate"
         className="p-10 group/file block rounded-lg cursor-pointer w-full relative overflow-hidden border border-dashed border-primary"
@@ -83,7 +83,7 @@ export const FileUpload = ({
           </p>
           <div className="relative w-full mt-10 max-w-xl mx-auto">
             {preview ? (
-              <motion.div
+              <m.div
                 className="relative overflow-hidden z-40 flex items-center justify-center md:h-full h-48 w-full mx-auto rounded-md shadow-sm flex-col gap-6"
                 layoutId="file-upload"
               >
@@ -93,36 +93,36 @@ export const FileUpload = ({
                   className="object-contain w-full h-full"
                 />
                 {file && (
-                  <motion.div
+                  <m.div
                     className={cn(
                       "relative overflow-hidden z-40 bg-neutral-800 flex flex-col items-start justify-center md:h-24 p-4 mt-4 w-full mx-auto rounded-md",
                       "shadow-sm"
                     )}
                   >
                     <div className="flex justify-between w-full items-center gap-4">
-                      <motion.p
+                      <m.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         layout
                         className="text-base text-white text-opacity-80 truncate max-w-xs"
                       >
                         {file.name}
-                      </motion.p>
-                      <motion.p
+                      </m.p>
+                      <m.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         layout
                         className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm text-white text-opacity-80 shadow-input"
                       >
                         {(file.size / (1024 * 1024)).toFixed(2)} MB
-                      </motion.p>
+                      </m.p>
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
-              </motion.div>
+              </m.div>
             ) : (
               <>
-                <motion.div
+                <m.div
                   layoutId="file-upload"
                   variants={mainVariant}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -132,19 +132,19 @@ export const FileUpload = ({
                   )}
                 >
                   {isDragActive ? (
-                    <motion.p
+                    <m.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       className="text-white flex flex-col items-center"
                     >
                       Drop it
                       <Upload className="h-4 w-4" />
-                    </motion.p>
+                    </m.p>
                   ) : (
                     <Upload className="h-4 w-4" />
                   )}
-                </motion.div>
-                <motion.div
+                </m.div>
+                <m.div
                   variants={secondaryVariant}
                   className="absolute opacity-0 border border-dashed border-primary inset-0 z-30 bg-transparent flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md"
                 />
@@ -152,7 +152,7 @@ export const FileUpload = ({
             )}
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 };

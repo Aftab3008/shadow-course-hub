@@ -50,7 +50,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import CreateCategory from "./CreateCategory";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function CourseForm({
   categories,
@@ -129,7 +129,7 @@ export default function CourseForm({
   };
 
   return (
-    <motion.div
+    <m.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -159,7 +159,7 @@ export default function CourseForm({
               className="space-y-6 sm:space-y-8"
             >
               {error && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
@@ -172,11 +172,11 @@ export default function CourseForm({
                       {error}
                     </AlertDescription>
                   </Alert>
-                </motion.div>
+                </m.div>
               )}
 
               {/* Basic Information Section */}
-              <motion.div variants={itemVariants}>
+              <m.div variants={itemVariants}>
                 <Card className="border-border/50 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardContent className="pt-6 relative z-10">
@@ -382,10 +382,10 @@ export default function CourseForm({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
 
               {/* Pricing Section */}
-              <motion.div variants={itemVariants}>
+              <m.div variants={itemVariants}>
                 <Card className="border-border/50 bg-gradient-to-br from-green-500/5 to-emerald-500/5 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardContent className="pt-6 relative z-10">
@@ -442,10 +442,10 @@ export default function CourseForm({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
 
               {/* Course Structure Section */}
-              <motion.div variants={itemVariants}>
+              <m.div variants={itemVariants}>
                 <Card className="border-border/50 bg-gradient-to-br from-purple-500/5 to-pink-500/5 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardContent className="pt-6 relative z-10">
@@ -527,10 +527,10 @@ export default function CourseForm({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
 
               {/* Submit Section */}
-              <motion.div variants={itemVariants} className="pt-4">
+              <m.div variants={itemVariants} className="pt-4">
                 <Button
                   type="submit"
                   disabled={isSubmitting}
@@ -549,11 +549,11 @@ export default function CourseForm({
                     </div>
                   )}
                 </Button>
-              </motion.div>
+              </m.div>
             </form>
           </Form>
         </CardContent>
       </Card>
-    </motion.div>
+    </m.div>
   );
 }

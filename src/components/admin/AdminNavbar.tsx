@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { userAuthStore } from "@/store/auth.store";
 import ShowAvatar from "@/components/shared/ShowAvatar";
 import { Button } from "@/components/ui/button";
@@ -56,7 +56,7 @@ export default function AdminNavbar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <motion.nav
+    <m.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl shadow-sm"
@@ -68,13 +68,13 @@ export default function AdminNavbar() {
               to="/admin/dashboard"
               className="flex items-center gap-2.5 group"
             >
-              <motion.div
+              <m.div
                 whileHover={{ rotate: 5, scale: 1.05 }}
                 className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/20"
               >
                 <Shield className="h-5 w-5" />
                 <div className="absolute inset-0 bg-primary/20 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-              </motion.div>
+              </m.div>
               <div className="hidden sm:flex items-center gap-2">
                 <span className="text-lg font-bold tracking-tight">
                   Admin Panel
@@ -103,7 +103,7 @@ export default function AdminNavbar() {
                   <Icon className="h-4 w-4" />
                   <span>{item.name}</span>
                   {active && (
-                    <motion.div
+                    <m.div
                       layoutId="activeTab"
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                       transition={{
@@ -286,6 +286,6 @@ export default function AdminNavbar() {
           </div>
         </div>
       </div>
-    </motion.nav>
+    </m.nav>
   );
 }

@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function SideCartcard() {
   const { items, totalPrice, clearCart } = useCartStore();
@@ -73,7 +73,7 @@ export default function SideCartcard() {
 
   return (
     <div className="sticky top-24">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -147,7 +147,7 @@ export default function SideCartcard() {
                 >
                   {isProcessingCheckout ? (
                     <>
-                      <motion.div
+                      <m.div
                         animate={{ rotate: 360 }}
                         transition={{
                           duration: 1,
@@ -157,7 +157,7 @@ export default function SideCartcard() {
                         className="mr-2"
                       >
                         <CreditCard className="h-5 w-5" />
-                      </motion.div>
+                      </m.div>
                       Processing...
                     </>
                   ) : (
@@ -246,7 +246,7 @@ export default function SideCartcard() {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

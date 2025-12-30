@@ -12,13 +12,14 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { signUpSchema } from "@/schemas/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, TriangleAlert } from "lucide-react";
+import { Eye, EyeOff, TriangleAlert, User, Mail, Lock } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import ContinueWith from "./ContinueWith";
 import { userAuthStore } from "@/store/auth.store";
+import { m } from "framer-motion";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -85,10 +86,14 @@ export default function SignUpForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {!!error && (
-            <div className="mb-6 flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive justify-center">
+            <m.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-6 flex items-center gap-x-2 rounded-lg bg-destructive/15 p-3 text-sm text-destructive justify-center border border-destructive/20"
+            >
               <TriangleAlert className="w-5 h-5" />
               <p className="flex items-center justify-center">{error}</p>
-            </div>
+            </m.div>
           )}
           <div className="grid grid-cols-2 gap-4">
             <FormField
@@ -96,12 +101,15 @@ export default function SignUpForm() {
               name="firstName"
               render={({ field }) => (
                 <FormItem className="space-y-2">
-                  <FormLabel className="text-foreground">First Name</FormLabel>
+                  <FormLabel className="text-foreground flex items-center gap-2">
+                    <User className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    First Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       id="firstName"
                       placeholder="John"
-                      className="bg-background border-border"
+                      className="h-11 bg-background/50 border-border focus:ring-2 focus:ring-emerald-500/20 transition-all"
                       {...field}
                     />
                   </FormControl>
@@ -114,12 +122,15 @@ export default function SignUpForm() {
               name="lastName"
               render={({ field }) => (
                 <FormItem className="space-y-2">
-                  <FormLabel className="text-foreground">Last Name</FormLabel>
+                  <FormLabel className="text-foreground flex items-center gap-2">
+                    <User className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    Last Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       id="lastName"
                       placeholder="Doe"
-                      className="bg-background border-border"
+                      className="h-11 bg-background/50 border-border focus:ring-2 focus:ring-emerald-500/20 transition-all"
                       {...field}
                     />
                   </FormControl>
@@ -133,13 +144,16 @@ export default function SignUpForm() {
             name="email"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-foreground">Email</FormLabel>
+                <FormLabel className="text-foreground flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  Email
+                </FormLabel>
                 <FormControl>
                   <Input
                     id="email"
                     type="email"
                     placeholder="your@email.com"
-                    className="bg-background border-border"
+                    className="h-11 bg-background/50 border-border focus:ring-2 focus:ring-emerald-500/20 transition-all"
                     {...field}
                   />
                 </FormControl>
@@ -152,14 +166,17 @@ export default function SignUpForm() {
             name="password"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-foreground">Password</FormLabel>
+                <FormLabel className="text-foreground flex items-center gap-2">
+                  <Lock className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  Password
+                </FormLabel>
                 <div className="relative">
                   <FormControl>
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a strong password"
-                      className="bg-background border-border pr-10"
+                      className="h-11 bg-background/50 border-border pr-10 focus:ring-2 focus:ring-emerald-500/20 transition-all"
                       {...field}
                     />
                   </FormControl>
@@ -167,7 +184,7 @@ export default function SignUpForm() {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:text-foreground transition-colors"
                     onClick={() => setShowPassword((v) => !v)}
                     tabIndex={-1}
                   >
@@ -187,7 +204,8 @@ export default function SignUpForm() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-foreground">
+                <FormLabel className="text-foreground flex items-center gap-2">
+                  <Lock className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                   Confirm Password
                 </FormLabel>
                 <div className="relative">
@@ -196,7 +214,7 @@ export default function SignUpForm() {
                       id="confirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm your password"
-                      className="bg-background border-border pr-10"
+                      className="h-11 bg-background/50 border-border pr-10 focus:ring-2 focus:ring-emerald-500/20 transition-all"
                       {...field}
                     />
                   </FormControl>
@@ -204,7 +222,7 @@ export default function SignUpForm() {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:text-foreground transition-colors"
                     onClick={() => setShowConfirmPassword((v) => !v)}
                     tabIndex={-1}
                   >
@@ -247,7 +265,7 @@ export default function SignUpForm() {
           />
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 bg-gradient-to-r from-emerald-600 via-emerald-500 to-blue-600 hover:scale-[1.02] transition-transform shadow-lg hover:shadow-xl"
             disabled={isSubmitting || !agreeToTerms}
           >
             {isSubmitting ? "Creating account..." : "Create Account"}

@@ -1,6 +1,6 @@
 import { useCategories } from "@/hooks/Category";
 import CourseForm from "./CourseForm";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Sparkles, Rocket, Users, Award } from "lucide-react";
 
 export default function CreateCourse() {
@@ -13,7 +13,7 @@ export default function CreateCourse() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
       {/* Hero Section */}
-      <motion.section
+      <m.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b border-border/50 overflow-hidden"
@@ -26,7 +26,7 @@ export default function CreateCourse() {
         />
 
         <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -49,7 +49,7 @@ export default function CreateCourse() {
 
             {/* Feature Pills */}
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
@@ -59,8 +59,8 @@ export default function CreateCourse() {
                 <span className="text-sm font-medium text-foreground">
                   Launch Fast
                 </span>
-              </motion.div>
-              <motion.div
+              </m.div>
+              <m.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 }}
@@ -70,8 +70,8 @@ export default function CreateCourse() {
                 <span className="text-sm font-medium text-foreground">
                   Reach Globally
                 </span>
-              </motion.div>
-              <motion.div
+              </m.div>
+              <m.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 }}
@@ -81,15 +81,15 @@ export default function CreateCourse() {
                 <span className="text-sm font-medium text-foreground">
                   Build Authority
                 </span>
-              </motion.div>
+              </m.div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.section>
+      </m.section>
 
       {/* Form Section */}
       <div className="container mx-auto px-4 py-8 sm:py-12 max-w-5xl">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -99,7 +99,7 @@ export default function CreateCourse() {
             isLoadingCategories={isLoadingCategories}
             refetch={refetch}
           />
-        </motion.div>
+        </m.div>
       </div>
     </main>
   );

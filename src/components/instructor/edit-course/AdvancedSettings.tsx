@@ -35,7 +35,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface AdvancedSettingsProps {
   thumbnail?: string;
@@ -126,7 +126,7 @@ export default function AdvancedSettings({
   };
 
   return (
-    <motion.div
+    <m.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -151,7 +151,7 @@ export default function AdvancedSettings({
 
         <CardContent className="px-4 sm:px-6 pb-8 pt-6">
           {error && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -164,7 +164,7 @@ export default function AdvancedSettings({
                   {error}
                 </AlertDescription>
               </Alert>
-            </motion.div>
+            </m.div>
           )}
 
           {isLoading ? (
@@ -201,7 +201,7 @@ export default function AdvancedSettings({
           ) : (
             <div className="space-y-6 sm:space-y-8">
               {/* Thumbnail Section */}
-              <motion.div variants={itemVariants}>
+              <m.div variants={itemVariants}>
                 <Card className="border-border/50 bg-gradient-to-br from-pink-500/5 to-rose-500/5 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-rose-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardContent className="pt-6 relative z-10">
@@ -255,10 +255,10 @@ export default function AdvancedSettings({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
 
               {/* Video Settings Section */}
-              <motion.div variants={itemVariants}>
+              <m.div variants={itemVariants}>
                 <Card className="border-border/50 bg-gradient-to-br from-orange-500/5 to-amber-500/5 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardContent className="pt-6 relative z-10">
@@ -329,10 +329,10 @@ export default function AdvancedSettings({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
 
               {/* Save Button */}
-              <motion.div variants={itemVariants} className="pt-4">
+              <m.div variants={itemVariants} className="pt-4">
                 <Button
                   onClick={handleSaveSettings}
                   disabled={isLoadingResult || !file}
@@ -351,11 +351,11 @@ export default function AdvancedSettings({
                     </>
                   )}
                 </Button>
-              </motion.div>
+              </m.div>
             </div>
           )}
         </CardContent>
       </Card>
-    </motion.div>
+    </m.div>
   );
 }

@@ -21,7 +21,7 @@ import {
   Layers,
 } from "lucide-react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import ErrorCourse from "./ErrorCourse";
 import ErrorCourseAuth from "./ErrorCourseAuth";
 
@@ -49,7 +49,7 @@ const EditCourse = () => {
   return (
     <main className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
       {/* Hero Section */}
-      <motion.section
+      <m.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b border-border/50 overflow-hidden"
@@ -62,7 +62,7 @@ const EditCourse = () => {
         />
 
         <div className="container mx-auto px-4 py-8 md:py-12 relative z-10 max-w-6xl">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -127,12 +127,12 @@ const EditCourse = () => {
                 </div>
               </CardHeader>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.section>
+      </m.section>
 
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -206,7 +206,7 @@ const EditCourse = () => {
               />
             </TabsContent>
           </Tabs>
-        </motion.div>
+        </m.div>
       </div>
     </main>
   );

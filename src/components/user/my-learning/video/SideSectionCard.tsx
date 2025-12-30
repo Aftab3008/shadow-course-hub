@@ -5,7 +5,7 @@ import { formatDuration } from "@/utils/utils";
 import { CheckCircle, Lock, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { memo, useCallback } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface SideSectionCardProps {
   lesson: Partial<Lesson>;
@@ -37,7 +37,7 @@ const SideSectionCard = memo<SideSectionCardProps>(function SideSectionCard({
   }, [isAccessible, navigate, courseName, courseId, sectionId, lesson.id]);
 
   return (
-    <motion.div
+    <m.div
       whileHover={isAccessible ? { y: -2 } : {}}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
@@ -57,7 +57,7 @@ const SideSectionCard = memo<SideSectionCardProps>(function SideSectionCard({
 
         {/* Current lesson animated gradient background */}
         {isCurrent && (
-          <motion.div
+          <m.div
             className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent"
             animate={{
               opacity: [0.3, 0.5, 0.3],
@@ -74,16 +74,16 @@ const SideSectionCard = memo<SideSectionCardProps>(function SideSectionCard({
           <div className="flex items-start space-x-3">
             <div className="flex-shrink-0 mt-0.5">
               {isCompleted ? (
-                <motion.div
+                <m.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 200 }}
                   className="p-1 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/10"
                 >
                   <CheckCircle className="h-4 w-4 text-green-500" />
-                </motion.div>
+                </m.div>
               ) : isCurrent ? (
-                <motion.div
+                <m.div
                   animate={{
                     scale: [1, 1.1, 1],
                   }}
@@ -97,7 +97,7 @@ const SideSectionCard = memo<SideSectionCardProps>(function SideSectionCard({
                   <div className="h-4 w-4 rounded-full bg-primary flex items-center justify-center">
                     <Play className="h-2 w-2 text-primary-foreground fill-current" />
                   </div>
-                </motion.div>
+                </m.div>
               ) : !isAccessible ? (
                 <div className="p-1 rounded-lg bg-muted/20">
                   <Lock className="h-4 w-4 text-muted-foreground" />
@@ -134,7 +134,7 @@ const SideSectionCard = memo<SideSectionCardProps>(function SideSectionCard({
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </m.div>
   );
 });
 

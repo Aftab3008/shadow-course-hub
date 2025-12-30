@@ -14,7 +14,7 @@ import {
   itemVariants,
 } from "@/constants/animations";
 import { popularPages } from "@/constants/NavbarLinks";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { AlertTriangle, ArrowLeft, BookOpen, Home, Search } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -25,43 +25,43 @@ const NotFound = () => {
     <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
 
-      <motion.div
+      <m.div
         className="relative z-10 flex items-center justify-center px-4 py-16 min-h-[calc(100vh-8rem)]"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         <div className="w-full max-w-4xl mx-auto">
-          <motion.div className="text-center mb-12" variants={itemVariants}>
-            <motion.div
+          <m.div className="text-center mb-12" variants={itemVariants}>
+            <m.div
               className="flex justify-center mb-6"
               variants={itemVariants}
             >
               <div className="relative">
-                <motion.div
+                <m.div
                   className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20 shadow-lg"
                   variants={iconVariants}
                   animate={["visible", "pulse"]}
                 >
                   <AlertTriangle className="h-10 w-10 text-primary" />
-                </motion.div>
-                <motion.div
+                </m.div>
+                <m.div
                   className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-destructive/20 flex items-center justify-center"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.8, type: "spring", stiffness: 300 }}
                 >
                   <span className="text-destructive font-bold text-sm">!</span>
-                </motion.div>
+                </m.div>
               </div>
-            </motion.div>
+            </m.div>
 
-            <motion.div className="space-y-4" variants={itemVariants}>
-              <motion.div
+            <m.div className="space-y-4" variants={itemVariants}>
+              <m.div
                 className="flex items-center justify-center gap-3"
                 variants={itemVariants}
               >
-                <motion.h1
+                <m.h1
                   className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -73,8 +73,8 @@ const NotFound = () => {
                   }}
                 >
                   404
-                </motion.h1>
-                <motion.div
+                </m.h1>
+                <m.div
                   initial={{ x: 20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.6 }}
@@ -82,39 +82,39 @@ const NotFound = () => {
                   <Badge variant="outline" className="text-sm">
                     PAGE NOT FOUND
                   </Badge>
-                </motion.div>
-              </motion.div>
-              <motion.h2
+                </m.div>
+              </m.div>
+              <m.h2
                 className="text-3xl md:text-4xl font-bold text-foreground"
                 variants={itemVariants}
               >
                 Lost in the shadows?
-              </motion.h2>
-              <motion.p
+              </m.h2>
+              <m.p
                 className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
                 variants={itemVariants}
               >
                 Sorry, the page you're looking for doesn't exist or has been
                 moved. But don't worry – let's get you back to learning
                 something awesome!
-              </motion.p>
-            </motion.div>
-          </motion.div>
+              </m.p>
+            </m.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12"
             variants={containerVariants}
           >
-            <motion.div variants={cardVariants} whileHover="hover">
+            <m.div variants={cardVariants} whileHover="hover">
               <Card className="border-2 border-dashed border-primary/20 hover:border-primary/40 transition-colors h-full">
                 <CardHeader className="text-center">
-                  <motion.div
+                  <m.div
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.8 }}
                   >
                     <Home className="h-8 w-8 text-primary mx-auto mb-2" />
-                  </motion.div>
+                  </m.div>
                   <CardTitle className="text-lg">Go Home</CardTitle>
                   <CardDescription>
                     Return to our homepage and start exploring
@@ -126,18 +126,18 @@ const NotFound = () => {
                   </Button>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={cardVariants} whileHover="hover">
+            <m.div variants={cardVariants} whileHover="hover">
               <Card className="border-2 border-dashed border-primary/20 hover:border-primary/40 transition-colors h-full">
                 <CardHeader className="text-center">
-                  <motion.div
+                  <m.div
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.9 }}
                   >
                     <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
-                  </motion.div>
+                  </m.div>
                   <CardTitle className="text-lg">Browse Courses</CardTitle>
                   <CardDescription>
                     Discover thousands of courses waiting for you
@@ -149,18 +149,18 @@ const NotFound = () => {
                   </Button>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={cardVariants} whileHover="hover">
+            <m.div variants={cardVariants} whileHover="hover">
               <Card className="border-2 border-dashed border-primary/20 hover:border-primary/40 transition-colors md:col-span-2 lg:col-span-1 h-full">
                 <CardHeader className="text-center">
-                  <motion.div
+                  <m.div
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 1.0 }}
                   >
                     <Search className="h-8 w-8 text-primary mx-auto mb-2" />
-                  </motion.div>
+                  </m.div>
                   <CardTitle className="text-lg">Search</CardTitle>
                   <CardDescription>
                     Find exactly what you're looking for
@@ -172,10 +172,10 @@ const NotFound = () => {
                   </Button>
                 </CardContent>
               </Card>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             className="bg-muted/50 rounded-lg p-6 border"
             variants={itemVariants}
           >
@@ -186,7 +186,7 @@ const NotFound = () => {
               {popularPages.map((page, index) => {
                 const Icon = page.icon;
                 return (
-                  <motion.div
+                  <m.div
                     key={page.name}
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
@@ -200,17 +200,17 @@ const NotFound = () => {
                       <Icon className="h-4 w-4" />
                       <span>{page.name}</span>
                     </Link>
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             className="flex justify-center mt-8"
             variants={itemVariants}
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 variant="ghost"
                 onClick={() => navigate(-1)}
@@ -219,10 +219,10 @@ const NotFound = () => {
                 <ArrowLeft className="h-4 w-4" />
                 Go Back
               </Button>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
-      </motion.div>
+      </m.div>
     </main>
   );
 };

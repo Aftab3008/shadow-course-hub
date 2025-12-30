@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { m } from "framer-motion";
 
 const Courses = () => {
   const {
@@ -132,7 +132,7 @@ const Courses = () => {
   return (
     <main className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
       {/* Hero Section */}
-      <motion.section
+      <m.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b border-border/50 overflow-hidden"
@@ -142,7 +142,7 @@ const Courses = () => {
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
         <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -161,9 +161,9 @@ const Courses = () => {
               Browse through our extensive collection of courses and find the
               perfect match for your learning goals
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -183,9 +183,9 @@ const Courses = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.section>
+      </m.section>
 
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
@@ -238,112 +238,110 @@ const Courses = () => {
           </div>
 
           {/* Active Filters */}
-          <AnimatePresence>
-            {activeFiltersCount > 0 && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden mb-6"
-              >
-                <div className="flex flex-wrap gap-2 p-4 bg-muted/30 rounded-xl border border-border/50">
-                  <span className="text-sm font-medium text-muted-foreground mr-2">
-                    Active filters:
-                  </span>
-                  {selectedCategory && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                    >
-                      <Badge
-                        variant="secondary"
-                        className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
-                      >
-                        <BookOpen className="h-3 w-3" />
-                        {selectedCategory}
-                        <X
-                          className="h-3 w-3 group-hover:text-destructive transition-colors"
-                          onClick={() => setSelectedCategory("")}
-                        />
-                      </Badge>
-                    </motion.div>
-                  )}
-                  {selectedLevel && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                    >
-                      <Badge
-                        variant="secondary"
-                        className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
-                      >
-                        <TrendingUp className="h-3 w-3" />
-                        {selectedLevel}
-                        <X
-                          className="h-3 w-3 group-hover:text-destructive transition-colors"
-                          onClick={() => setSelectedLevel("")}
-                        />
-                      </Badge>
-                    </motion.div>
-                  )}
-                  {priceRange && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                    >
-                      <Badge
-                        variant="secondary"
-                        className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
-                      >
-                        <DollarSign className="h-3 w-3" />
-                        {priceRange}
-                        <X
-                          className="h-3 w-3 group-hover:text-destructive transition-colors"
-                          onClick={() => setPriceRange("")}
-                        />
-                      </Badge>
-                    </motion.div>
-                  )}
-                  {rating && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                    >
-                      <Badge
-                        variant="secondary"
-                        className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
-                      >
-                        <Star className="h-3 w-3" />
-                        {rating}
-                        <X
-                          className="h-3 w-3 group-hover:text-destructive transition-colors"
-                          onClick={() => setRating("")}
-                        />
-                      </Badge>
-                    </motion.div>
-                  )}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearFilters}
-                    className="ml-auto h-7 text-xs hover:text-destructive"
+          {activeFiltersCount > 0 && (
+            <m.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden mb-6"
+            >
+              <div className="flex flex-wrap gap-2 p-4 bg-muted/30 rounded-xl border border-border/50">
+                <span className="text-sm font-medium text-muted-foreground mr-2">
+                  Active filters:
+                </span>
+                {selectedCategory && (
+                  <m.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
                   >
-                    Clear all
-                  </Button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
+                    >
+                      <BookOpen className="h-3 w-3" />
+                      {selectedCategory}
+                      <X
+                        className="h-3 w-3 group-hover:text-destructive transition-colors"
+                        onClick={() => setSelectedCategory("")}
+                      />
+                    </Badge>
+                  </m.div>
+                )}
+                {selectedLevel && (
+                  <m.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                  >
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
+                    >
+                      <TrendingUp className="h-3 w-3" />
+                      {selectedLevel}
+                      <X
+                        className="h-3 w-3 group-hover:text-destructive transition-colors"
+                        onClick={() => setSelectedLevel("")}
+                      />
+                    </Badge>
+                  </m.div>
+                )}
+                {priceRange && (
+                  <m.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                  >
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
+                    >
+                      <DollarSign className="h-3 w-3" />
+                      {priceRange}
+                      <X
+                        className="h-3 w-3 group-hover:text-destructive transition-colors"
+                        onClick={() => setPriceRange("")}
+                      />
+                    </Badge>
+                  </m.div>
+                )}
+                {rating && (
+                  <m.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                  >
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1.5 group hover:bg-destructive/10 transition-colors cursor-pointer"
+                    >
+                      <Star className="h-3 w-3" />
+                      {rating}
+                      <X
+                        className="h-3 w-3 group-hover:text-destructive transition-colors"
+                        onClick={() => setRating("")}
+                      />
+                    </Badge>
+                  </m.div>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearFilters}
+                  className="ml-auto h-7 text-xs hover:text-destructive"
+                >
+                  Clear all
+                </Button>
+              </div>
+            </m.div>
+          )}
         </div>
 
         {/* Main Content */}
         <div className="flex gap-8">
           {/* Desktop Sidebar Filters */}
-          <motion.aside
+          <m.aside
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="hidden lg:block w-80 space-y-4 sticky top-8 self-start"
@@ -519,20 +517,20 @@ const Courses = () => {
                 </div>
               </CardContent>
             </Card>
-          </motion.aside>
+          </m.aside>
 
           {/* Mobile Filter Overlay */}
           <AnimatePresence>
             {showFilters && (
               <>
-                <motion.div
+                <m.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="lg:hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
                   onClick={() => setShowFilters(false)}
                 />
-                <motion.div
+                <m.div
                   initial={{ x: "-100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "-100%" }}
@@ -685,13 +683,13 @@ const Courses = () => {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </>
             )}
           </AnimatePresence>
 
           {/* Courses Grid */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
@@ -706,7 +704,7 @@ const Courses = () => {
                 refetch={refetchCourses}
               />
             ) : (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-20"
@@ -746,9 +744,9 @@ const Courses = () => {
                     </Button>
                   </div>
                 </Card>
-              </motion.div>
+              </m.div>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </main>

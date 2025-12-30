@@ -12,12 +12,13 @@ import { LessonProgressLearning } from "@/types/learning";
 import { BookOpen, CheckCircle, Clock } from "lucide-react";
 import SideSection from "./SideSection";
 import { memo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface SideCardProps {
   course: Partial<Course>;
   lessonProgress: Partial<LessonProgressLearning>[];
   courseId: string;
+  sectionId: string;
   courseName: string;
   currentLessonId: string;
 }
@@ -27,6 +28,7 @@ const SideCard = memo<SideCardProps>(
     course,
     lessonProgress,
     courseId,
+    sectionId,
     courseName,
     currentLessonId,
   }) {
@@ -51,7 +53,7 @@ const SideCard = memo<SideCardProps>(
             {/* Progress Stats */}
             <div className="space-y-3 mt-4">
               <div className="grid grid-cols-2 gap-2">
-                <motion.div
+                <m.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.1 }}
@@ -66,9 +68,9 @@ const SideCard = memo<SideCardProps>(
                   <p className="text-xl font-bold text-foreground">
                     {lessonProgress.length}
                   </p>
-                </motion.div>
+                </m.div>
 
-                <motion.div
+                <m.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2 }}
@@ -83,7 +85,7 @@ const SideCard = memo<SideCardProps>(
                   <p className="text-xl font-bold text-foreground">
                     {remainingLessons}
                   </p>
-                </motion.div>
+                </m.div>
               </div>
 
               <div className="space-y-2">
@@ -96,7 +98,7 @@ const SideCard = memo<SideCardProps>(
                   </span>
                 </div>
                 <div className="relative h-2.5 bg-secondary/30 rounded-full overflow-hidden">
-                  <motion.div
+                  <m.div
                     initial={{ width: 0 }}
                     animate={{ width: `${progressPercentage}%` }}
                     transition={{ duration: 1, ease: "easeOut" }}
@@ -112,7 +114,7 @@ const SideCard = memo<SideCardProps>(
               <div className="p-6 pt-0">
                 <Accordion
                   type="multiple"
-                  defaultValue={["section-1", "section-2"]}
+                  defaultValue={sectionId ? [`section-${sectionId}`] : []}
                   className="w-full"
                 >
                   {course.sections.map((section) => {
@@ -172,6 +174,7 @@ const SideCard = memo<SideCardProps>(
     return (
       prevProps.course.id === nextProps.course.id &&
       prevProps.lessonProgress.length === nextProps.lessonProgress.length &&
+      prevProps.sectionId === nextProps.sectionId &&
       prevProps.currentLessonId === nextProps.currentLessonId &&
       prevProps.courseId === nextProps.courseId &&
       prevProps.courseName === nextProps.courseName

@@ -8,7 +8,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Separator } from "../ui/separator";
 import {
   AccountLinks,

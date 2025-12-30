@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { TestimonialsColumn } from "../ui/testimonals-columns";
 import { testimonials } from "@/constants";
 
@@ -10,7 +10,7 @@ const Demo = () => {
   return (
     <section className="bg-background my-20 relative">
       <div className="container z-10 mx-auto">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -24,7 +24,7 @@ const Demo = () => {
             Join thousands of satisfied learners who have transformed their
             careers with our courses.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
           <TestimonialsColumn testimonials={firstColumn} duration={15} />

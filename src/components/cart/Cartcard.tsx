@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCartStore } from "@/store/cart.store";
 import { formatDuration, formatPrice, formatString } from "@/utils/utils";
 import { Clock, Star, Trash2, Award, BookOpen } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function Cartcard() {
   const { items, removeFromCart } = useCartStore();
@@ -44,14 +44,14 @@ export default function Cartcard() {
   };
 
   return (
-    <motion.div
+    <m.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       className="space-y-4"
     >
       {items.map((item, index) => (
-        <motion.div key={item.courseId} variants={itemVariants} layout>
+        <m.div key={item.courseId} variants={itemVariants} layout>
           <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 group overflow-hidden">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-6">
@@ -153,8 +153,8 @@ export default function Cartcard() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   );
 }

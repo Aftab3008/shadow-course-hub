@@ -21,7 +21,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   containerVariants,
   itemVariants,
@@ -62,7 +62,7 @@ const Home = () => {
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
-        <motion.div
+        <m.div
           className="container mx-auto text-center relative z-10"
           initial="hidden"
           animate="visible"
@@ -70,7 +70,7 @@ const Home = () => {
         >
           <div className="max-w-5xl mx-auto">
             {/* Badge */}
-            <motion.div
+            <m.div
               variants={itemVariants}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
             >
@@ -78,10 +78,10 @@ const Home = () => {
               <span className="text-sm font-medium text-primary">
                 Transform Your Career Journey
               </span>
-            </motion.div>
+            </m.div>
 
             {/* Main Heading */}
-            <motion.h1
+            <m.h1
               variants={itemVariants}
               className="text-hero font-bold text-foreground mb-6 tracking-tight"
             >
@@ -89,19 +89,19 @@ const Home = () => {
               <span className="block mt-2 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
                 Shape Your Future
               </span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={itemVariants}
               className="text-body-lg text-muted-foreground mb-12 max-w-3xl mx-auto"
             >
               Join a global community of learners gaining real-world skills from
               industry experts. Start your journey to success with courses
               designed for impact.
-            </motion.p>
+            </m.p>
 
             {/* Search Bar */}
-            <motion.form
+            <m.form
               variants={itemVariants}
               onSubmit={handleSearch}
               className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto mb-16"
@@ -123,10 +123,10 @@ const Home = () => {
                 Explore Courses
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-            </motion.form>
+            </m.form>
 
             {/* Stats Cards */}
-            <motion.div
+            <m.div
               variants={containerVariants}
               className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto"
             >
@@ -150,7 +150,7 @@ const Home = () => {
                   color: "text-primary",
                 },
               ].map((stat, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   variants={cardVariants}
                   whileHover={{ y: -4 }}
@@ -169,16 +169,16 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
-            </motion.div>
+            </m.div>
           </div>
-        </motion.div>
+        </m.div>
       </section>
 
       {/* Featured Courses Section */}
       <section className="py-24 px-4 bg-background">
-        <motion.div
+        <m.div
           className="container mx-auto max-w-7xl"
           initial="hidden"
           whileInView="visible"
@@ -186,7 +186,7 @@ const Home = () => {
           variants={containerVariants}
         >
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-14">
-            <motion.div variants={itemVariants}>
+            <m.div variants={itemVariants}>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
                 <Zap className="h-4 w-4 text-primary" />
                 <span className="text-xs font-medium text-primary uppercase tracking-wide">
@@ -200,8 +200,8 @@ const Home = () => {
                 Discover our most popular courses, carefully selected by our
                 community and taught by industry leaders
               </p>
-            </motion.div>
-            <motion.div variants={itemVariants}>
+            </m.div>
+            <m.div variants={itemVariants}>
               <Button
                 variant="outline"
                 size="lg"
@@ -219,9 +219,9 @@ const Home = () => {
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </PrefetchLink>
               </Button>
-            </motion.div>
+            </m.div>
           </div>
-          <motion.div variants={itemVariants}>
+          <m.div variants={itemVariants}>
             <CoursesGrid
               courses={courses?.data}
               isLoading={coursesLoading}
@@ -229,22 +229,22 @@ const Home = () => {
               error={coursesError?.message}
               refetch={refetchCourses}
             />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </section>
 
       {/* Categories Section */}
       <section className="py-24 px-4 bg-muted/20 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-20"></div>
 
-        <motion.div
+        <m.div
           className="container mx-auto max-w-7xl relative z-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <m.div variants={itemVariants} className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Globe className="h-4 w-4 text-primary" />
               <span className="text-xs font-medium text-primary uppercase tracking-wide">
@@ -258,16 +258,16 @@ const Home = () => {
               Discover your next skill across diverse fields, from cutting-edge
               technology to creative arts and beyond
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             variants={containerVariants}
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:gap-5"
           >
             {categoryData.slice(0, 12).map((category, index) => {
               const Icon = category.icon;
               return (
-                <motion.div
+                <m.div
                   key={index}
                   variants={cardVariants}
                   whileHover={{ y: -6, scale: 1.02 }}
@@ -295,12 +295,12 @@ const Home = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               );
             })}
-          </motion.div>
+          </m.div>
 
-          <motion.div variants={itemVariants} className="text-center mt-12">
+          <m.div variants={itemVariants} className="text-center mt-12">
             <Button
               variant="outline"
               size="lg"
@@ -312,22 +312,22 @@ const Home = () => {
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </section>
 
       {/* Features Section */}
       <section className="py-24 px-4 bg-background relative">
         <div className="absolute inset-0 bg-mesh-gradient opacity-50"></div>
 
-        <motion.div
+        <m.div
           className="container mx-auto max-w-7xl relative z-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <m.div variants={itemVariants} className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Target className="h-4 w-4 text-primary" />
               <span className="text-xs font-medium text-primary uppercase tracking-wide">
@@ -341,9 +341,9 @@ const Home = () => {
               Experience a learning platform built with your growth in mind,
               backed by cutting-edge technology and expert instruction
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             variants={containerVariants}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
@@ -393,7 +393,7 @@ const Home = () => {
             ].map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <motion.div
+                <m.div
                   key={index}
                   variants={cardVariants}
                   whileHover={{ y: -8 }}
@@ -428,11 +428,11 @@ const Home = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               );
             })}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </section>
 
       {/* Stats Banner */}
@@ -441,14 +441,14 @@ const Home = () => {
         <div className="absolute top-0 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
 
-        <motion.div
+        <m.div
           className="container mx-auto px-4 relative z-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={containerVariants}
         >
-          <motion.div variants={itemVariants} className="text-center mb-14">
+          <m.div variants={itemVariants} className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold mb-4">
               Trusted by Learners Worldwide
             </h2>
@@ -456,9 +456,9 @@ const Home = () => {
               Join thousands of students transforming their careers through
               quality education
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             variants={containerVariants}
             className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12"
           >
@@ -470,7 +470,7 @@ const Home = () => {
             ].map((stat, index) => {
               const Icon = stat.icon;
               return (
-                <motion.div
+                <m.div
                   key={index}
                   variants={cardVariants}
                   whileHover={{ scale: 1.05 }}
@@ -485,23 +485,23 @@ const Home = () => {
                   <div className="text-base lg:text-lg text-primary-foreground/80">
                     {stat.label}
                   </div>
-                </motion.div>
+                </m.div>
               );
             })}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </section>
 
       {/* Testimonials Section */}
       <section className="py-24 px-4 bg-muted/10">
-        <motion.div
+        <m.div
           className="container mx-auto max-w-7xl"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <m.div variants={itemVariants} className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Sparkles className="h-4 w-4 text-primary" />
               <span className="text-xs font-medium text-primary uppercase tracking-wide">
@@ -514,9 +514,9 @@ const Home = () => {
             <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto">
               See what our students have to say about their learning experience
             </p>
-          </motion.div>
+          </m.div>
           <Demo />
-        </motion.div>
+        </m.div>
       </section>
 
       {/* Final CTA Section */}
@@ -524,42 +524,42 @@ const Home = () => {
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl"></div>
 
-        <motion.div
+        <m.div
           className="container mx-auto text-center relative z-10 max-w-4xl"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={containerVariants}
         >
-          <motion.div variants={itemVariants} className="mb-6">
+          <m.div variants={itemVariants} className="mb-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
               <Sparkles className="h-4 w-4 text-primary-foreground" />
               <span className="text-sm font-medium text-primary-foreground">
                 Start Your Journey Today
               </span>
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.h2
+          <m.h2
             variants={itemVariants}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight"
           >
             Ready to Transform Your Career?
-          </motion.h2>
+          </m.h2>
 
-          <motion.p
+          <m.p
             variants={itemVariants}
             className="text-xl lg:text-2xl text-primary-foreground/90 mb-12 leading-relaxed max-w-3xl mx-auto"
           >
             Join thousands of learners advancing their skills and careers. Your
             journey to success starts here.
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             variants={containerVariants}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <motion.div variants={itemVariants}>
+            <m.div variants={itemVariants}>
               <Button
                 size="lg"
                 variant="secondary"
@@ -577,9 +577,9 @@ const Home = () => {
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </PrefetchLink>
               </Button>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={itemVariants}>
+            <m.div variants={itemVariants}>
               <Button
                 size="lg"
                 variant="outline"
@@ -591,10 +591,10 @@ const Home = () => {
                   <Users className="ml-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                 </Link>
               </Button>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             variants={itemVariants}
             className="mt-12 flex items-center justify-center gap-8 text-primary-foreground/80"
           >
@@ -606,8 +606,8 @@ const Home = () => {
               <CheckCircle2 className="h-5 w-5" />
               <span className="text-sm">7-day money back</span>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </section>
     </main>
   );

@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function LessonPlayer() {
   const { enrollment } = useOutletContext<{ enrollment: UserEnrollment }>();
@@ -137,14 +137,14 @@ export default function LessonPlayer() {
   }
 
   return (
-    <motion.div
+    <m.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       className="space-y-6"
     >
       {/* Video Player */}
-      <motion.div variants={itemVariants}>
+      <m.div variants={itemVariants}>
         <Card className="relative overflow-hidden border-border/50 shadow-2xl bg-gradient-to-br from-purple-500/5 to-indigo-500/5 group">
           {/* Gradient overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -168,9 +168,9 @@ export default function LessonPlayer() {
             )}
           </div>
         </Card>
-      </motion.div>
+      </m.div>
 
-      <motion.div variants={itemVariants}>
+      <m.div variants={itemVariants}>
         <Card className="border-border/50 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 backdrop-blur-sm hover:shadow-lg transition-shadow duration-300">
           {/* Subtle gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-lg pointer-events-none" />
@@ -192,7 +192,7 @@ export default function LessonPlayer() {
                     Video
                   </Badge>
                   {isCompleted && (
-                    <motion.div
+                    <m.div
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ type: "spring", stiffness: 200 }}
@@ -201,7 +201,7 @@ export default function LessonPlayer() {
                         <CheckCircle className="w-3 h-3 mr-1" />
                         Completed
                       </Badge>
-                    </motion.div>
+                    </m.div>
                   )}
                 </div>
               </div>
@@ -236,10 +236,10 @@ export default function LessonPlayer() {
             </div>
           </CardHeader>
         </Card>
-      </motion.div>
+      </m.div>
 
       {/* Mobile Navigation */}
-      <motion.div variants={itemVariants} className="flex sm:hidden space-x-2">
+      <m.div variants={itemVariants} className="flex sm:hidden space-x-2">
         <Button
           variant="outline"
           size="sm"
@@ -265,7 +265,7 @@ export default function LessonPlayer() {
             "Complete"
           )}
         </Button>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

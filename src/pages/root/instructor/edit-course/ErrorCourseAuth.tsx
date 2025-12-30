@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function ErrorCourseAuth() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -43,7 +43,7 @@ export default function ErrorCourseAuth() {
             </Button>
           </CardContent>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

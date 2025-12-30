@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { Course } from "@/types/course";
 import { Library, Filter } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function InstructorCourses({
   instructorCourses,
@@ -56,7 +56,7 @@ export default function InstructorCourses({
         </div>
       </div>
 
-      <motion.div
+      <m.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -65,7 +65,7 @@ export default function InstructorCourses({
         {instructorCourses.map((course) => (
           <InstructorCard key={course.id} course={course} />
         ))}
-      </motion.div>
+      </m.div>
     </div>
   );
 }

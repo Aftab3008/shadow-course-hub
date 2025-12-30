@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Shield, AlertTriangle, Home, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   cardVariants,
   containerVariants,
@@ -22,29 +22,29 @@ const AdminNotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <motion.div
+    <m.div
       className="min-h-screen bg-background flex items-center justify-center px-4 py-16"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <div className="w-full max-w-2xl mx-auto">
-        <motion.div variants={cardVariants}>
+        <m.div variants={cardVariants}>
           <Card className="border-2 border-dashed border-muted-foreground/25">
             <CardHeader className="text-center pb-6">
-              <motion.div
+              <m.div
                 className="flex justify-center mb-4"
                 variants={itemVariants}
               >
                 <div className="relative">
-                  <motion.div
+                  <m.div
                     className="flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10 border-2 border-destructive/20"
                     variants={iconVariants}
                     animate={["visible", "pulse"]}
                   >
                     <Shield className="h-8 w-8 text-destructive" />
-                  </motion.div>
-                  <motion.div
+                  </m.div>
+                  <m.div
                     className="absolute -top-1 -right-1 h-6 w-6 rounded-full bg-destructive/20 flex items-center justify-center"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -55,12 +55,12 @@ const AdminNotFound = () => {
                     }}
                   >
                     <AlertTriangle className="h-3 w-3 text-destructive" />
-                  </motion.div>
+                  </m.div>
                 </div>
-              </motion.div>
+              </m.div>
 
-              <motion.div className="space-y-2" variants={itemVariants}>
-                <motion.div
+              <m.div className="space-y-2" variants={itemVariants}>
+                <m.div
                   className="flex items-center justify-center gap-2"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -71,7 +71,7 @@ const AdminNotFound = () => {
                   }}
                 >
                   <h1 className="text-4xl font-bold text-destructive">404</h1>
-                  <motion.div
+                  <m.div
                     initial={{ x: 20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.7 }}
@@ -79,16 +79,16 @@ const AdminNotFound = () => {
                     <Badge variant="destructive" className="text-xs">
                       ADMIN ACCESS
                     </Badge>
-                  </motion.div>
-                </motion.div>
-                <motion.div
+                  </m.div>
+                </m.div>
+                <m.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.6 }}
                 >
                   <CardTitle className="text-2xl">Page Not Found</CardTitle>
-                </motion.div>
-                <motion.div
+                </m.div>
+                <m.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.7 }}
@@ -97,12 +97,12 @@ const AdminNotFound = () => {
                     The admin page you're looking for doesn't exist or you don't
                     have permission to access it.
                   </CardDescription>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             </CardHeader>
 
             <CardContent className="space-y-6">
-              <motion.div
+              <m.div
                 className="bg-muted/50 rounded-lg p-4 border"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -118,15 +118,15 @@ const AdminNotFound = () => {
                   system administrator or check if you're logged in with the
                   correct admin account.
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 className="grid gap-3 sm:grid-cols-2"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 1.0 }}
               >
-                <motion.div variants={buttonVariants} whileHover="hover">
+                <m.div variants={buttonVariants} whileHover="hover">
                   <Button asChild variant="default" className="w-full">
                     <Link
                       to="/admin/dashboard"
@@ -136,25 +136,25 @@ const AdminNotFound = () => {
                       Admin Dashboard
                     </Link>
                   </Button>
-                </motion.div>
+                </m.div>
 
-                <motion.div variants={buttonVariants} whileHover="hover">
+                <m.div variants={buttonVariants} whileHover="hover">
                   <Button asChild variant="outline" className="w-full">
                     <Link to="/" className="flex items-center gap-2">
                       <Home className="h-4 w-4" />
                       Main Site
                     </Link>
                   </Button>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 className="flex justify-center"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 1.1 }}
               >
-                <motion.div
+                <m.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -166,13 +166,13 @@ const AdminNotFound = () => {
                     <ArrowLeft className="h-4 w-4" />
                     Go Back
                   </Button>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="mt-8 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -181,9 +181,9 @@ const AdminNotFound = () => {
           <p className="text-xs text-muted-foreground">
             Shadow Course Hub Admin Panel • Error Code: ADM-404
           </p>
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 

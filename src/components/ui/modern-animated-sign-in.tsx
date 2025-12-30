@@ -43,7 +43,7 @@ const Input = memo(
     }
 
     return (
-      <motion.div
+      <m.div
         style={{
           background: useMotionTemplate`
         radial-gradient(
@@ -67,7 +67,7 @@ const Input = memo(
           ref={ref}
           {...props}
         />
-      </motion.div>
+      </m.div>
     );
   })
 );
@@ -125,7 +125,7 @@ const BoxReveal = memo(function BoxReveal({
       }}
       className={className}
     >
-      <motion.div
+      <m.div
         variants={{
           hidden: { opacity: 0, y: 75 },
           visible: { opacity: 1, y: 0 },
@@ -135,8 +135,8 @@ const BoxReveal = memo(function BoxReveal({
         transition={{ duration: duration ?? 0.5, delay: 0.25 }}
       >
         {children}
-      </motion.div>
-      <motion.div
+      </m.div>
+      <m.div
         variants={{ hidden: { left: 0 }, visible: { left: "100%" } }}
         initial="hidden"
         animate={slideControls}

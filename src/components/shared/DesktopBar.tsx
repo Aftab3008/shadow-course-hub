@@ -1,6 +1,6 @@
 import { AccountLinks, LearningLinks, NavLinks } from "@/constants/NavbarLinks";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import CartIcon from "../cart/CartIcon";
 import { Button } from "../ui/button";
 import {
@@ -184,7 +184,7 @@ export default function DesktopBar() {
             </DropdownMenu>
           </div>
         ) : (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center gap-2"
@@ -204,7 +204,7 @@ export default function DesktopBar() {
             >
               <Link to="/auth/signup">Get Started</Link>
             </Button>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

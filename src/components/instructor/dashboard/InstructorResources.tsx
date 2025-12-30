@@ -9,7 +9,7 @@ import {
   FileText,
   HelpCircle,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function InstructorResources({
   isLoading,
@@ -97,14 +97,14 @@ export default function InstructorResources({
         </h2>
       </div>
 
-      <motion.div
+      <m.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {resources.map((resource, index) => (
-          <motion.div key={index} variants={itemVariants}>
+          <m.div key={index} variants={itemVariants}>
             <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 group h-full">
               <CardContent className="p-6 text-center flex flex-col h-full">
                 <div
@@ -126,9 +126,9 @@ export default function InstructorResources({
                 </Button>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
-      </motion.div>
+      </m.div>
     </div>
   );
 }

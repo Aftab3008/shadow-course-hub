@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/schemas/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, TriangleAlert } from "lucide-react";
+import { Eye, EyeOff, TriangleAlert, Mail, Lock } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,6 +20,7 @@ import { userAuthStore } from "@/store/auth.store";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LocationState } from "@/types";
+import { m } from "framer-motion";
 
 export default function SignInForm() {
   const { login, error } = userAuthStore();
@@ -74,23 +75,30 @@ export default function SignInForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {!!error && (
-            <div className="mb-6 flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive justify-center">
+            <m.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-6 flex items-center gap-x-2 rounded-lg bg-destructive/15 p-3 text-sm text-destructive justify-center border border-destructive/20"
+            >
               <TriangleAlert className="w-5 h-5" />
               <p className="flex items-center justify-center">{error}</p>
-            </div>
+            </m.div>
           )}
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-foreground">Email</FormLabel>
+                <FormLabel className="text-foreground flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-primary" />
+                  Email
+                </FormLabel>
                 <FormControl>
                   <Input
                     id="email"
                     type="email"
                     placeholder="your@email.com"
-                    className="bg-background border-border"
+                    className="h-11 bg-background/50 border-border focus:ring-2 focus:ring-primary/20 transition-all"
                     {...field}
                   />
                 </FormControl>
@@ -103,14 +111,17 @@ export default function SignInForm() {
             name="password"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="text-foreground">Password</FormLabel>
+                <FormLabel className="text-foreground flex items-center gap-2">
+                  <Lock className="h-4 w-4 text-primary" />
+                  Password
+                </FormLabel>
                 <div className="relative">
                   <FormControl>
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
-                      className="bg-background border-border pr-10"
+                      className="h-11 bg-background/50 border-border pr-10 focus:ring-2 focus:ring-primary/20 transition-all"
                       {...field}
                     />
                   </FormControl>
@@ -118,7 +129,7 @@ export default function SignInForm() {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:text-foreground transition-colors"
                     onClick={() => setShowPassword((v) => !v)}
                     tabIndex={-1}
                   >
@@ -139,7 +150,7 @@ export default function SignInForm() {
           />
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 bg-gradient-to-r from-primary via-primary/90 to-primary/80 hover:scale-[1.02] transition-transform shadow-lg hover:shadow-xl"
             disabled={isSubmitting || isLoading}
           >
             {isSubmitting ? "Signing in..." : "Sign In"}

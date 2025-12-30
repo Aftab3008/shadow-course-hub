@@ -15,7 +15,7 @@ import {
   Library,
 } from "lucide-react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const InstructorDashboard = () => {
   const { data: instructorCourses, isLoading } = useGetInstructorCourses();
@@ -34,7 +34,7 @@ const InstructorDashboard = () => {
   return (
     <main className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
       {/* Hero Section */}
-      <motion.section
+      <m.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b border-border/50 overflow-hidden"
@@ -44,7 +44,7 @@ const InstructorDashboard = () => {
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
         <div className="container mx-auto px-4 py-12 relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -76,7 +76,7 @@ const InstructorDashboard = () => {
                 </p>
               </div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
@@ -94,15 +94,15 @@ const InstructorDashboard = () => {
                     Create New Course
                   </Link>
                 </Button>
-              </motion.div>
+              </m.div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.section>
+      </m.section>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -115,9 +115,9 @@ const InstructorDashboard = () => {
             totalReviews={instructorStats.totalReviews}
             isLoading={isLoading}
           />
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -166,7 +166,7 @@ const InstructorDashboard = () => {
               <InstructorResources isLoading={isLoading} />
             </TabsContent>
           </Tabs>
-        </motion.div>
+        </m.div>
       </div>
     </main>
   );

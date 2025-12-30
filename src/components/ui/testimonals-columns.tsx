@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Testimonials } from "@/types/external";
 
 export const TestimonialsColumn = (props: {
@@ -9,7 +9,7 @@ export const TestimonialsColumn = (props: {
 }) => {
   return (
     <div className={props.className}>
-      <motion.div
+      <m.div
         animate={{
           translateY: "-50%",
         }}
@@ -52,7 +52,7 @@ export const TestimonialsColumn = (props: {
             </React.Fragment>
           )),
         ]}
-      </motion.div>
+      </m.div>
     </div>
   );
 };

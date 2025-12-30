@@ -8,19 +8,19 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function EmptyCart() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20 flex items-center justify-center px-4 py-16">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="container max-w-2xl"
       >
         <Card className="border-border/50 bg-card/50 backdrop-blur-sm p-12 text-center shadow-2xl">
           {/* Icon with Glow Effect */}
-          <motion.div
+          <m.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
@@ -32,10 +32,10 @@ export default function EmptyCart() {
                 <ShoppingCart className="h-16 w-16 text-primary" />
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Content */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -47,10 +47,10 @@ export default function EmptyCart() {
               Looks like you haven't added any courses yet. Start exploring our
               amazing courses and build your skills!
             </p>
-          </motion.div>
+          </m.div>
 
           {/* CTA Button */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -108,9 +108,9 @@ export default function EmptyCart() {
                 </Button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   );
 }
